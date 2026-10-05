@@ -18,3 +18,13 @@ Status: idea | queued | tested-pass | tested-fail | dropped
 - Intraday volatility, skew, trade-size and information-ratio variables: mostly untested
 - Volume-spike conditioned drift (a post-earnings-drift proxy without the earnings-date variable)
 - Value composites from the ratio group (earnings_yield, ev_to_t12m_ebit, price_to_book_ratio)
+
+## Oct 5 late: price/intraday-only batch (queued at the front, tag prefix P_)
+Insider-trading data does not exist on Trexsim; the closest public proxies are issuance (shsout) and stock-based pay, already used as companions.
+- P_CI_s3, P_CI_volcond, P_CI_lowvol: INTRA composite smoothed / volume-conditioned / calm stocks only (Bogousslavsky & Muravyev 2023; Nagel 2012)
+- P_VWAPV_s3, P_VWAPV_sub, P_VWAPV_illiq, P_VWAPT: VWAP-gap reversal variants (Campbell-Grossman-Wang 1993; Amihud 2002)
+- P_RETL_small: last-hour reversal in small-trade (retail-like) stocks (Barber, Odean & Zhu 2009)
+- P_RANGE_volcond: last-hour range position on heavy volume
+- P_A101: Alpha #101 (Kakushadze 2016, https://arxiv.org/abs/1601.00991)
+- P_FIRST_LAST: long first-hour, short last-hour return (Gao, Han, Li & Zhou 2018)
+Plan: anything with Fast IR >= .078 and corr <= .55 auto-promotes to Slow (no ts_fill, so short lookback and quick Slow runs).
