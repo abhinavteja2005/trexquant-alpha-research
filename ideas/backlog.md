@@ -48,3 +48,10 @@ Format: name | thesis | source URL | variables | horizon | sign | why uncrowded.
 - REG_DOWNBETA | downside beta (comovement on market down days) earns ~6%/yr; asymmetry (down minus up corr) or excess downside beta | https://www.nber.org/papers/w11824 | ret1, ret1_spx | months | long downside beta | slow risk premium, candidate blend companion, unrelated to reversal
 - ID_TRADESIZE | small-trade (retail) favored stocks underperform for months; proxy with falling average trade size and small-trade-weighted first-hour returns | https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm | volume_first/last_hour, number_of_trades_first/last_hour, return_first_hour | weeks | short retail-favored | trade-count data barely used by the pool
 - ANOM_MAX | lottery demand: max daily return over the past month predicts low returns (>1%/month spread); vol-adjusted variant separates spikes from plain vol | https://pages.stern.nyu.edu/~rwhitela/papers/max%20jfe11.pdf | ret1 | month | short high MAX | sourced anomaly, not in backlog; 52-week-high card skipped (source page not openable)
+
+## Oct 5 23:55: Slow-only round 2 (queued, lb 300)
+- S_COMP5_slow: rnd+sbc+iss+fcf+gpa composite alone (low TVR; tests IR/sqrtTVR route)
+- S_CI_sbc_iss_fcf_w2: INTRA composite base + sbc/iss/fcf at 2x (10 vars)
+- S_BL1_subind: best blend (IR .090, corr .72) made sub-industry relative
+- S_VWAPT_vol_iss: VWAPT + RSJ + VIX beta + issuance at 1.5x (non-fundamental partners)
+- S_LATEVOL_sbc_iss_fcf_w2: volatile-close reversal base + sbc/iss/fcf at 2x
