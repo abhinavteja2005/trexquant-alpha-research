@@ -1,0 +1,23 @@
+[
+ {
+  "tag": "S_VWAPT_rnd_sbc_gpa",
+  "base": "VWAPT",
+  "expr": "# Thesis: blend a late-day liquidity-reversal signal with three slow, unrelated quality/investment signals. The slow parts dilute the overlap with crowded reversal alphas while adding their own premia.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); R&D intensity (Chan, Lakonishok & Sougiannis, JF 2001); gross profitability (Novy-Marx, JFE 2013, https://doi.org/10.1016/j.jfineco.2013.01.003); stock-based pay as an intangible-investment proxy, like R&D (our own hypothesis, no single source)\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap, in %\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nr = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\nk1 = cs_zscore(cs_rank(ts_fill(research_and_development_expense)/mktcap))  # R&D intensity: long high R&D per dollar of market value\nk2 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk3 = cs_zscore(cs_rank(ts_fill(gross_profit)/ts_fill(total_assets)))  # gross profitability: gross profit per dollar of assets\nalpha = at_zero2nan(at_nan2zero(r) + at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3))  # equal-weight blend; NaN parts count as 0",
+  "state": "squeued",
+  "lb": 300
+ },
+ {
+  "tag": "S_VWAPT_rnd_iss_gpa",
+  "base": "VWAPT",
+  "expr": "# Thesis: blend a late-day liquidity-reversal signal with three slow, unrelated quality/investment signals. The slow parts dilute the overlap with crowded reversal alphas while adding their own premia.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); R&D intensity (Chan, Lakonishok & Sougiannis, JF 2001); gross profitability (Novy-Marx, JFE 2013, https://doi.org/10.1016/j.jfineco.2013.01.003); net share issuance (Pontiff & Woodgate, JF 2008), a public proxy for insider/management timing of buybacks and issues\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap, in %\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nr = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\nk1 = cs_zscore(cs_rank(ts_fill(research_and_development_expense)/mktcap))  # R&D intensity: long high R&D per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short firms growing share count (dilution), long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(gross_profit)/ts_fill(total_assets)))  # gross profitability: gross profit per dollar of assets\nalpha = at_zero2nan(at_nan2zero(r) + at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3))  # equal-weight blend; NaN parts count as 0",
+  "state": "squeued",
+  "lb": 300
+ },
+ {
+  "tag": "S_ILLIQ_rnd_iss_gpa",
+  "base": "VWAPV",
+  "expr": "# Thesis: blend a late-day liquidity-reversal signal with three slow, unrelated quality/investment signals. The slow parts dilute the overlap with crowded reversal alphas while adding their own premia.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); R&D intensity (Chan, Lakonishok & Sougiannis, JF 2001); gross profitability (Novy-Marx, JFE 2013, https://doi.org/10.1016/j.jfineco.2013.01.003); net share issuance (Pontiff & Woodgate, JF 2008), a public proxy for insider/management timing of buybacks and issues\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap, in %\nilliq = cs_rank(ts_mean(ret1*ret1/(volume*close), 20)) > 1.5  # more illiquid half (squared-return Amihud variant)\nhot = cs_rank(volume/ts_mean(volume, 20)) > 1.3  # volume above its 20-day norm\nr = cs_zscore(at_zero2nan(-cs_rank(g) * hot * illiq))  # fade the gap in illiquid stocks on heavy days\nk1 = cs_zscore(cs_rank(ts_fill(research_and_development_expense)/mktcap))  # R&D intensity: long high R&D per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short firms growing share count (dilution), long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(gross_profit)/ts_fill(total_assets)))  # gross profitability: gross profit per dollar of assets\nalpha = at_zero2nan(at_nan2zero(r) + at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3))  # equal-weight blend; NaN parts count as 0",
+  "state": "squeued",
+  "lb": 300
+ }
+]

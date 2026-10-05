@@ -19,3 +19,11 @@
 - 0 is not "no position" (median is subtracted): use at_zero2nan. Blend with at_zero2nan(at_nan2zero(a)+at_nan2zero(b)).
 - Operator list: knowledge/operators.md (32 builtins + delta, decay_linear, ts_argmax, ts_argmin). No covariance/log/sign builtins: use ts_corr_binary, at_signlog, (x>0)-(x<0).
 - Expressions cannot be read back from the runner through Claude in Chrome (privacy filter on URLs): alphas/drafts/*.json is the expression store; tools/ledger_sync.py joins metrics by tag.
+
+## Oct 5 23:15 (P_/V_ batches; retired master): FAST IS NOT SLOW
+- Root cause of the Fast-vs-Slow puzzle: the same alpha's Fast and Slow daily PnL (same dates, 2008-02..2021-12) correlate only 0.34 (P_VWAPT; lag 0, ~0 at other lags). Fast is a different, noisier simulation, not a cheaper copy.
+- Fast pool-correlation is systematically too LOW: P_VWAPT .48 -> Slow .78; P_VWAPV_sub .48 -> .84; P_VWAPV_illiq .46 -> .70. Never trust Fast corr; judge correlation only in Slow. Fast is at best a rough IR filter.
+- Slow IR of the price-only VWAP-gap reversals is fine (.065-.083, OOS1 .078-.088, best-year <= .25) but they are .70-.84 correlated with the pool and .89-.92 with each other: one crowded family.
+- Volatility ideas (RSJ, realized skew, VIX beta, vol shock) have Fast IR < .03; usable only as blend partners. A101 sign is reversed (IR -.051) and pool-correlated (.84).
+- To dilute a base with pool corr c to < .5 you need independent partners carrying more risk than the base: c/sqrt(1+w^2) < .5 -> w > 1.25 for c = .78, and partners with IR ~.05 to keep blend IR > .072.
+- Queued straight to Slow (lb 300): S_VWAPT_rnd_sbc_gpa, S_VWAPT_rnd_iss_gpa, S_ILLIQ_rnd_iss_gpa (base + 3 equal-weight slow companions).

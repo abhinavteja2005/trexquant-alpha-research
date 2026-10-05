@@ -15,3 +15,19 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 5 21:00 | RANGE_rnd_earn_w2 | RANGE | .067 | .369 | .109 | .619 | no | | | | fdone | no |
 | Oct 5 21:00 | INTRA_rnd_sbc_w3 | INTRA | .082 | .356 | .137 | .565 | no | | | | fdone | no |
 | Oct 5 21:00 | VWAPV_rnd_sbc_w2 | VWAPV | .078 | .522 | .107 | .476 | yes | .052 | .600 | no | sdone | no |
+| Oct 5 23:10 | P_CI_s3 | INTRA | .054 | .384 | .088 | .598 | no | | | | fdone | no |
+| Oct 5 23:10 | P_CI_volcond | INTRA | .091 | .897 | .096 | .612 | no | | | | fdone | no |
+| Oct 5 23:10 | P_CI_lowvol | INTRA | .070 | .646 | .087 | .443 | no | | | | fdone | no |
+| Oct 5 23:10 | P_VWAPV_s3 | VWAPV | .058 | .733 | .067 | .379 | no | | | | fdone | no |
+| Oct 5 23:10 | P_VWAPT | VWAPV | .098 | .919 | .103 | .480 | yes | .083 | .782 | no | sdone | no |
+| Oct 5 23:10 | P_RETL_small | RETL | .049 | .621 | .062 | .441 | no | | | | fdone | no |
+| Oct 5 23:10 | P_VWAPV_sub | VWAPV | .090 | .902 | .094 | .478 | yes | .065 | .839 | no | sdone | no |
+| Oct 5 23:10 | P_VWAPV_illiq | VWAPV | .083 | .910 | .087 | .461 | yes | .069 | .701 | no | sdone | no |
+| Oct 5 23:10 | P_RANGE_volcond | RANGE | .067 | .901 | .070 | .719 | no | | | | fdone | no |
+| Oct 5 23:10 | P_A101 | A101 | -.051 | 1.362 | -.044 | .844 | no | | | | fdone | no |
+| Oct 5 23:10 | P_FIRST_LAST | FL | .046 | .629 | .058 | .424 | no | | | | fdone | no |
+| Oct 5 23:10 | V_RSJ | VOL | .025 | .274 | .048 | .829 | no | | | | fdone | no |
+| Oct 5 23:10 | V_RSKEW | VOL | -.015 | .270 | -.028 | .277 | no | | | | fdone | no |
+| Oct 5 23:10 | V_VIXBETA | VOL | .019 | .114 | .057 | .705 | no | | | | fdone | no |
+| Oct 5 23:10 | V_VOLSHOCK | VOL | .025 | .491 | .035 | .457 | no | | | | fdone | no |
+| Oct 5 23:10 | V_LATEVOL_REV | RETL | .070 | .794 | .079 | .479 | yes | | | | fdone | no |
