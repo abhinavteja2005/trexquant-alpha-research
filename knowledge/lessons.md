@@ -13,3 +13,9 @@
 - INTRA+rnd+sbc w3: Fast .082 but corr .565 (override failed).
 - FAST != SLOW: c3_rnd_earn Fast .094/corr .56 -> Slow .082/corr .688. VWAPV_rnd_sbc_w2 Fast .078/corr .476 -> Slow .052 (lookback 140). Blends with ts_fill fundamentals are suspect in Slow until diagnosed.
 - Dropped trading_days_until_next_earnings_announcement (possible look-ahead).
+
+## Oct 5 late (local master): from the official tutorial and operator API
+- Tutorial's three causes of Fast != Slow: (1) Slow lookback too short for the longest window/ts_fill gap, (2) forward bias, (3) corporate-action adjustments on non-dimensionless inputs (raw price/volume/shares). Hypothesis for VWAPV_rnd_sbc_w2 (Slow lb 140): quarterly ts_fill fundamentals may have no report inside 140 days for some names -> test lb 300 in Phase 1.
+- 0 is not "no position" (median is subtracted): use at_zero2nan. Blend with at_zero2nan(at_nan2zero(a)+at_nan2zero(b)).
+- Operator list: knowledge/operators.md (32 builtins + delta, decay_linear, ts_argmax, ts_argmin). No covariance/log/sign builtins: use ts_corr_binary, at_signlog, (x>0)-(x<0).
+- Expressions cannot be read back from the runner through Claude in Chrome (privacy filter on URLs): alphas/drafts/*.json is the expression store; tools/ledger_sync.py joins metrics by tag.
