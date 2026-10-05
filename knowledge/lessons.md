@@ -27,3 +27,5 @@
 - Volatility ideas (RSJ, realized skew, VIX beta, vol shock) have Fast IR < .03; usable only as blend partners. A101 sign is reversed (IR -.051) and pool-correlated (.84).
 - To dilute a base with pool corr c to < .5 you need independent partners carrying more risk than the base: c/sqrt(1+w^2) < .5 -> w > 1.25 for c = .78, and partners with IR ~.05 to keep blend IR > .072.
 - Queued straight to Slow (lb 300): S_VWAPT_rnd_sbc_gpa, S_VWAPT_rnd_iss_gpa, S_ILLIQ_rnd_iss_gpa (base + 3 equal-weight slow companions).
+- Oct 5 23:50: S_VWAPT_rnd_sbc_gpa (equal weights, Slow lb 300): IR .090, TVR .655, OOS1 .099, rw .101, best-year .17, but pool corr .72 to #605850 (a different pool alpha than P_VWAPT's #570310, whose irtvr .169 > ours .111). Its PnL is only .68 correlated with P_VWAPT, so the pool already holds reversal+fundamental blends. Testing double companion weight and less common companions (sbc, iss, fcf).
+- The runner stalled ~20 min while the Chrome window was hidden; R.tick() restarted it. Keep the Trexsim window visible overnight.

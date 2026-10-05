@@ -31,3 +31,4 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 5 23:10 | V_VIXBETA | VOL | .019 | .114 | .057 | .705 | no | | | | fdone | no |
 | Oct 5 23:10 | V_VOLSHOCK | VOL | .025 | .491 | .035 | .457 | no | | | | fdone | no |
 | Oct 5 23:10 | V_LATEVOL_REV | RETL | .070 | .794 | .079 | .479 | yes | | | | fdone | no |
+| Oct 5 23:50 | S_VWAPT_rnd_sbc_gpa | VWAPT+rnd+sbc+gpa | | | | | | .090 | .720 | no | sdone | no |
