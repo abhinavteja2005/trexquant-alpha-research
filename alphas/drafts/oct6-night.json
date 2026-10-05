@@ -1,0 +1,72 @@
+[
+ {
+  "tag": "Q_52WH",
+  "base": "52WH",
+  "expr": "# Thesis: investors anchor on the 52-week high, so stocks trading near it under-react to good news and keep drifting up; stocks far below it keep lagging.\n# Source: George & Hwang, \"The 52-Week High and Momentum Investing\" (Journal of Finance 2004).\nnear = close/ts_max(close, 250)  # price as a fraction of its 52-week high (1 = at the high)\nalpha = cs_indneut(cs_rank(near), subindustry)  # long near-high, short far-below, within each sub-industry",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_FROG",
+  "base": "FROG",
+  "expr": "# Thesis: momentum built from many small steady moves (\"frog in the pan\") is under-noticed and persists; momentum from a few big jumps gets priced fast.\n# Source: Da, Gurun & Warachka, \"Frog in the Pan: Continuous Information and Momentum\" (Review of Financial Studies 2014).\npret = close/ts_delay(close, 250) - 1  # past 12-month return\nsgn = (pret > 0)*2 - 1  # +1 winners, -1 losers\nidisc = sgn*(ts_mean(ret1 < 0, 250) - ts_mean(ret1 > 0, 250))  # information discreteness: low = continuous (many small same-sign days)\nalpha = cs_rank(pret) * (2 - cs_rank(idisc))  # momentum, amplified where information arrived continuously (nonlinear interaction)",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_TUGOFWAR",
+  "base": "OVN",
+  "expr": "# Thesis: different clienteles trade overnight (retail, at the open) and intraday (institutions); overnight strength persists while intraday strength reverses, so the gap between them predicts returns.\n# Source: Lou, Polk & Skouras, \"A Tug of War: Overnight versus Intraday Expected Returns\" (Journal of Financial Economics 2019).\novn = open/ts_delay(close, 1) - 1  # overnight return (close to next open)\nintra = close/open - 1  # intraday return (open to close)\nalpha = cs_rank(ts_mean(ovn, 20)) - cs_rank(ts_mean(intra, 20))  # long overnight winners, short intraday winners, 1-month averages",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_HVRP",
+  "base": "HVRP",
+  "expr": "# Thesis: an unusual volume spike without a big price move raises a stock's visibility, bringing new buyers and higher returns over the next weeks.\n# Source: Gervais, Kaniel & Mingelgrin, \"The High-Volume Return Premium\" (Journal of Finance 2001).\nvshock = ts_mean(volume, 5)/ts_mean(volume, 60)  # last week's volume vs the past quarter\nquiet = cs_rank(abs(ts_mean(ret1, 5))) < 1.5  # price barely moved, so the spike is attention, not news\nalpha = at_zero2nan(cs_rank(vshock) * quiet)  # long volume shocks in quiet-price stocks",
+  "lb": 80,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_VALxQUAL",
+  "base": "QV",
+  "expr": "# Thesis: cheap stocks are often cheap for a reason; cheap AND profitable stocks are the true bargains, so value and quality interact rather than add.\n# Source: Piotroski, \"Value Investing: The Use of Historical Financial Statement Information\" (Journal of Accounting Research 2000); Asness, Frazzini & Pedersen, \"Quality Minus Junk\" (Review of Accounting Studies 2019).\nv = cs_rank(ts_fill(earnings_yield))  # earnings yield rank (cheapness)\nq = cs_rank(ts_fill(return_on_assets))  # return on assets rank (profitability)\nalpha = cs_zscore(v * q)  # product: rewards stocks that are both cheap and profitable (nonlinear)",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_ACCR_AG",
+  "base": "ACCR",
+  "expr": "# Thesis: earnings made of accruals rather than cash, and aggressive balance-sheet growth, are both over-extrapolated by investors and later disappoint.\n# Source: Sloan, \"Do Stock Prices Fully Reflect Information in Accruals and Cash Flows about Future Earnings?\" (The Accounting Review 1996); Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (Journal of Finance 2008).\nta = ts_fill(total_assets)  # total assets, filled between reports\nacc = (ts_fill(net_income) - ts_fill(cash_from_operations))/ta  # accruals scaled by assets\nag = ta/ts_delay(ta, 250) - 1  # one-year asset growth\nalpha = at_zero2nan(at_nan2zero(cs_zscore(-cs_rank(acc))) + at_nan2zero(cs_zscore(-cs_rank(ag))))  # short high accruals and fast asset growth",
+  "lb": 400,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_BAB",
+  "base": "BAB",
+  "expr": "# Thesis: leverage-constrained investors buy high-beta stocks to get market exposure, overpricing them; low-beta stocks earn more per unit of risk.\n# Source: Frazzini & Pedersen, \"Betting Against Beta\" (Journal of Financial Economics 2014).\nrho = ts_corr_binary(ret1, ret1_spx, 250)  # 1-year correlation with the S&P 500\nbeta = rho*ts_std(ret1, 250)/(ts_std(ret1_spx, 250) + 0.000001)  # market beta = correlation x volatility ratio\nalpha = -cs_rank(beta)  # long low beta, short high beta",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_MAX_RETAIL",
+  "base": "MAX",
+  "expr": "# Thesis: lottery-like stocks (a huge one-day jump last month) are overbought by gambling retail investors; the effect should be strongest where trading is retail-sized.\n# Source: Bali, Cakici & Whitelaw, \"Maxing Out\" (Journal of Financial Economics 2011); Kumar, \"Who Gambles in the Stock Market?\" (Journal of Finance 2009).\nmx = ts_max(ret1, 20)  # biggest daily return in the past month\nsmall = cs_rank(ts_mean(volume_last_hour/number_of_trades_last_hour, 20)) < 1.5  # small average trade size (retail-like)\nalpha = at_zero2nan(-cs_rank(mx) * small)  # short lottery stocks where retail dominates (nonlinear gate)",
+  "lb": 40,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_LEADLAG",
+  "base": "LL",
+  "expr": "# Thesis: news about a sub-industry is priced first in its big, well-followed firms; small firms catch up with a lag, so a small firm's peer-group return predicts its own.\n# Source: Hou, \"Industry Information Diffusion and the Lead-Lag Effect in Stock Returns\" (Review of Financial Studies 2007).\nr5 = ts_mean(ret1, 5)  # own 5-day average return\npeer = r5 - cs_indneut(r5, subindustry)  # sub-industry average 5-day return\nsmallcap = cs_rank(at_signlog(mktcap)) < 1.5  # smaller half of the universe, where the lag is largest\nalpha = at_zero2nan(cs_rank(peer) * smallcap)  # long small firms whose sub-industry just rose, short those whose sub-industry fell (own return not used, so this is not a reversal)",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "Q_EPSMOM",
+  "base": "EMOM",
+  "expr": "# Thesis: investors under-react to earnings changes, so stocks whose trailing EPS just rose (relative to price) keep drifting up for months (post-earnings drift without the earnings-date variable).\n# Source: Bernard & Thomas, \"Post-Earnings-Announcement Drift\" (Journal of Accounting Research 1989); Chan, Jegadeesh & Lakonishok, \"Momentum Strategies\" (Journal of Finance 1996).\neps = ts_fill(trailing_12_month_diluted_eps)  # trailing 12-month diluted EPS, filled between reports\nsurp = (eps - ts_delay(eps, 60))/close  # EPS change over a quarter, per dollar of price\nalpha = cs_rank(at_zero2nan(surp))  # long recent EPS improvers; no change (no new report) = no position",
+  "lb": 200,
+  "state": "squeued"
+ }
+]

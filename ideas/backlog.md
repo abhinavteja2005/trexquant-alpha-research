@@ -55,3 +55,6 @@ Format: name | thesis | source URL | variables | horizon | sign | why uncrowded.
 - S_BL1_subind: best blend (IR .090, corr .72) made sub-industry relative
 - S_VWAPT_vol_iss: VWAPT + RSJ + VIX beta + issuance at 1.5x (non-fundamental partners)
 - S_LATEVOL_sbc_iss_fcf_w2: volatile-close reversal base + sbc/iss/fcf at 2x
+
+## Oct 6 00:55: night batch Q_ (Slow, new families; drafts in alphas/drafts/oct6-night.json)
+52-week high (George & Hwang 2004), frog-in-the-pan momentum (Da, Gurun & Warachka 2014), overnight-vs-intraday tug of war (Lou, Polk & Skouras 2019), high-volume return premium (Gervais, Kaniel & Mingelgrin 2001), value x quality interaction (Piotroski 2000; Asness, Frazzini & Pedersen 2019), accruals + asset growth (Sloan 1996; Cooper, Gulen & Schill 2008), betting against beta (Frazzini & Pedersen 2014), MAX gated by retail trade size (Bali, Cakici & Whitelaw 2011; Kumar 2009), sub-industry lead-lag for small caps (Hou 2007), EPS-change drift (Bernard & Thomas 1989).
