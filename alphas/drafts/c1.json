@@ -1,0 +1,100 @@
+[
+ {
+  "tag": "VP_VOV_D60",
+  "base": "C1",
+  "family": "VP_VOLOFVOL",
+  "expr": "# Thesis: Stocks whose own volatility is unstable (high vol-of-vol) carry uncertainty about risk and underperform.\n# Source: Baltussen, van Bekkum & van der Grient, \"Unknown Unknowns\" (JFQA 2018), https://ideas.repec.org/a/cup/jfinqa/v53y2018i04p1615-1651_00.html\nvol = ts_std(ret1, 20)  # 20-day realized volatility\nvov = ts_std(vol, 60) / ts_mean(vol, 60)  # vol-of-vol: dispersion of rolling vol scaled by its level\nalpha = -cs_rank(vov)  # short high uncertainty-about-risk names, long stable-risk names",
+  "source_url": "https://ideas.repec.org/a/cup/jfinqa/v53y2018i04p1615-1651_00.html"
+ },
+ {
+  "tag": "VP_VOV_INTRA",
+  "base": "C1",
+  "family": "VP_VOLOFVOL",
+  "expr": "# Thesis: Vol-of-vol measured from intraday (first/last hour) volatility: unstable intraday risk predicts underperformance.\n# Source: Baltussen, van Bekkum & van der Grient, \"Unknown Unknowns\" (JFQA 2018), https://ideas.repec.org/a/cup/jfinqa/v53y2018i04p1615-1651_00.html\niv = std_dev_return_first_hour + std_dev_return_last_hour  # intraday realized vol at both ends of the day\nvov = ts_std(iv, 20) / ts_mean(iv, 20)  # day-to-day instability of intraday vol, scale-free\nalpha = -cs_rank(ts_mean(vov, 5))  # short names with unstable intraday risk (5-day smoothed)",
+  "source_url": "https://ideas.repec.org/a/cup/jfinqa/v53y2018i04p1615-1651_00.html"
+ },
+ {
+  "tag": "VP_COSK_60",
+  "base": "C1",
+  "family": "VP_COSKEW",
+  "expr": "# Thesis: Stocks that rally when the market makes big moves (positive coskewness, long-gamma-like) are overpriced; negative-coskew stocks earn a premium.\n# Source: Harvey & Siddique, \"Conditional Skewness in Asset Pricing Tests\" (JF 2000), https://people.duke.edu/~charvey/Research/Published_Papers/P56_Conditional_skewness_in.pdf\nm2 = ret1_spx * ret1_spx  # squared market return: a market variance shock\ncosk = ts_corr_binary(ret1, m2, 60)  # coskewness proxy over 60 days\nalpha = -cs_rank(cosk)  # long negative-coskew names, short positive-coskew (lottery-like) names",
+  "source_url": "https://people.duke.edu/~charvey/Research/Published_Papers/P56_Conditional_skewness_in.pdf"
+ },
+ {
+  "tag": "VP_COSK_RESID120",
+  "base": "C1",
+  "family": "VP_COSKEW",
+  "expr": "# Thesis: Coskewness of the idiosyncratic return (beta removed) isolates the systematic-skew premium from market beta.\n# Source: Harvey & Siddique, \"Conditional Skewness in Asset Pricing Tests\" (JF 2000), https://people.duke.edu/~charvey/Research/Published_Papers/P56_Conditional_skewness_in.pdf\nbeta = ts_corr_binary(ret1, ret1_spx, 120) * ts_std(ret1, 120) / ts_std(ret1_spx, 120)  # 120-day market beta\nres = ret1 - beta * ret1_spx  # idiosyncratic daily return\nm2 = ret1_spx * ret1_spx  # squared market return\ncosk = ts_corr_binary(res, m2, 120)  # residual coskewness over 120 days\nalpha = -cs_rank(cosk)  # long negative residual coskewness",
+  "source_url": "https://people.duke.edu/~charvey/Research/Published_Papers/P56_Conditional_skewness_in.pdf"
+ },
+ {
+  "tag": "VP_RESREV_VIX",
+  "base": "C1",
+  "family": "VP_RESREV_VIX",
+  "expr": "# Thesis: Liquidity-provision (reversal) returns rise with VIX, most in volatile names: fade 3-day idiosyncratic moves and tilt toward high-idio-vol names only when VIX is high versus its past year.\n# Source: Nagel, \"Evaporating Liquidity\" (RFS 2012), https://econpapers.repec.org/RePEc:oup:rfinst:v:25:y:2012:i:7:p:2005-2039\nbeta = ts_corr_binary(ret1, ret1_spx, 60) * ts_std(ret1, 60) / ts_std(ret1_spx, 60)  # 60-day market beta\nres = ret1 - beta * ret1_spx  # idiosyncratic daily return\nvixr = ts_rank(close_vix, 250) - 1  # VIX regime in [0,1] versus the past year\nvolr = cs_winsor(cs_zscore(ts_std(res, 20)), 0.05, False)  # cross-sectional idiosyncratic-vol z-score, tails clipped\nw = 1 + 0.5 * vixr * volr  # high VIX: overweight volatile names, underweight calm ones\nalpha = -cs_zscore(ts_sum(res, 3)) * w  # residual 3-day reversal with a VIX-dependent cross-sectional tilt",
+  "source_url": "https://econpapers.repec.org/RePEc:oup:rfinst:v:25:y:2012:i:7:p:2005-2039"
+ },
+ {
+  "tag": "REG_VR_FLIP",
+  "base": "C1",
+  "family": "REG_VARRATIO",
+  "expr": "# Thesis: The 5-day variance ratio sorts names into trending vs mean-reverting regimes: follow the week where VR is high, fade it where VR is low, skip random walks.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nvr = ts_std(ret5, 120) * ts_std(ret5, 120) / (5 * ts_std(ret1, 120) * ts_std(ret1, 120))  # Lo-MacKinlay 5-day variance ratio\nz = cs_zscore(vr)  # variance ratio relative to the cross-section\ntr = z > 0.5  # trending regime (positive autocorrelation)\nmr = z < -0.5  # mean-reverting regime (negative autocorrelation)\ns = tr * cs_zscore(ret5) - mr * cs_zscore(ret5)  # momentum in trenders, reversal in mean-reverters\nalpha = at_zero2nan(s)  # no position in random-walk names",
+  "source_url": "https://www.nber.org/papers/w2168"
+ },
+ {
+  "tag": "REG_VR_SMOOTH",
+  "base": "C1",
+  "family": "REG_VARRATIO",
+  "expr": "# Thesis: Continuous variance-ratio gate at the 10-day horizon: the sign and size of the bet on the last two weeks scale with the stock's own autocorrelation regime.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nvr = ts_std(ret10, 250) * ts_std(ret10, 250) / (10 * ts_std(ret1, 250) * ts_std(ret1, 250))  # 10-day variance ratio over a year\ng = cs_winsor(cs_zscore(vr), 0.05, False)  # regime score: >0 trending, <0 mean-reverting\nalpha = cs_zscore(ret10) * g  # fade the move in low-VR names, follow it in high-VR names",
+  "source_url": "https://www.nber.org/papers/w2168"
+ },
+ {
+  "tag": "REG_PKCC_REV",
+  "base": "C1",
+  "family": "REG_RANGECC",
+  "expr": "# Thesis: When Parkinson range variance exceeds close-to-close variance, intraday swings are noise that mean-reverts; fade the week only in those names.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nlr = at_signlog(high / low - 1)  # log(high/low), the daily range in log terms\npk = ts_mean(lr * lr, 20) / 2.7726  # Parkinson range variance (divided by 4 ln 2)\ncc = ts_std(ret1, 20) * ts_std(ret1, 20)  # close-to-close variance\ng = cs_zscore(pk / cc) > 0  # range vol high relative to close vol: noisy, mean-reverting names\nalpha = at_zero2nan(-g * cs_zscore(ret5))  # 5-day reversal only where noise dominates, NaN elsewhere",
+  "source_url": "https://www.nber.org/papers/w2168"
+ },
+ {
+  "tag": "REG_DNBETA_ASYM",
+  "base": "C1",
+  "family": "REG_DOWNBETA",
+  "expr": "# Thesis: Stocks that comove with the market more on down days than on up days bear downside risk and earn a premium.\n# Source: Ang, Chen & Xing, \"Downside Risk\" (RFS 2006), https://www.nber.org/papers/w11824\ndn = ret1_spx * (ret1_spx < 0)  # market return on down days only\nup = ret1_spx * (ret1_spx > 0)  # market return on up days only\nasym = ts_corr_binary(ret1, dn, 120) - ts_corr_binary(ret1, up, 120)  # downside minus upside comovement\nalpha = cs_rank(ts_mean(asym, 5))  # long downside-exposed names (5-day smoothed)",
+  "source_url": "https://www.nber.org/papers/w11824"
+ },
+ {
+  "tag": "REG_DNBETA_250",
+  "base": "C1",
+  "family": "REG_DOWNBETA",
+  "expr": "# Thesis: Downside beta over a year (covariance with the market on down days) carries a positive risk premium beyond plain beta.\n# Source: Ang, Chen & Xing, \"Downside Risk\" (RFS 2006), https://www.nber.org/papers/w11824\ndn = ret1_spx * (ret1_spx < 0)  # market return on down days only\ndbeta = ts_corr_binary(ret1, dn, 250) * ts_std(ret1, 250) / ts_std(dn, 250)  # downside beta\nbeta = ts_corr_binary(ret1, ret1_spx, 250) * ts_std(ret1, 250) / ts_std(ret1_spx, 250)  # regular beta\nalpha = cs_rank(dbeta - beta)  # long excess downside beta, hedging out plain beta",
+  "source_url": "https://www.nber.org/papers/w11824"
+ },
+ {
+  "tag": "ID_TSIZE_SHIFT",
+  "base": "C1",
+  "family": "ID_TRADESIZE",
+  "expr": "# Thesis: A shrinking average trade size signals a retail influx (small trades) and predicts underperformance; growing trade size signals institutional interest.\n# Source: Hvidkjaer, \"Small Trades and the Cross-Section of Stock Returns\" (RFS 2008), https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm\ntsz = (volume_first_hour + volume_last_hour) / (number_of_trades_first_hour + number_of_trades_last_hour)  # avg trade size, open and close hours\nshift = ts_mean(tsz, 5) / ts_mean(tsz, 120) - 1  # recent trade size versus its own half-year norm\nalpha = cs_rank(shift)  # long names where trades got bigger, short where they shrank",
+  "source_url": "https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm"
+ },
+ {
+  "tag": "ID_TSIZE_FLOW",
+  "base": "C1",
+  "family": "ID_TRADESIZE",
+  "expr": "# Thesis: Small-trade buying (positive first-hour returns on days with unusually small trades) marks retail-favored stocks that underperform for weeks.\n# Source: Hvidkjaer, \"Small Trades and the Cross-Section of Stock Returns\" (RFS 2008), https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm\ntsz = volume_first_hour / number_of_trades_first_hour  # avg first-hour trade size\nsmall = cs_winsor(ts_mean(tsz, 60) / tsz - 1, 0.05, False)  # >0 when today's trades are smaller than usual, tails clipped\nflow = ts_mean(small * return_first_hour, 20)  # small-trade-weighted first-hour return over a month\nalpha = -cs_rank(flow)  # short stocks bought by small traders, long stocks they sold",
+  "source_url": "https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm"
+ },
+ {
+  "tag": "ANOM_MAX20",
+  "base": "C1",
+  "family": "ANOM_MAX",
+  "expr": "# Thesis: Investors overpay for lottery-like stocks: the maximum daily return over the past month predicts low returns.\n# Source: Bali, Cakici & Whitelaw, \"Maxing Out\" (JFE 2011), https://pages.stern.nyu.edu/~rwhitela/papers/max%20jfe11.pdf\nmx = ts_max(ret1, 20)  # largest daily return in the past month (MAX)\nalpha = -cs_rank(mx)  # short lottery stocks",
+  "source_url": "https://pages.stern.nyu.edu/~rwhitela/papers/max%20jfe11.pdf"
+ },
+ {
+  "tag": "ANOM_MAX_VOLADJ",
+  "base": "C1",
+  "family": "ANOM_MAX",
+  "expr": "# Thesis: MAX scaled by the stock's own volatility isolates lottery-like spikes from plain high volatility.\n# Source: Bali, Cakici & Whitelaw, \"Maxing Out\" (JFE 2011), https://pages.stern.nyu.edu/~rwhitela/papers/max%20jfe11.pdf\nmx = ts_mean(ts_max(ret1, 5), 20)  # average weekly max return over the past month (smoother MAX)\nsd = ts_std(ret1, 60)  # 60-day volatility\nalpha = -cs_rank(mx / sd)  # short names whose spikes are large relative to their normal risk",
+  "source_url": "https://pages.stern.nyu.edu/~rwhitela/papers/max%20jfe11.pdf"
+ }
+]
