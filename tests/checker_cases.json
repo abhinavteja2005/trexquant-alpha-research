@@ -1,0 +1,101 @@
+[
+ {
+  "name": "bool-bool literal",
+  "code": "alpha = (ret1 > 0) - (ret1 < 0)",
+  "expect": "FAIL",
+  "match": "bool - bool",
+  "origin": "A101_012/030 (Oct 6)"
+ },
+ {
+  "name": "bool-bool via flags",
+  "code": "a = ret1 > 0\nb = ret1 < 0\nalpha = a - b",
+  "expect": "FAIL",
+  "match": "bool - bool",
+  "origin": "R_PRICE2_band crash (Oct 6)"
+ },
+ {
+  "name": "old band template",
+  "code": "q = cs_rank(ret5)\nhl = (ts_max(q, 5) > 1.8)*(q > 1.6)\nhs = (ts_min(q, 5) < 1.2)*(q < 1.4)\nalpha = at_zero2nan(hl - hs)",
+  "expect": "FAIL",
+  "match": "bool - bool",
+  "origin": "R_PRICE2_band"
+ },
+ {
+  "name": "old weekly template",
+  "code": "f0 = day_of_the_week < ts_delay(day_of_the_week, 1)\nf1 = ts_delay(f0, 1)\nalpha = f1*ret5",
+  "expect": "FAIL",
+  "match": "flag",
+  "origin": "R_RIG_weekly (Unsupported data type: bool)"
+ },
+ {
+  "name": "Q_FROG (ts_mean of a flag)",
+  "code": "pret = close/ts_delay(close, 250) - 1\nsgn = (pret > 0)*2 - 1\nidisc = sgn*(ts_mean(ret1 < 0, 250) - ts_mean(ret1 > 0, 250))\nalpha = cs_rank(pret) * (2 - cs_rank(idisc))",
+  "expect": "FAIL",
+  "match": "flag",
+  "origin": "Q_FROG loading_data x2"
+ },
+ {
+  "name": "ts_mean on comparison",
+  "code": "alpha = ts_mean(ret1 > 0, 5)",
+  "expect": "FAIL",
+  "match": "flag",
+  "origin": "dtype rule"
+ },
+ {
+  "name": "cs_rank on flag",
+  "code": "x = cs_rank(ret1) > 1.5\nalpha = cs_rank(x)",
+  "expect": "FAIL",
+  "match": "flag",
+  "origin": "dtype rule"
+ },
+ {
+  "name": "forbidden earnings variable",
+  "code": "alpha = cs_rank(ret5)*(trading_days_until_next_earnings_announcement > 55)",
+  "expect": "FAIL",
+  "match": "forbidden",
+  "origin": "look-ahead (Oct 5)"
+ },
+ {
+  "name": "negative ts_delay",
+  "code": "alpha = cs_rank(ts_delay(ret1, -1))",
+  "expect": "FAIL",
+  "match": "forward bias",
+  "origin": "tutorial"
+ },
+ {
+  "name": "cast flag then ts_mean",
+  "code": "x = (close/close)*(ret1 > 0)\nalpha = ts_mean(x, 5)",
+  "expect": "PASS",
+  "origin": "fix pattern"
+ },
+ {
+  "name": "variable-free float32 cast",
+  "code": "q = cs_rank(ret5)\nup = (q*0 + 1)*(q > 1.6)\nalpha = at_zero2nan(up*cs_zscore(ret5))",
+  "expect": "PASS",
+  "origin": "repair.py band"
+ },
+ {
+  "name": "float minus float",
+  "code": "alpha = (close - open)/close - 1e-5",
+  "expect": "PASS",
+  "origin": "sanity"
+ },
+ {
+  "name": "bool times float",
+  "code": "alpha = -ret1*(volume/ts_mean(volume, 20) > 1)",
+  "expect": "PASS",
+  "origin": "sanity"
+ },
+ {
+  "name": "float sign recipe",
+  "code": "f = close/close\nalpha = f*(ret1 > 0) - f*(ret1 < 0)",
+  "expect": "PASS",
+  "origin": "operators.md"
+ },
+ {
+  "name": "VR_FLIP style",
+  "code": "tr = cs_zscore(ret5) > 0.5\nmr = cs_zscore(ret5) < -0.5\nalpha = at_zero2nan(tr*cs_zscore(ret5) - mr*cs_zscore(ret5))",
+  "expect": "PASS",
+  "origin": "c1 REG_VR_FLIP"
+ }
+]

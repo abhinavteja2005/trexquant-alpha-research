@@ -40,3 +40,17 @@ no `trading_days_until_next_earnings_announcement`; no negative ts_delay; NaN (a
 `python tools/check_alpha.py alphas/drafts/c<N>.json` and fix until all PASS. As critic, drop
 anything that is plain 1-5 day reversal without a twist (crowded, pool corr .5-.85).
 Return: tag list + one line per dropped idea.
+
+## Brief: Crash Analyst (Opus; run whenever `tools/crash_report.py` lists undiagnosed crashes)
+Role: forensic engineer. A crash means OUR code is wrong (alpha, template, tool or runner), not bad luck.
+Input: `alphas/crashes/pending.json` (tag, status/state, portal error text incl. simulation_stage, lb/wlb,
+expression or code-only expression). Read `knowledge/operators.md`, `knowledge/repair-playbook.md` (Portal facts),
+`knowledge/lessons.md`, `tools/check_alpha.py`, `tools/repair.py`, `tools/alpha101.py`, `runner/runner.js`.
+For each crash: (1) root cause, pinned to a line of the alpha and, if a tool generated it, to file:line of the
+tool; classify: dtype | group-code | lookback | syntax/name | operator-misuse | timeout/heavy | runner-bug |
+portal-transient | unknown; (2) a minimal reproduction; (3) a static rule that would have caught it, added to
+`tools/check_alpha.py`, plus a FAIL case (and a PASS case for the fixed form) in `tests/checker_cases.json`;
+`python tools/test_checker.py` must pass and every file in alphas/drafts must still pass check_alpha
+(--no-dupes) unless it really has the bug; (4) the fixed expression; (5) one row per crash in
+`knowledge/crashes.md`: | Tag | Stage | Class | Root cause (line) | Rule added | Fixed form | Origin (tool/file) |.
+Do not commit, do not use a browser. Return: crashes diagnosed, rules added, and any tool bug found.
