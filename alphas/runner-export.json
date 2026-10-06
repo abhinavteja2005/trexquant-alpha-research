@@ -3778,5 +3778,33 @@
   "err": "",
   "expr": "# Thesis: The 5-day variance ratio sorts names into trending vs mean-reverting regimes: follow the week where VR is high, fade it where VR is low, skip random walks.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nvr = ts_std(ret5, 120) * ts_std(ret5, 120) / (5 * ts_std(ret1, 120) * ts_std(ret1, 120))  # Lo-MacKinlay 5-day variance ratio\nz = cs_zscore(vr)  # variance ratio relative to the cross-section\ntr = z > 0.5  # trending regime (positive autocorrelation)\nmr = z < -0.5  # mean-reverting regime (negative autocorrelation)\ns = tr * cs_zscore(ret5) - mr * cs_zscore(ret5)  # momentum in trenders, reversal in mean-reverters\nalpha = at_zero2nan(s)  # no position in random-walk names",
   "family": "REG_VARRATIO"
+ },
+ "REG_VR_SMOOTH": {
+  "tag": "REG_VR_SMOOTH",
+  "state": "sdone",
+  "lb": "300",
+  "wlb": "300",
+  "f_ir": "",
+  "f_tvr": "",
+  "f_irtvr": "",
+  "f_corr": "",
+  "f_elig": "",
+  "f_rw": "",
+  "f_best": "",
+  "s_ir": "-0.004",
+  "s_tvr": "0.482",
+  "s_irtvr": "-0.006",
+  "s_corr": "0.221",
+  "s_corrId": "673420",
+  "s_corrIrTvr": "",
+  "s_corrOwn": "0",
+  "s_elig": "0",
+  "s_oos1": "-0.0068",
+  "s_rw": "-0.0111",
+  "s_best": "",
+  "s_vt": "ir_below_threshold",
+  "err": "",
+  "expr": "# Thesis: Continuous variance-ratio gate at the 10-day horizon: the sign and size of the bet on the last two weeks scale with the stock's own autocorrelation regime.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nvr = ts_std(ret10, 250) * ts_std(ret10, 250) / (10 * ts_std(ret1, 250) * ts_std(ret1, 250))  # 10-day variance ratio over a year\ng = cs_winsor(cs_zscore(vr), 0.05, False)  # regime score: >0 trending, <0 mean-reverting\nalpha = cs_zscore(ret10) * g  # fade the move in low-VR names, follow it in high-VR names",
+  "family": "REG_VARRATIO"
  }
 }
