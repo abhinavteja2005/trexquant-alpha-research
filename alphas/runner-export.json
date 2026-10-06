@@ -3750,5 +3750,33 @@
   "err": "",
   "expr": null,
   "family": null
+ },
+ "REG_VR_FLIP": {
+  "tag": "REG_VR_FLIP",
+  "state": "sdone",
+  "lb": "260",
+  "wlb": "260",
+  "f_ir": "",
+  "f_tvr": "",
+  "f_irtvr": "",
+  "f_corr": "",
+  "f_elig": "",
+  "f_rw": "",
+  "f_best": "",
+  "s_ir": "0.003",
+  "s_tvr": "0.943",
+  "s_irtvr": "0.003",
+  "s_corr": "0.306",
+  "s_corrId": "642093",
+  "s_corrIrTvr": "",
+  "s_corrOwn": "0",
+  "s_elig": "0",
+  "s_oos1": "-0.0164",
+  "s_rw": "-0.0175",
+  "s_best": "5.01",
+  "s_vt": "ir_below_threshold",
+  "err": "",
+  "expr": "# Thesis: The 5-day variance ratio sorts names into trending vs mean-reverting regimes: follow the week where VR is high, fade it where VR is low, skip random walks.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nvr = ts_std(ret5, 120) * ts_std(ret5, 120) / (5 * ts_std(ret1, 120) * ts_std(ret1, 120))  # Lo-MacKinlay 5-day variance ratio\nz = cs_zscore(vr)  # variance ratio relative to the cross-section\ntr = z > 0.5  # trending regime (positive autocorrelation)\nmr = z < -0.5  # mean-reverting regime (negative autocorrelation)\ns = tr * cs_zscore(ret5) - mr * cs_zscore(ret5)  # momentum in trenders, reversal in mean-reverters\nalpha = at_zero2nan(s)  # no position in random-walk names",
+  "family": "REG_VARRATIO"
  }
 }
