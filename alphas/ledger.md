@@ -127,3 +127,5 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 6 19:12 | Y_PLewm_ACC_w1 | Y |  |  |  |  |  | .101 | .974@698181 own (irtvr .121 vs bar .144) | no | sdone | no |
 | Oct 6 19:12 | Y_VW_ACC_w1 | Y |  |  |  |  |  | .091 | .854@698181 own (irtvr .100 vs bar .144) | no | sdone | no |
 | Oct 6 19:12 | MM1_TOXREV | MM |  |  |  |  |  | .059 | .628@640672 (irtvr .060 vs bar .119) | no | sdone | no |
+| Oct 6 19:42 | MM2_SIZEREV | MM |  |  |  |  |  | .042 | .123@657905 | no | sdone | no |
+| Oct 6 19:42 | MM3_CLOSEPRESS | MM |  |  |  |  |  | .053 | .821@569727 (irtvr .051 vs bar .098) | no | sdone | no |
