@@ -19,7 +19,7 @@ tab group (drag it onto the group), or uses Plan B below. Then the Desktop sessi
 
 Plan B (if dragging fails): Abhinav CLOSES the old Trexsim tab first (two live runners would overwrite each
 other). The Desktop session then opens https://www.trexsim.com/trexsim/pysim/alphalist in its own group and
-rebuilds the runner: `eval(localStorage.R3_code)` or paste `runner/runner.js`, then `RUNNER()`. Job state survives
+rebuilds the runner by pasting `runner/runner.js` from the repo (NOT `localStorage.R3_code`, which is an older build that ignores per-job lookbacks), then `RUNNER()`. Job state survives
 in `localStorage.R3_jobs`. A Slow job that was running keeps running on the server, and the runner picks up its
 result by id.
 
@@ -71,7 +71,7 @@ jobs a day.
         dimensionless, (iv) it is simple (drop drafts with > 6 code lines unless justified, as in AlphaAgent's
         complexity control). Return keep or drop with one line per draft.
 4. Filter: `check_alpha.py` -> `originality.py` -> drop duplicates. Expect ~15 survivors.
-5. Queue: `make_queue.py SLOW:<file>` -> `R.add`, then set `squeued` + explicit `lb`, then `R.save()`. At most 5 per
+5. Queue: `make_queue.py SLOW:<file>` -> `R.add`, then set `squeued`, explicit `lb` AND `wlb` (the live tab honours `wlb` via a patched R.lookback; keep it <= 330, and 260 is proven), then `R.save()`. Slow mode only sees `lookback` days, so lookback must cover the longest window + delay (+ ~70 days for ts_fill). At most 5 per
    family. Never Fast for correlation questions.
 6. Log: commit and push the ledger, lessons, drafts and `reports/status.md`. Report to Abhinav in 5 lines.
 
