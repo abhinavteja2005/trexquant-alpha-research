@@ -153,3 +153,9 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 2:43 | Y_PLsz_ACC_w16 | Y_ACC |  |  |  |  |  | .118 | .940@698181 own (irtvr .149 vs bar .144) | yes | submitted | YES |
 | Oct 7 3:12 | Y_PLsz_ACC_w20 | Y_ACC |  |  |  |  |  | .118 | .993@708808 own (irtvr .158 vs bar .179) | no | sdone | no |
 | Oct 7 3:42 | R_RIGwk_w10 | R_RIG |  |  |  |  |  | .063 | .811@707365 own (irtvr .134 vs bar .215) | no | sdone | no |
+| Oct 7 4:12 | R_RIGwk_w10k15 | R_RIG |  |  |  |  |  | .060 | .798@707365 own (irtvr .144 vs bar .215) | no | sdone | no |
+| Oct 7 4:12 | SW_L_AOCI49 | SW_DOLLAR |  |  |  |  |  | -.009 | .380@656049 | no | sdone | no |
+| Oct 7 4:12 | SW_L_AOIA31 | SW_DOLLAR |  |  |  |  |  | -.018 | .236@676810 | no | sdone | no |
+| Oct 7 4:12 | SW_L_CPOLTD33 | SW_DOLLAR |  |  |  |  |  | .035 | .167@655304 | no | sdone | no |
+| Oct 7 4:12 | SW_L_DTALT70 | SW_DOLLAR |  |  |  |  |  | .017 | .286@700897 | no | sdone | no |
+| Oct 7 4:12 | SW_L_DA60 | SW_DOLLAR |  |  |  |  |  | -.009 | .287@631112 | no | sdone | no |
