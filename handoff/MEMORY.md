@@ -1,4 +1,14 @@
-# MEMORY: state and playbook (updated Oct 6, 10:15 IST by the cloud chat)
+# MEMORY: state and playbook
+
+## LATEST (Oct 6, 16:45 IST, cloud chat handing over)
+- SUBMITTED: 4. T_LATE_accr_w2, T_COMP7, T_LATE_w3 (IR/sqrt(TVR) route) and U_VWAPT_FMOM_w1 (corr .466 route; submitted manually by Abhinav; marked `submitted` in the runner).
+- BEST LEAD: anti-correlated partners. Price-reversal blends (IR ~.093) are blocked by #570310 / #604930 (bar .173). Partners whose daily PnL moves AGAINST them cut turnover and correlation:
+  fundamental changes (now blocked by our own #695151) and ACCRUALS (corr -.215; replay predicts IR ~.12). Running: Y_PLsz_ACC_w07, Y_PLsz_ACC_w12, Y_PLewm_ACC_w1, Y_VW_ACC_w1. Read them first; if one passes, apply the same partner to the other near-misses (`PX.triage`), and keep scanning for new partners with `PX.pair` against our blocked bases (corr < -.05 and own-corr < .5).
+- RETIRED: on/off regime gates (switching raises turnover .05 -> .48); banding with 0/1 flags.
+- PORTAL RULES LEARNED TODAY: max lookback 300; cs_indneut needs integer group codes (`industry*0`); ts_*/cs_* need float32 (cast flags as `(close/close)*flag`); `bool - bool` crashes; the 1.2x bar applies against EVERY pool alpha above .5, not just the top one.
+- Everything is logged: `alphas/registry.md|csv` (every alpha + status), `reports/RESEARCH_REPORT.md` (changelog), `knowledge/repairs.md`, `knowledge/lessons.md`.
+
+## Earlier state (Oct 6, 10:15)
 
 Read this first, then `handoff/AUTORESEARCHER.md` (the build-and-loop program, including the runner OWNERSHIP handover). It supersedes the Oct 5 handoff. Details: `knowledge/lessons.md`, `alphas/ledger.md`.
 
