@@ -26,6 +26,12 @@ Branch: `claude/focused-fermat-5fdhyo` (shared with the cloud master). Every vis
    Y_PLsz_ACC_w07, sid 698181, which kept running on the server).
 After any later page reload by accident: re-paste runner.js + `RUNNER()` and px.js (jobs survive in localStorage).
 
+## Automatic mode (approved by Abhinav, Oct 6): run yourself every 30 minutes
+Speed matters: an alpha that waits in the repo can be taken by another participant. After the first visit, Abhinav
+starts `/loop 30m Operator visit: git pull, then follow handoff/OPERATOR.md "Every visit"` so no human is needed.
+Keep each visit cheap: after step 1, if `alphas/queue/next.json` and `ops.json` are unchanged since the last line of
+`loaded.log` AND no Slow job finished since the last snapshot (compare `R.counts()`), stop there (no commit, one-line reply).
+
 ## Every visit (about 5 minutes)
 1. **Health.** In the runner tab: `[R.counts(), R.cur() && R.cur().tag, Math.round((Date.now()-R.lastTick)/1000), R.lastErr||'']`.
    If seconds since last tick > 90, run `R.tick()`. If `window.R` is missing, do the rebuild above (steps 3-4).
@@ -53,6 +59,10 @@ After any later page reload by accident: re-paste runner.js + `RUNNER()` and px.
    `<YYYYMMDD-HHMM> | next.json <git short hash of the file> | added <n> | counts <R.counts()>`.
    Commit the snapshot files, `alphas/ledger.md`, `alphas/runner-export.json` and `loaded.log`; push.
 8. **Reply in 3 lines:** runner health and counts; jobs finished since last visit (best Slow IR); anything wrong.
+9. **Wake the cloud master** (if your SendMessage/ListAgents tools list the cloud session `trexquant-alpha-research-4f`):
+   after pushing a snapshot with newly finished Slow jobs or an ELIGIBLE line, send it one line:
+   `operator: snapshot <file> pushed; finished <n>; eligible <tags or none>`. It then triages at once instead of
+   waiting for its 3-hourly cycle.
 
 Do not do research, write alphas, change tools, or edit any other file. Problems you cannot fix in one step: stop and
 say exactly what you saw.
