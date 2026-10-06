@@ -1,8 +1,5 @@
 # Status
-
-Last update: Oct 5, 21:25 IST. The master chat has retired; the new team starts from handoff/.
-
-- Submitted: 0.
-- Runner v3 is live in the user's Chrome tab (~20 queued, ~18 Fast-done, 12 skipped).
-- Both promising blends failed in Slow mode. Top priority: the Fast-vs-Slow diagnosis (handoff/MEMORY.md).
-- Budget: about $50 of cloud credit. Check claude.ai/settings/usage.
+Last update: Oct 6, 10:00 IST.
+- Submitted: 3 (T_LATE_w3, T_LATE_accr_w2, T_COMP7), all via the IR/sqrt(TVR) 1.2x route.
+- Running: U_ upgrade batch (6 Slow jobs: size/vol-neutral versions of rejected blends; fundamental-momentum composite).
+- Key lessons: Fast mode is unreliable for correlation; low-turnover fundamental-heavy alphas pass via IR/sqrt(TVR); our own submissions now constrain new ones.

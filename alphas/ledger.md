@@ -52,3 +52,10 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 6 night | Q_MAX_RETAIL | MAX | | | | | | .002 | .611 | no | sdone | no |
 | Oct 6 night | Q_LEADLAG | LL | | | | | | -.030 | .613 | no | sdone | no |
 | Oct 6 night | Q_EPSMOM | EMOM | | | | | | -.021 | .387 | no | sdone | no |
+| Oct 6 am | T_LATE_w3 | LVREV+sbc+iss+fcf (3x) | | | | | | .073 | .506 (irtvr .105 vs .078 OK) | yes | submitted | YES |
+| Oct 6 am | T_LATE_accr_w2 | LVREV+sbc+iss+fcf+accr (2x) | | | | | | .092 | .824 (irtvr .161 vs .105 OK) | yes | submitted | YES |
+| Oct 6 am | T_COMP7 | COMP7 fundamentals | | | | | | .083 | .786 (irtvr .366 vs .161 OK) | yes | submitted | YES |
+| Oct 6 am | T_LATE_s3_w2 | LVREV | | | | | | .061 | .959 own | no | sdone | no |
+| Oct 6 am | T_LATE_sub_w2 | LVREV | | | | | | .079 | .895 own | no | sdone | no |
+| Oct 6 am | T_COMP5b | COMP | | | | | | .069 | .888 own | no | sdone | no |
+| Oct 6 am | T_COMP7_sub | COMP | | | | | | .057 | .865 own | no | sdone | no |
