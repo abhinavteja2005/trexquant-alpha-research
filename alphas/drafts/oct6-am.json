@@ -1,0 +1,51 @@
+[
+ {
+  "tag": "T_LATE_w3",
+  "base": "LVREV",
+  "expr": "# Thesis: last-hour reversal where the close was more volatile than the open (flow, not news), blended with less common slow signals that carry most of the risk, so the mix differs from crowded reversal and fundamental alphas.\n# Source: closing-pressure reversal (Bogousslavsky & Muravyev 2023); net issuance (Pontiff & Woodgate, JF 2008); cash-flow yield (Lakonishok, Shleifer & Vishny, JF 1994); accruals (Sloan, The Accounting Review 1996); stock-based pay as an intangible-investment proxy (our own hypothesis).\nlate = cs_rank(ts_mean(std_dev_return_last_hour/(std_dev_return_first_hour + 0.0001), 5)) > 1.5  # close more volatile than open\nr = cs_zscore(at_zero2nan(-cs_rank(ts_mean(return_last_hour, 5)) * late))  # fade last-hour returns where the close was volatile\nk1 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(free_cash_flow)/mktcap))  # free-cash-flow yield\nalpha = at_zero2nan(at_nan2zero(r) + 3*(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3)))  # slow signals at triple weight",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "T_LATE_s3_w2",
+  "base": "LVREV",
+  "expr": "# Thesis: last-hour reversal where the close was more volatile than the open (flow, not news), blended with less common slow signals that carry most of the risk, so the mix differs from crowded reversal and fundamental alphas.\n# Source: closing-pressure reversal (Bogousslavsky & Muravyev 2023); net issuance (Pontiff & Woodgate, JF 2008); cash-flow yield (Lakonishok, Shleifer & Vishny, JF 1994); accruals (Sloan, The Accounting Review 1996); stock-based pay as an intangible-investment proxy (our own hypothesis).\nlate = cs_rank(ts_mean(std_dev_return_last_hour/(std_dev_return_first_hour + 0.0001), 5)) > 1.5  # close more volatile than open\nr = cs_zscore(ts_mean(at_zero2nan(-cs_rank(ts_mean(return_last_hour, 5)) * late), 3))  # same, smoothed over 3 days to cut turnover\nk1 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(free_cash_flow)/mktcap))  # free-cash-flow yield\nalpha = at_zero2nan(at_nan2zero(r) + 2*(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3)))  # slow signals at double weight",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "T_LATE_accr_w2",
+  "base": "LVREV",
+  "expr": "# Thesis: last-hour reversal where the close was more volatile than the open (flow, not news), blended with less common slow signals that carry most of the risk, so the mix differs from crowded reversal and fundamental alphas.\n# Source: closing-pressure reversal (Bogousslavsky & Muravyev 2023); net issuance (Pontiff & Woodgate, JF 2008); cash-flow yield (Lakonishok, Shleifer & Vishny, JF 1994); accruals (Sloan, The Accounting Review 1996); stock-based pay as an intangible-investment proxy (our own hypothesis).\nlate = cs_rank(ts_mean(std_dev_return_last_hour/(std_dev_return_first_hour + 0.0001), 5)) > 1.5  # close more volatile than open\nr = cs_zscore(at_zero2nan(-cs_rank(ts_mean(return_last_hour, 5)) * late))  # fade last-hour returns where the close was volatile\nk1 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(free_cash_flow)/mktcap))  # free-cash-flow yield\nta = ts_fill(total_assets)  # total assets, filled between reports\nk4 = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ta))  # low accruals (cash-backed earnings)\nalpha = at_zero2nan(at_nan2zero(r) + 2*(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3) + at_nan2zero(k4)))  # four slow signals at double weight",
+  "lb": 400,
+  "state": "squeued"
+ },
+ {
+  "tag": "T_LATE_sub_w2",
+  "base": "LVREV",
+  "expr": "# Thesis: last-hour reversal where the close was more volatile than the open (flow, not news), blended with less common slow signals that carry most of the risk, so the mix differs from crowded reversal and fundamental alphas.\n# Source: closing-pressure reversal (Bogousslavsky & Muravyev 2023); net issuance (Pontiff & Woodgate, JF 2008); cash-flow yield (Lakonishok, Shleifer & Vishny, JF 1994); accruals (Sloan, The Accounting Review 1996); stock-based pay as an intangible-investment proxy (our own hypothesis).\nlate = cs_rank(ts_mean(std_dev_return_last_hour/(std_dev_return_first_hour + 0.0001), 5)) > 1.5  # close more volatile than open\nr = cs_zscore(at_zero2nan(-cs_rank(ts_mean(return_last_hour, 5)) * late))  # fade last-hour returns where the close was volatile\nk1 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(free_cash_flow)/mktcap))  # free-cash-flow yield\nalpha = cs_indneut(at_zero2nan(at_nan2zero(r) + 2*(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3))), subindustry)  # double-weight blend, made sub-industry relative",
+  "lb": 300,
+  "state": "squeued"
+ },
+ {
+  "tag": "T_COMP7",
+  "base": "COMP",
+  "expr": "# Thesis: many weak, slow accounting premia combined; each alone is noisy, but they are weakly related, so the composite is steadier. Turnover is tiny, so IR/sqrt(TVR) is high.\n# Source: Sloan (The Accounting Review 1996); Cooper, Gulen & Schill (JF 2008); Pontiff & Woodgate (JF 2008); Lakonishok, Shleifer & Vishny (JF 1994); Chan, Lakonishok & Sougiannis (JF 2001); Novy-Marx (JFE 2013).\nta = ts_fill(total_assets)  # total assets, filled between reports\nk1 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(free_cash_flow)/mktcap))  # free-cash-flow yield\nk4 = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ta))  # low accruals (cash-backed earnings)\nk5 = cs_zscore(-cs_rank(ta/ts_delay(ta, 250) - 1))  # low asset growth\nk6 = cs_zscore(cs_rank(ts_fill(research_and_development_expense)/mktcap))  # R&D per dollar of market value\nk7 = cs_zscore(cs_rank(ts_fill(gross_profit)/ta))  # gross profit per dollar of assets\nalpha = at_zero2nan(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3) + at_nan2zero(k4) + at_nan2zero(k5) + at_nan2zero(k6) + at_nan2zero(k7))  # equal-weight 7-signal composite",
+  "lb": 400,
+  "state": "squeued"
+ },
+ {
+  "tag": "T_COMP5b",
+  "base": "COMP",
+  "expr": "# Thesis: many weak, slow accounting premia combined; each alone is noisy, but they are weakly related, so the composite is steadier. Turnover is tiny, so IR/sqrt(TVR) is high.\n# Source: Sloan (The Accounting Review 1996); Cooper, Gulen & Schill (JF 2008); Pontiff & Woodgate (JF 2008); Lakonishok, Shleifer & Vishny (JF 1994); Chan, Lakonishok & Sougiannis (JF 2001); Novy-Marx (JFE 2013).\nta = ts_fill(total_assets)  # total assets, filled between reports\nk1 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(free_cash_flow)/mktcap))  # free-cash-flow yield\nk4 = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ta))  # low accruals (cash-backed earnings)\nk5 = cs_zscore(-cs_rank(ta/ts_delay(ta, 250) - 1))  # low asset growth\nalpha = at_zero2nan(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3) + at_nan2zero(k4) + at_nan2zero(k5))  # 5-signal composite without R&D and gross profit (those overlap a crowded pool alpha)",
+  "lb": 400,
+  "state": "squeued"
+ },
+ {
+  "tag": "T_COMP7_sub",
+  "base": "COMP",
+  "expr": "# Thesis: many weak, slow accounting premia combined; each alone is noisy, but they are weakly related, so the composite is steadier. Turnover is tiny, so IR/sqrt(TVR) is high.\n# Source: Sloan (The Accounting Review 1996); Cooper, Gulen & Schill (JF 2008); Pontiff & Woodgate (JF 2008); Lakonishok, Shleifer & Vishny (JF 1994); Chan, Lakonishok & Sougiannis (JF 2001); Novy-Marx (JFE 2013).\nta = ts_fill(total_assets)  # total assets, filled between reports\nk1 = cs_zscore(cs_rank(ts_fill(stock_based_compensation)/mktcap))  # stock-based pay per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(cs_rank(ts_fill(free_cash_flow)/mktcap))  # free-cash-flow yield\nk4 = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ta))  # low accruals (cash-backed earnings)\nk5 = cs_zscore(-cs_rank(ta/ts_delay(ta, 250) - 1))  # low asset growth\nk6 = cs_zscore(cs_rank(ts_fill(research_and_development_expense)/mktcap))  # R&D per dollar of market value\nk7 = cs_zscore(cs_rank(ts_fill(gross_profit)/ta))  # gross profit per dollar of assets\nalpha = cs_indneut(at_zero2nan(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3) + at_nan2zero(k4) + at_nan2zero(k5) + at_nan2zero(k6) + at_nan2zero(k7)), subindustry)  # composite, sub-industry relative",
+  "lb": 400,
+  "state": "squeued"
+ }
+]

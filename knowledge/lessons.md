@@ -29,3 +29,9 @@
 - Queued straight to Slow (lb 300): S_VWAPT_rnd_sbc_gpa, S_VWAPT_rnd_iss_gpa, S_ILLIQ_rnd_iss_gpa (base + 3 equal-weight slow companions).
 - Oct 5 23:50: S_VWAPT_rnd_sbc_gpa (equal weights, Slow lb 300): IR .090, TVR .655, OOS1 .099, rw .101, best-year .17, but pool corr .72 to #605850 (a different pool alpha than P_VWAPT's #570310, whose irtvr .169 > ours .111). Its PnL is only .68 correlated with P_VWAPT, so the pool already holds reversal+fundamental blends. Testing double companion weight and less common companions (sbc, iss, fcf).
 - The runner stalled ~20 min while the Chrome window was hidden; R.tick() restarted it. Keep the Trexsim window visible overnight.
+
+## Oct 6 morning (overnight Slow results)
+- Reversal+fundamental blends: Slow IR .085-.096 (OOS1 up to .116) but all collide with pool #605850 (corr .70-.74, its irtvr .169). Dead end unless irtvr >= .203.
+- Best near miss: S_LATEVOL_sbc_iss_fcf_w2 (volatile-close reversal + stock pay + issuance + FCF at 2x): IR .075, corr .527 to #570604 (irtvr .099; ours .102, need .119). Variants queued (w3, 3-day smoothing, +accruals, sub-industry).
+- Slow fundamental composites have tiny turnover, so they pass the IR/sqrt(TVR) test (COMP5 .226 vs .169x1.2) but IR is .05. Accruals+asset growth: IR .067, OOS1 .095, irtvr .298, but corr .879 to #567998 (irtvr .273). Bigger composites queued (COMP7, COMP5b, COMP7_sub).
+- Textbook anomalies are dead or negative in-sample 2008-2021 at daily IR: 52-week high, BAB, value x quality, EPS drift, sub-industry lead-lag, MAX, high-volume premium, tug of war (all |IR| < .03).

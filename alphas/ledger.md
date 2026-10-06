@@ -34,3 +34,21 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 5 23:50 | S_VWAPT_rnd_sbc_gpa | VWAPT+rnd+sbc+gpa | | | | | | .090 | .720 | no | sdone | no |
 | Oct 6 00:40 | S_ALLPOS_price | VWAPT+CI+LATEVOL | | | | | | .092 | .753 | no | sdone | no |
 | Oct 6 00:55 | S_VWAPT_rnd_iss_gpa | VWAPT+rnd+iss+gpa | | | | | | .096 | .739 | no | sdone | no |
+| Oct 6 night | S_ILLIQ_rnd_iss_gpa | VWAPV+rnd+iss+gpa | | | | | | .092 | .701 | no | sdone | no |
+| Oct 6 night | S_VWAPT_rnd_sbc_gpa_w2 | VWAPT+rnd+sbc+gpa | | | | | | .085 | .695 | no | sdone | no |
+| Oct 6 night | S_VWAPT_sbc_iss_fcf_w2 | VWAPT+sbc+iss+fcf | | | | | | .067 | .682 | no | sdone | no |
+| Oct 6 night | S_COMP5_slow | COMP | | | | | | .050 | .571 | no (irtvr .226 OK, IR low) | sdone | no |
+| Oct 6 night | S_CI_sbc_iss_fcf_w2 | CI+sbc+iss+fcf | | | | | | .078 | .646 | no | sdone | no |
+| Oct 6 night | S_BL1_subind | VWAPT+rnd+sbc+gpa | | | | | | .088 | .715 | no | sdone | no |
+| Oct 6 night | S_VWAPT_vol_iss | VWAPT+RSJ+VIXB+iss | | | | | | .053 | .772 | no | sdone | no |
+| Oct 6 night | S_LATEVOL_sbc_iss_fcf_w2 | LVREV+sbc+iss+fcf | | | | | | .075 | .527 | no (NEAR MISS) | sdone | no |
+| Oct 6 night | Q_52WH | 52WH | | | | | | -.020 | .662 | no | sdone | no |
+| Oct 6 night | Q_FROG | FROG | | | | | | | | | sfail (loading_data), requeued lb 520 | no |
+| Oct 6 night | Q_TUGOFWAR | OVN | | | | | | .027 | .594 | no | sdone | no |
+| Oct 6 night | Q_HVRP | HVRP | | | | | | -.012 | .340 | no | sdone | no |
+| Oct 6 night | Q_VALxQUAL | QV | | | | | | -.003 | .657 | no | sdone | no |
+| Oct 6 night | Q_ACCR_AG | ACCR | | | | | | .067 | .879 | no (irtvr .298) | sdone | no |
+| Oct 6 night | Q_BAB | BAB | | | | | | -.018 | .681 | no | sdone | no |
+| Oct 6 night | Q_MAX_RETAIL | MAX | | | | | | .002 | .611 | no | sdone | no |
+| Oct 6 night | Q_LEADLAG | LL | | | | | | -.030 | .613 | no | sdone | no |
+| Oct 6 night | Q_EPSMOM | EMOM | | | | | | -.021 | .387 | no | sdone | no |
