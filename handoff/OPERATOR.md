@@ -26,6 +26,15 @@ Branch: `claude/focused-fermat-5fdhyo` (shared with the cloud master). Every vis
    Y_PLsz_ACC_w07, sid 698181, which kept running on the server).
 After any later page reload by accident: re-paste runner.js + `RUNNER()` and px.js (jobs survive in localStorage).
 
+## After a pause (laptop closed, slept or restarted) — for Abhinav
+Nothing is lost: a simulation already running finishes on Trexsim's servers and the runner collects it on wake.
+1. Open the laptop, make sure the Chrome window with the "RUNNER - do not reload" tab is visible.
+2. Claude Desktop still open with the loop running: do nothing; the next 30-min visit ticks the runner.
+3. Claude Desktop was closed or the laptop restarted: in a Desktop session (Sonnet, repo folder) paste
+   `/loop 30m Operator visit: git pull, then follow handoff/OPERATOR.md "Every visit"`.
+4. Chrome was closed too (runner tab gone): paste the first-visit message from `handoff/NEW_CHAT_START.md` first;
+   it rebuilds the runner from `runner/runner.js` (jobs survive in localStorage), then start the loop (step 3).
+
 ## Automatic mode (approved by Abhinav, Oct 6): run yourself every 30 minutes
 Speed matters: an alpha that waits in the repo can be taken by another participant. After the first visit, Abhinav
 starts `/loop 30m Operator visit: git pull, then follow handoff/OPERATOR.md "Every visit"` so no human is needed.

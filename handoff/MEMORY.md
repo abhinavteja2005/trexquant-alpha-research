@@ -1,6 +1,19 @@
 # MEMORY: state and playbook
 
-## LATEST (Oct 6, 17:20 IST): 5 SUBMITTED; RUNNER TAB CLOSED FOR HANDOVER (Plan B)
+## LATEST (Oct 6, ~19:30 IST): WORK SPLIT — CLOUD RESEARCHES, LAPTOP OPERATES THE RUNNER
+- Branch for everything: `claude/focused-fermat-5fdhyo` (cloud master and laptop operator both pull/push it).
+- **Cloud master** (claude.ai/code session `trexquant-alpha-research-4f`, Opus, paid from the credit): all research.
+  Scheduled cycle every 3 h (Routine "TrexQuant research cycle (every 3h)"): sync snapshot -> triage/repair ->
+  Scout/Writer/blind Critic -> check -> `alphas/queue/next.json` + `ops.json` -> registry/report/lessons -> 5-line report.
+  It cannot reach Chrome or the laptop.
+- **Laptop operator** (Claude Desktop on the Windows ASUS laptop, Sonnet, Claude in Chrome): the ONLY hands on the
+  runner. `/loop 30m` per `handoff/OPERATOR.md`: health, mark hand submissions, snapshot -> repo, PX requests,
+  skips, load next.json at the front, flag ELIGIBLE alphas. Never researches, never deletes.
+- **Abhinav**: keeps the laptop on with Chrome visible; submits ELIGIBLE alphas by hand if he wants; decides any
+  deletion. After a pause, see "After a pause" in `handoff/OPERATOR.md`.
+- Runner rebuilt by the operator on Oct 6 ~19:20 (first visit: hand submission reconciled, 116-row snapshot).
+
+## Oct 6, 17:20 IST: 5 SUBMITTED; RUNNER TAB CLOSED FOR HANDOVER (Plan B)
 - Abhinav submitted a 5th alpha by hand at ~17:15 (the portal allowed it through the IR/sqrt(TVR) 1.2x route). Its tag/ID is not yet recorded: most likely Y_PLsz_ACC_w07 (sid 698181, in flight at handover). Desktop: identify it from the portal's submission status, mark it `submitted` in R.jobs, and update the registry and report.
 - The cloud chat ran R.save() (168 jobs: 13 Slow + 25 Fast queued, Y_PLsz_ACC_w07 in flight as sid 698181), stopped its runner and closed the tab. Desktop: open https://www.trexsim.com/trexsim/pysim/alphalist in your group, paste runner/runner.js (NOT localStorage.R3_code), call RUNNER(), check R.counts() and R.cur(), set R3_owner. The repo runner honours each job's j.lb (all queued jobs carry lb <= 300), so the old wlb patch is not needed.
 
