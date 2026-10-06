@@ -1,6 +1,6 @@
 # MEMORY: state and playbook (updated Oct 6, 10:15 IST by the cloud chat)
 
-Read this first. It supersedes the Oct 5 handoff. Details: `knowledge/lessons.md`, `alphas/ledger.md`.
+Read this first, then `handoff/AUTORESEARCHER.md` (the build-and-loop program, including the runner OWNERSHIP handover). It supersedes the Oct 5 handoff. Details: `knowledge/lessons.md`, `alphas/ledger.md`.
 
 ## State
 - SUBMITTED: 3. Target 100.
@@ -31,7 +31,7 @@ Read this first. It supersedes the Oct 5 handoff. Details: `knowledge/lessons.md
 1. NEW slow composites that are NOT T_COMP7: fundamental CHANGES (Piotroski/Soliman: dROA, dCFO/assets, -dleverage, dturnover, dmargin: U_FMOM5 running), ratio-group signals (ebit_yield, cash_to_total_assets_ratio, times_interest_earned_ratio, dividend/payout, sell_and_admin_exp_to_net_sales_ratio, net_debt_to_ebitda), edgar items not yet used. Aim: IR > .072, TVR < .1, corr < .5 to T_COMP7.
 2. New reversal bases (not VWAP gap, not LATEVOL) x a NEW slow composite at 2-3x weight.
 3. Desktop cycle-1 families (vol-of-vol, coskew, downside beta, trade size, MAX): if any has Slow IR > .03 with low pool corr, use it as a blend partner.
-4. Before queueing a blend, estimate its corr with our 3 submissions from daily PnL (fetch `/trexsim/pysim/alpha/<id>/?format=json`, `simresdata`); skip anything > .5 unless its irtvr will clear 1.2x.
+4. Before queueing a blend, paste `runner/px.js` and use `PX.blend` / `PX.own` (reads ~.04-.08 above the portal's number, so it is conservative). Otherwise estimate its corr with our 3 submissions from daily PnL (fetch `/trexsim/pysim/alpha/<id>/?format=json`, `simresdata`); skip anything > .5 unless its irtvr will clear 1.2x.
 
 ## Rules
 - One runner, one tab. Only `window.R` starts simulations. Never reload or navigate the runner tab; use another tab to browse. If `window.R` is missing, rebuild from `localStorage.R3_code` or `runner/runner.js` (state survives in `localStorage.R3_jobs`).
