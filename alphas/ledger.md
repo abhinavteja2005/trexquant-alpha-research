@@ -59,3 +59,4 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 6 am | T_LATE_sub_w2 | LVREV | | | | | | .079 | .895 own | no | sdone | no |
 | Oct 6 am | T_COMP5b | COMP | | | | | | .069 | .888 own | no | sdone | no |
 | Oct 6 am | T_COMP7_sub | COMP | | | | | | .057 | .865 own | no | sdone | no |
+| Oct 6 10:10 | U_VWAPT_szvo | VWAPT size+vol neutral | | | | | | .051 | .612 | no | sdone | no |
