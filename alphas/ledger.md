@@ -151,3 +151,4 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 1:42 | R_RIAwk_r07 | R_RIA |  |  |  |  |  | .076 | .981@707365 own (irtvr .171 vs bar .215) | no | sdone | no |
 | Oct 7 2:12 | R_IAwk_szvo | R_RIA |  |  |  |  |  | .079 | .915@707365 own (irtvr .156 vs bar .215) | no | sdone | no |
 | Oct 7 2:43 | Y_PLsz_ACC_w16 | Y_ACC |  |  |  |  |  | .118 | .940@698181 own (irtvr .149 vs bar .144) | yes | submitted | YES |
+| Oct 7 3:12 | Y_PLsz_ACC_w20 | Y_ACC |  |  |  |  |  | .118 | .993@708808 own (irtvr .158 vs bar .179) | no | sdone | no |
