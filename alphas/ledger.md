@@ -159,3 +159,20 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 4:12 | SW_L_CPOLTD33 | SW_DOLLAR |  |  |  |  |  | .035 | .167@655304 | no | sdone | no |
 | Oct 7 4:12 | SW_L_DTALT70 | SW_DOLLAR |  |  |  |  |  | .017 | .286@700897 | no | sdone | no |
 | Oct 7 4:12 | SW_L_DA60 | SW_DOLLAR |  |  |  |  |  | -.009 | .287@631112 | no | sdone | no |
+| Oct 7 4:42 | SW_L_EOERCO55 | SW_DOLLAR |  |  |  |  |  | .019 | .234@578055 | no | sdone | no |
+| Oct 7 4:42 | SW_L_LTD22 | SW_DOLLAR |  |  |  |  |  | -.024 | .687@578688 (irtvr -.141 vs bar .210) | no | sdone | no |
+| Oct 7 4:42 | SW_L_STI78 | SW_DOLLAR |  |  |  |  |  | .013 | .439@596206 | no | sdone | no |
+| Oct 7 4:42 | SW_L_TOE60 | SW_DOLLAR |  |  |  |  |  | .005 | .351@636060 | no | sdone | no |
+| Oct 7 4:42 | SW_L_ANR30 | SW_DOLLAR |  |  |  |  |  | .017 | .303@656049 | no | sdone | no |
+| Oct 7 4:42 | SW_L_AP44 | SW_DOLLAR |  |  |  |  |  | .012 | .342@661646 | no | sdone | no |
+| Oct 7 4:42 | SW_L_AREN21 | SW_DOLLAR |  |  |  |  |  | .035 | .302@686804 | no | sdone | no |
+| Oct 7 4:42 | SW_L_AD4 | SW_DOLLAR |  |  |  |  |  | .028 | .147@697346 | no | sdone | no |
+| Oct 7 4:42 | SW_L_APIC78 | SW_DOLLAR |  |  |  |  |  | -.012 | .538@707365 own (irtvr -.063 vs bar .215) | no | sdone | no |
+| Oct 7 4:42 | SW_L_TSA62 | SW_DOLLAR |  |  |  |  |  | .001 | .217@577441 | no | sdone | no |
+| Oct 7 4:42 | SW_L_BSCNCI28 | SW_DOLLAR |  |  |  |  |  | .023 | .553@596206 (irtvr .126 vs bar .353) | no | sdone | no |
+| Oct 7 4:42 | SW_L_CS49 | SW_DOLLAR |  |  |  |  |  | -.004 | .454@577441 | no | sdone | no |
+| Oct 7 4:42 | SW_L_CAR57 | SW_DOLLAR |  |  |  |  |  | .033 | .599@596206 (irtvr .196 vs bar .353) | no | sdone | no |
+| Oct 7 4:42 | SW_L_CL89 | SW_DOLLAR |  |  |  |  |  | .052 | .468@659377 | no | sdone | no |
+| Oct 7 4:42 | SW_L_DTL94 | SW_DOLLAR |  |  |  |  |  | .011 | .332@655304 | no | sdone | no |
+| Oct 7 4:42 | SW_L_G89 | SW_DOLLAR |  |  |  |  |  | -.035 | .605@687343 (irtvr -.213 vs bar .166) | no | sdone | no |
+| Oct 7 4:42 | SW_L_I42 | SW_DOLLAR |  |  |  |  |  | .029 | .546@677624 (irtvr .168 vs bar .263) | no | sdone | no |
