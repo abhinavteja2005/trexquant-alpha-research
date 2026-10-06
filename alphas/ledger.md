@@ -176,3 +176,22 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 4:42 | SW_L_DTL94 | SW_DOLLAR |  |  |  |  |  | .011 | .332@655304 | no | sdone | no |
 | Oct 7 4:42 | SW_L_G89 | SW_DOLLAR |  |  |  |  |  | -.035 | .605@687343 (irtvr -.213 vs bar .166) | no | sdone | no |
 | Oct 7 4:42 | SW_L_I42 | SW_DOLLAR |  |  |  |  |  | .029 | .546@677624 (irtvr .168 vs bar .263) | no | sdone | no |
+| Oct 7 5:13 | SW_L_LTB28 | SW_DOLLAR |  |  |  |  |  | -.024 | .697@578688 (irtvr -.142 vs bar .210) | no | sdone | no |
+| Oct 7 5:13 | SW_L_MSAOST52 | SW_DOLLAR |  |  |  |  |  | .006 | .237@596206 | no | sdone | no |
+| Oct 7 5:13 | SW_L_OCA32 | SW_DOLLAR |  |  |  |  |  | .023 | .269@654174 | no | sdone | no |
+| Oct 7 5:13 | SW_L_OLTL53 | SW_DOLLAR |  |  |  |  |  | .006 | .377@707365 own | no | sdone | no |
+| Oct 7 5:13 | SW_L_OSTL84 | SW_DOLLAR |  |  |  |  |  | -.009 | .410@707365 own | no | sdone | no |
+| Oct 7 5:13 | SW_L_PRE5 | SW_DOLLAR |  |  |  |  |  | .004 | .549@577441 (irtvr .025 vs bar .138) | no | sdone | no |
+| Oct 7 5:13 | SW_L_REAOE16 | SW_DOLLAR |  |  |  |  |  | .002 | .546@577441 (irtvr .012 vs bar .138) | no | sdone | no |
+| Oct 7 5:13 | SW_L_STB59 | SW_DOLLAR |  |  |  |  |  | -.005 | .181@631112 | no | sdone | no |
+| Oct 7 5:13 | SW_L_TEPC45 | SW_DOLLAR |  |  |  |  |  | -.003 | .302@581701 | no | sdone | no |
+| Oct 7 5:13 | SW_L_TL60 | SW_DOLLAR |  |  |  |  |  | .004 | .412@581701 | no | sdone | no |
+| Oct 7 5:13 | SW_L_TOPAE77 | SW_DOLLAR |  |  |  |  |  | .000 | .311@578688 | no | sdone | no |
+| Oct 7 5:13 | SW_L_APAA29 | SW_DOLLAR |  |  |  |  |  | -.004 | .229@595355 | no | sdone | no |
+| Oct 7 5:13 | SW_L_CEPA20 | SW_DOLLAR |  |  |  |  |  | -.004 | .321@655182 | no | sdone | no |
+| Oct 7 5:13 | SW_L_CFFA50 | SW_DOLLAR |  |  |  |  |  | -.025 | .602@576233 (irtvr -.122 vs bar .164) | no | sdone | no |
+| Oct 7 5:13 | SW_L_CFIA92 | SW_DOLLAR |  |  |  |  |  | .008 | .478@675326 | no | sdone | no |
+| Oct 7 5:13 | SW_L_CII91 | SW_DOLLAR |  |  |  |  |  | .025 | .251@586157 | no | sdone | no |
+| Oct 7 5:13 | SW_L_DIT73 | SW_DOLLAR |  |  |  |  |  | .024 | .459@668152 | no | sdone | no |
+| Oct 7 5:13 | SW_L_DP8 | SW_DOLLAR |  |  |  |  |  | .015 | .434@576233 | no | sdone | no |
+| Oct 7 5:13 | REG_PKCC_REV | REG_RANGECC |  |  |  |  |  |  |  |  | sfail | no |
