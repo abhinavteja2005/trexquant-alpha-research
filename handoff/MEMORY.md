@@ -28,6 +28,7 @@ Read this first, then `handoff/AUTORESEARCHER.md` (the build-and-loop program, i
 - Never use trading_days_until_next_earnings_announcement.
 
 ## Next directions (ranked)
+0. REPAIR near-misses first (`knowledge/repair-playbook.md`, `PX.triage`, log in `knowledge/repairs.md`). Pending repair tests queued at 11:15: U_PRICE2_s3, U_FMOM5_d120, U_FMOM5_lb330, R_PRICE2_band, R_PRICE2_ewm, R_RIG_weekly.
 1. NEW slow composites that are NOT T_COMP7: fundamental CHANGES (Piotroski/Soliman: dROA, dCFO/assets, -dleverage, dturnover, dmargin: U_FMOM5 running), ratio-group signals (ebit_yield, cash_to_total_assets_ratio, times_interest_earned_ratio, dividend/payout, sell_and_admin_exp_to_net_sales_ratio, net_debt_to_ebitda), edgar items not yet used. Aim: IR > .072, TVR < .1, corr < .5 to T_COMP7.
 2. New reversal bases (not VWAP gap, not LATEVOL) x a NEW slow composite at 2-3x weight.
 3. Desktop cycle-1 families (vol-of-vol, coskew, downside beta, trade size, MAX): if any has Slow IR > .03 with low pool corr, use it as a blend partner.
