@@ -109,3 +109,4 @@ trading). Links: `knowledge/autoresearch-survey.md`, `knowledge/repair-playbook.
   - closing-auction pressure;
   - residual reversal (Blitz et al. 2013);
   - slow momentum partners: residual momentum, the dtype-fixed frog-in-the-pan, volume-confirmed momentum.
+- **Oct 6 17:20: 5 submitted; cloud chat retires.** Abhinav submitted a 5th alpha by hand through the IR/sqrt(TVR) route; Desktop will identify it (most likely the first accrual-partner blend). Hard rule added: no Claude may delete or withdraw any alpha or submission; deletion ideas are reported to Abhinav. The local Claude Desktop session now owns the runner and runs the auto-researcher loop (`handoff/AUTORESEARCHER.md`). The cloud chat stays available for second opinions only.

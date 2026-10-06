@@ -1,6 +1,7 @@
 # MEMORY: state and playbook
 
-## LATEST (Oct 6, 17:10 IST): RUNNER TAB CLOSED FOR HANDOVER (Plan B)
+## LATEST (Oct 6, 17:20 IST): 5 SUBMITTED; RUNNER TAB CLOSED FOR HANDOVER (Plan B)
+- Abhinav submitted a 5th alpha by hand at ~17:15 (the portal allowed it through the IR/sqrt(TVR) 1.2x route). Its tag/ID is not yet recorded: most likely Y_PLsz_ACC_w07 (sid 698181, in flight at handover). Desktop: identify it from the portal's submission status, mark it `submitted` in R.jobs, and update the registry and report.
 - The cloud chat ran R.save() (168 jobs: 13 Slow + 25 Fast queued, Y_PLsz_ACC_w07 in flight as sid 698181), stopped its runner and closed the tab. Desktop: open https://www.trexsim.com/trexsim/pysim/alphalist in your group, paste runner/runner.js (NOT localStorage.R3_code), call RUNNER(), check R.counts() and R.cur(), set R3_owner. The repo runner honours each job's j.lb (all queued jobs carry lb <= 300), so the old wlb patch is not needed.
 
 - NEW DIRECTIONS (17:30): `ideas/cards-oct6-new-families.md`: market making (toxicity-aware and trade-size-aware reversal, closing-auction pressure), residual reversal, morning-anchor reversion, and slow momentum partners (residual momentum, dtype-fixed FROG, volume-confirmed momentum). Stop building the saturated families (VWAP-gap / late-day + fundamental change, R&D / gross-profit blends).
