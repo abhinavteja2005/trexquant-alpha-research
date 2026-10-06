@@ -54,7 +54,7 @@ delete submissions, type credentials, or simulate by hand on the portal while th
   `knowledge/repair-playbook.md` (band, ewm, weekly, w10, szvo, slow2x, slow3x, multihorizon, winsor, gate), write
   the variant with the parent's Thesis/Source lines, a `# Repair:` line and per-line comments, and the right
   `lb`/`wlb`. Test: reproduces R_PRICE2_band from U_PRICE2_szvo.
-- B4. Fill gaps in `tools/ledger_sync.py` so it records Slow metrics (ir, tvr, irtvr, corr, corrId, corrIrTvr,
+- B4. Fill gaps in `tools/ledger_sync.py` so it also regenerates `alphas/registry.csv`/`.md` (same columns and status names as the Oct 6 version, every job in `R.jobs`) and records Slow metrics (ir, tvr, irtvr, corr, corrId, corrIrTvr,
   oos1, rw, best, vt) and the `submitted` state. Test: the 3 submissions appear in the ledger with `YES`.
 
 ## 2b. Triage and repair (run FIRST, then on every new result)
@@ -98,7 +98,7 @@ jobs a day.
 4. Filter: `check_alpha.py` -> `originality.py` -> drop duplicates. Expect ~15 survivors.
 5. Queue: `make_queue.py SLOW:<file>` -> `R.add`, then set `squeued`, explicit `lb` AND `wlb` (the live tab honours `wlb` via a patched R.lookback; keep it <= 330, and 260 is proven), then `R.save()`. Slow mode only sees `lookback` days, so lookback must cover the longest window + delay (+ ~70 days for ts_fill). At most 5 per
    family. Never Fast for correlation questions.
-6. Log: commit and push the ledger, lessons, drafts and `reports/status.md`. Report to Abhinav in 5 lines.
+6. Log: regenerate `alphas/registry.csv` + `alphas/registry.md` from the runner (EVERY alpha, good or bad, with its status); append a dated Changelog entry to `reports/RESEARCH_REPORT.md` (what ran, results, how alphas were modified, lessons, next); update `knowledge/repairs.md`, the ledger, lessons and `reports/status.md`; commit and push. Report to Abhinav in 5 lines.
 
 Keep / discard (the metric): an alpha is KEPT if the runner submits it. A near-miss is kept as a mutation parent.
 Everything else is logged and dropped. At equal score, simpler wins.
