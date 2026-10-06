@@ -36,7 +36,7 @@ delete submissions, type credentials, or simulate by hand on the portal while th
 | Memory | `handoff/MEMORY.md`, `knowledge/lessons.md`, `alphas/ledger.md`, `ideas/backlog.md`, `reports/families.md` | free |
 
 ## 2. Build tasks (do these once, before running cycles; each has a test)
-- B0. Paste `runner/px.js` into the runner tab. Test: `PX.own('T_LATE_s3_w2')` returns about `{T_LATE_w3: .99, ...}`.
+- B0. Paste `runner/px.js` into the runner tab. Tests: `PX.own('T_LATE_s3_w2')` returns about `{T_LATE_w3: .99, ...}`; `PX.triage()` lists the rejected near-misses with their bars.
   Note: PX correlation reads .04-.08 HIGHER than the portal's figure, so it is a conservative filter.
 - B1. `tools/originality.py` (AlphaAgent originality / Alpha Jungle subtree avoidance): parse each draft's code
   into a normalised token or AST set (variables + operators + windows, ignoring comments). Report the max Jaccard
@@ -50,8 +50,33 @@ delete submissions, type credentials, or simulate by hand on the portal while th
   `PX.pair` corr < .4, try `PX.blend([[a,1],[b,w]])` for w in {.5, 1, 2, 3}. Queue the real blend only if the
   predicted IR >= .08 and every `ownCorr` < .55. Write the blend as one documented alpha (both theses, both
   sources).
+- B5. `tools/repair.py`: given a parent tag (its expr from `alphas/drafts/*.json`) and a technique name from
+  `knowledge/repair-playbook.md` (band, ewm, weekly, w10, szvo, slow2x, slow3x, multihorizon, winsor, gate), write
+  the variant with the parent's Thesis/Source lines, a `# Repair:` line and per-line comments, and the right
+  `lb`/`wlb`. Test: reproduces R_PRICE2_band from U_PRICE2_szvo.
 - B4. Fill gaps in `tools/ledger_sync.py` so it records Slow metrics (ir, tvr, irtvr, corr, corrId, corrIrTvr,
   oos1, rw, best, vt) and the `submitted` state. Test: the 3 submissions appear in the ledger with `YES`.
+
+## 2b. Triage and repair (run FIRST, then on every new result)
+Most of our IR is already found; it is blocked by correlation. Repairing near-misses is cheaper than new ideas.
+1. One-time audit (the first thing after taking over):
+   a. `PX.triage(.065)` lists every finished, unsubmitted Slow alpha with IR >= .065, its blocker, its bar
+      (1.2 x the blocker's IR/sqrt(TVR)) and the turnover needed to clear it.
+   b. Fast-only alphas with Fast IR >= .075 were never judged in Slow (e.g. c_intra .090): queue them in Slow.
+   c. Slow alphas that used 250-day delays on filing data (issuance, asset growth) ran with a 140-day lookback,
+      so those parts were empty. Re-run the best ones with `wlb` 330: they are now different alphas.
+   d. For each triaged parent choose the route by the numbers (`knowledge/repair-playbook.md`):
+      - needTVR >= ~0.35 x TVR: Route A (cut turnover): slow-blend, banding, EWMA, weekly rebalance, longer windows.
+      - TVR route hopeless: Route B (lower corr): horizon change, size/vol neutral, gating, an unrelated partner.
+      - IR .060-.072: Route C (raise IR): multi-horizon, winsorize, regime gate, combine near-misses.
+      Generate at most 4 variants per parent (`tools/repair.py`), check them, queue them first.
+2. On the spot: at every check, any job that has just become `sdone` (not submitted) with IR >= .065 goes through
+   step 1d at once. Do not wait for the cycle.
+3. Memory: append every repaired variant to `knowledge/repairs.md` (technique, before/after IR, TVR, corr and
+   bar). Before choosing a technique, read that table: prefer techniques with the best measured gain, and stop
+   using ones that failed 3 times on similar parents. When writing NEW alphas, read the ledger first: avoid
+   families and blockers (#570310, #605850, #604930, our own submissions) that have already rejected similar
+   ideas, and design for the IR/sqrt(TVR) route from the start (low turnover).
 
 ## 3. The cycle (Karpathy-style; do not ask Abhinav whether to continue)
 Trigger: Slow queue (`squeued` + `ssim`) < 8 jobs. A normal day needs 3-5 cycles; the simulator runs ~60-100 Slow
@@ -60,7 +85,7 @@ jobs a day.
 2. Learn: for each new Slow result note IR, irtvr, corrId and the bar it needed (1.2 x corrIrTvr). Add 1-3 numeric
    lessons. If something was submitted, run `PX.own` on it and record its correlations with the others.
 3. Generate ~20 drafts, in this priority order (cheapest first):
-   a. Deterministic: `mutate.py --auto` on near-misses (IR >= .065, or irtvr within 15% of its bar), and the B3
+   a. Deterministic, FIRST: repairs from section 2b (`repair.py`), `mutate.py --auto` on near-misses, and the B3
       blend search. No LLM needed.
    b. LLM pod, in parallel, sized to the bandit slots:
       - Scout (Opus): 6-8 idea cards with an opened source URL, in families the bandit favours or has not yet

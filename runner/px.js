@@ -47,5 +47,18 @@
       const idx = new Map(t5.map((t, i) => [t, i])); own[s] = +cor(tt.map((t) => last[idx.get(t)]), vals(S, tt)).toFixed(3); });
     return { ir: +(mean(full) / sd(full)).toFixed(3), ownCorr: own };
   };
+  // Triage: every finished, unsubmitted Slow job with IR >= minIR, with what blocks it and what a repair must achieve.
+  // bar = 1.2 x the blocking pool alpha's IR/sqrt(TVR); needTVR = turnover at which today's IR would clear the bar.
+  PX.triage = function (minIR) {
+    minIR = minIR || 0.065;
+    return window.R.jobs.filter((j) => j.s && j.state !== 'submitted' && j.s.ir >= minIR).map((j) => {
+      const s = j.s, bar = s.corrIrTvr ? +(1.2 * s.corrIrTvr).toFixed(3) : null;
+      const needTVR = bar ? +Math.pow(s.ir / bar, 2).toFixed(3) : null;
+      let fix = s.ir < 0.072 ? 'RAISE IR to .072+' : (s.corr > 0.5 ? (needTVR && needTVR >= 0.05 ? 'CUT TVR ' + s.tvr + '->' + needTVR + ' or CORR ' + s.corr + '->.5' : 'CORR ' + s.corr + '->.5 (TVR route hopeless)') : 'check rw/best');
+      if (s.st && s.st.rw != null && s.st.rw < 0.04) fix += ' | rw ' + s.st.rw + ' < .04';
+      if (s.st && s.st.best != null && s.st.best > 0.5) fix += ' | best-year ' + s.st.best + ' > .5';
+      return [j.tag, 'ir' + s.ir, 'tvr' + s.tvr, 'irtvr' + s.irtvr, 'corr' + s.corr + '@' + s.corrId, 'bar' + bar, fix].join(' ');
+    });
+  };
 })();
 'PX ready';
