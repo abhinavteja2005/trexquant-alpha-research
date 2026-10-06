@@ -31,11 +31,12 @@ SRC_FUND = ("# Source: Green, Hand & Zhang, \"The Characteristics that Provide I
 SRC_INTRA = ("# Source: Heston, Korajczyk & Sadka, \"Intraday Patterns in the Cross-section of Stock Returns\" (Journal of "
              "Finance 2010), https://doi.org/10.1111/j.1540-6261.2010.01573.x")
 
-SKIP = {"industry", "sector", "subindustry", "trading_days_until_next_earnings_announcement", "cashdvd"}
+SKIP = {"industry", "sector", "subindustry", "trading_days_until_next_earnings_announcement", "cashdvd",
+        "total_assets", "total_liabilities_and_equity"}  # last two: /total_assets is ~1
 SKIP_RE = re.compile(r"^(days_|day_of|month_of|quarter_of|cpi_|gdp_|real_gdp|unemployment_|wti_|ret\d|close_spx|close_vix)"
-                     r"|deposits|non_interest|net_interest_income|collaterals")  # calendar/macro/returns; bank-only fields
+                     r"|deposits|non_interest|net_interest|interest_income|collaterals|per_employee|sales_revenue_turnover")  # calendar/macro/returns; bank-only fields
 INTRA_RE = re.compile(r"_(first|last)_hour$")
-RATIO_RE = re.compile(r"ratio|pct|margin|growth|yield|return_on|_roe|^roe|roa_|normalized_roe|_to_|per_employee|turnover")
+RATIO_RE = re.compile(r"(^|_)(ratio|pct|margin|growth|yield)($|_)|return_on|_roe|^roe|roa_|normalized_roe|_to_")
 PERSHARE_RE = re.compile(r"per_(diluted_)?share|eps")
 SHARES_RE = re.compile(r"shares|shsfloat")
 
@@ -52,6 +53,8 @@ def classify(v):
         return "SKIP"
     if SHARES_RE.search(v):
         return "SHARES"
+    if PERSHARE_RE.search(v) and not v.startswith(("price_to", "roa_")) and "growth" not in v:
+        return "PERSHARE"
     if RATIO_RE.search(v) or v.startswith(("price_to", "roa_")):
         return "RATIO"
     if PERSHARE_RE.search(v):
@@ -79,7 +82,7 @@ def norm_lines(v, cls):
     if cls == "DOLLAR":
         return [f"n = ts_fill({v})/ts_fill(total_assets)  # {v} scaled by total assets (dimensionless)"]
     if cls == "SHARES":
-        return [f"n = ts_fill({v})/ts_delay(ts_fill({v}), 120) - 1  # 6-month growth in {v} (dimensionless)"]
+        return [f"n = ts_fill({v})/at_zero2nan(ts_delay(ts_fill({v}), 60)) - 1  # 3-month growth in {v} (dimensionless)"]
     if v.startswith("skew_") or "return" in v:
         return [f"n = {v}  # {v}: intraday skewness / return dispersion, already dimensionless"]
     if v.startswith("std_volume"):
@@ -94,7 +97,8 @@ TEMPLATES = {
           "the cross-sectional LEVEL of {v} is a firm characteristic that investors price slowly"),
     "D": ({"RATIO", "PERSHARE", "DOLLAR"}, ["alpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms"], 220,
           "the 6-month CHANGE in {v} carries news that is under-reacted to (fundamental momentum)"),
-    "Z": ({"RATIO", "PERSHARE", "DOLLAR", "SHARES"}, ["alpha = cs_rank(ts_zscore(n, 120))  # today's value vs the firm's own 6-month history"], 220,
+    "Z": ({"RATIO", "PERSHARE", "DOLLAR", "SHARES"}, ["s = ts_std(n, 120)  # 6-month variability of n (0 between reports for slow fields)",
+           "alpha = cs_rank((n - ts_mean(n, 120))/at_zero2nan(s))  # today's value vs the firm's own 6-month history"], 280,
           "{v} far from its own recent history signals a shift the market has not fully priced"),
     "IF": ({"INTRA"}, ["alpha = -cs_zscore(ts_mean(n, 5))  # fade a week of unusual intraday readings"], 60,
            "an unusual week of {v} reflects temporary liquidity pressure that reverts"),
@@ -106,7 +110,8 @@ TEMPLATES = {
 def abbr(v):
     parts = [p for p in v.split("_") if p]
     s = "".join(p[0] for p in parts)[:6].upper()
-    return s + str(sum(map(ord, v)) % 97)
+    import hashlib
+    return s + hashlib.md5(v.encode()).hexdigest()[:3].upper()
 
 
 def make(v, cls, t, sign=1):
@@ -137,7 +142,19 @@ def main():
         allsw = {}
         for f in (ROOT / "alphas" / "drafts").glob("sweep-*.json"):
             allsw.update({it["tag"]: it for it in json.loads(f.read_text())})
-        items = [make(allsw[t]["field"], allsw[t]["family"][3:], allsw[t]["template"], -1) for t in a.flip if t in allsw]
+        flipped = set(state.setdefault("flipped", []))
+        items = []
+        for t in a.flip:
+            if t not in allsw or t.endswith("_N") or t in flipped:
+                print(f"flip skipped: {t} (unknown, already a flip, or already flipped)", file=sys.stderr)
+                continue
+            it = make(allsw[t]["field"], allsw[t]["family"][3:], allsw[t]["template"], -1)
+            if check(it["expr"])[0]:
+                print(f"flip skipped: {t} fails check_alpha", file=sys.stderr)
+                continue
+            items.append(it)
+            flipped.add(t)
+        state["flipped"] = sorted(flipped)
     else:
         used = used_fields()
         cand = []
