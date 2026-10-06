@@ -5,7 +5,8 @@ Usage: python tools/alpha101.py [out.json]   (default alphas/drafts/a101.json), 
 Mapping (paper -> Trexsim): rank->cs_rank, delay->ts_delay, correlation/covariance->ts_corr_binary,
 stddev->ts_std, sum->ts_sum, Ts_Rank->ts_rank, delta/decay_linear/ts_argmax/ts_argmin -> custom ops,
 returns->ret1, vwap->vwap_last_hour (approximation: the portal has no full-day VWAP), adv20->ts_mean(volume,20),
-cap->mktcap, x?y:z -> cond*y + (1-cond)*z, sign(x) -> ((x>0)-(x<0)).
+cap->mktcap, x?y:z -> c*y + (1-c)*z with c = (close/close)*(cond), sign(x) -> f*(x>0) - f*(x<0), f = close/close
+(numpy bool - bool crashes the portal; ts_*/cs_* need float32).
 Edits for this portal: price differences are divided by close (dimensionless, avoids split
 adjustments), windows are snapped to {3,5,10,20,40,60,120,250}, and IndNeutralize/parameter-fitted
 alphas (#48, #56-#100) are skipped (industry neutralization is already applied by the simulator).
@@ -34,14 +35,15 @@ ALPHAS = [
         ("alpha = -ts_corr_binary(open, volume, 10)", "negative 10-day correlation of open price and volume"),
     ]),
     (9, "A101_TREND", "Follow a move only when the last week was one-directional; otherwise fade it.", [
-        ("up = ts_min(ret1, 5) > 0", "every day of the last 5 was up"),
-        ("dn = ts_max(ret1, 5) < 0", "every day of the last 5 was down"),
-        ("trend = up + dn", "1 if the week was one-directional"),
+        ("up = (close/close)*(ts_min(ret1, 5) > 0)", "1.0 if every day of the last 5 was up"),
+        ("dn = (close/close)*(ts_min(-ret1, 5) > 0)", "1.0 if every day of the last 5 was down"),
+        ("trend = up + dn", "1.0 if the week was one-directional"),
         ("alpha = trend*ret1 - (1 - trend)*ret1", "momentum in clean trends, reversal otherwise"),
     ]),
     (12, "A101_VOLPX", "A price move made on rising volume reverses next day (liquidity shock).", [
         ("dv = delta(volume, 1)/ts_mean(volume, 20)", "change in volume, scaled by average volume"),
-        ("alpha = -((dv > 0) - (dv < 0))*ret1", "fade today's return in the direction of the volume change"),
+        ("sg = (close/close)*(dv > 0) - (close/close)*(dv < 0)", "sign of the volume change as float32 (+1/-1)"),
+        ("alpha = -sg*ret1", "fade today's return in the direction of the volume change"),
     ]),
     (14, "A101_VOLPX", "Accelerating returns combined with price-volume correlation tend to reverse.", [
         ("acc = delta(ret1, 3)", "3-day change in daily return"),
@@ -71,7 +73,7 @@ ALPHAS = [
         ("alpha = -ts_max(c, 3)", "short names with the highest recent co-peaking"),
     ]),
     (30, "A101_TREND", "Three straight up-closes on fading volume is a weak rally to sell.", [
-        ("s1 = (ret1 > 0) - (ret1 < 0)", "sign of today's return"),
+        ("s1 = (close/close)*(ret1 > 0) - (close/close)*(ret1 < 0)", "sign of today's return as float32 (+1/-1)"),
         ("s2 = ts_delay(s1, 1) + ts_delay(s1, 2)", "signs of the previous two days"),
         ("alpha = (1 - cs_rank(s1 + s2))*ts_sum(volume, 5)/ts_sum(volume, 20)", "fewer up days and higher recent volume is better"),
     ]),

@@ -78,6 +78,74 @@ def call_args(code, start):
     return args
 
 
+CMP = re.compile(r"<=|>=|==|!=|<|>")
+
+
+def top_level(text, chars):
+    """Split text at depth-0 occurrences of single-char operators in `chars` (keeps the operators)."""
+    parts, depth, cur = [], 0, ""
+    for i, ch in enumerate(text):
+        depth += ch == "("
+        depth -= ch == ")"
+        prev = text[:i].rstrip()
+        binary = prev and prev[-1] not in "(,=*/+-<>&|" and not re.search(r"\d[eE]$", prev)  # not unary/1e-5
+        if depth == 0 and ch in chars and binary:
+            parts += [cur, ch]
+            cur = ""
+        else:
+            cur += ch
+    return parts + [cur]
+
+
+def strip_parens(t):
+    """Remove redundant outer parentheses: '((a > b))' -> 'a > b', but not '(a) * (b)'."""
+    while t.startswith("(") and t.endswith(")"):
+        depth = 0
+        for k, ch in enumerate(t):
+            depth += ch == "("
+            depth -= ch == ")"
+            if depth == 0 and k < len(t) - 1:
+                return t
+        t = t[1:-1].strip()
+    return t
+
+
+def is_bool(text, flags):
+    """True if `text` evaluates to a numpy bool matrix: a comparison, a known flag, or a product of those."""
+    t = strip_parens(text.strip())
+    if re.fullmatch(r"[A-Za-z_]\w*", t):
+        return t in flags
+    prod = [x for x in top_level(t, "*&|") if x not in "*&|"]
+    if len(prod) > 1:
+        return all(is_bool(x, flags) for x in prod)
+    depth0 = t
+    while re.search(r"\([^()]*\)", depth0):
+        depth0 = re.sub(r"\([^()]*\)", "", depth0)  # comparisons inside (...) or calls don't count
+    return bool(CMP.search(depth0))  # comparisons bind loosest: any depth-0 one makes a bool
+
+
+def bool_errors(code_lines):
+    """Portal dtype rules (lessons Oct 6): bool - bool crashes; ts_*/cs_* reject bool inputs."""
+    errs, flags = [], set()
+    for i, line in enumerate(code_lines, 1):
+        m = re.match(r"\s*([A-Za-z_]\w*)\s*=(?!=)(.*)", line)
+        rhs = m.group(2) if m else line
+        texts = [rhs] + [a for c in re.finditer(r"\w+\s*\(", rhs) for a in call_args(rhs, c.end() - 1)]
+        for t in texts:
+            seq = top_level(t, "+-")
+            for k in range(1, len(seq) - 1, 2):
+                if seq[k] == "-" and is_bool(seq[k - 1], flags) and is_bool(seq[k + 1], flags):
+                    errs.append(f"line {i}: bool - bool crashes the portal; cast with (close/close)*(...) first")
+        for c in re.finditer(r"\b((?:ts|cs)_\w+)\s*\(", rhs):
+            args = call_args(rhs, c.end() - 1)
+            if args and is_bool(args[0], flags):
+                errs.append(f"line {i}: {c.group(1)} on a true/false flag fails (float32 only); use (close/close)*(...)")
+        if m:
+            name = m.group(1)
+            (flags.add if is_bool(rhs, flags) else flags.discard)(name)
+    return errs
+
+
 def check(expr):
     errs, warns = [], []
     lines = expr.splitlines()
@@ -131,6 +199,7 @@ def check(expr):
         allowed = ALLOWED_WINDOWS | ({1, 2} if m.group(1) == "delta" else set())  # delta takes a lag
         if ints and int(ints[-1]) not in allowed:
             errs.append(f"{m.group(1)} window {ints[-1]} not in {sorted(ALLOWED_WINDOWS)}")
+    errs += list(dict.fromkeys(bool_errors(code_lines)))  # nested call args can repeat a finding
     for m in re.finditer(r"ts_delay\s*\(", code):
         args = call_args(code, m.end() - 1)
         if len(args) > 1 and args[-1].lstrip().startswith("-"):

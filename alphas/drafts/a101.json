@@ -31,14 +31,14 @@
   "tag": "A101_009",
   "base": "A101",
   "family": "A101_TREND",
-  "expr": "# Thesis: Follow a move only when the last week was one-directional; otherwise fade it. (Alpha #9, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nup = ts_min(ret1, 5) > 0  # every day of the last 5 was up\ndn = ts_max(ret1, 5) < 0  # every day of the last 5 was down\ntrend = up + dn  # 1 if the week was one-directional\nalpha = trend*ret1 - (1 - trend)*ret1  # momentum in clean trends, reversal otherwise",
+  "expr": "# Thesis: Follow a move only when the last week was one-directional; otherwise fade it. (Alpha #9, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nup = (close/close)*(ts_min(ret1, 5) > 0)  # 1.0 if every day of the last 5 was up\ndn = (close/close)*(ts_min(-ret1, 5) > 0)  # 1.0 if every day of the last 5 was down\ntrend = up + dn  # 1.0 if the week was one-directional\nalpha = trend*ret1 - (1 - trend)*ret1  # momentum in clean trends, reversal otherwise",
   "source_url": "https://arxiv.org/abs/1601.00991"
  },
  {
   "tag": "A101_012",
   "base": "A101",
   "family": "A101_VOLPX",
-  "expr": "# Thesis: A price move made on rising volume reverses next day (liquidity shock). (Alpha #12, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ndv = delta(volume, 1)/ts_mean(volume, 20)  # change in volume, scaled by average volume\nalpha = -((dv > 0) - (dv < 0))*ret1  # fade today's return in the direction of the volume change",
+  "expr": "# Thesis: A price move made on rising volume reverses next day (liquidity shock). (Alpha #12, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ndv = delta(volume, 1)/ts_mean(volume, 20)  # change in volume, scaled by average volume\nsg = (close/close)*(dv > 0) - (close/close)*(dv < 0)  # sign of the volume change as float32 (+1/-1)\nalpha = -sg*ret1  # fade today's return in the direction of the volume change",
   "source_url": "https://arxiv.org/abs/1601.00991"
  },
  {
@@ -87,7 +87,7 @@
   "tag": "A101_030",
   "base": "A101",
   "family": "A101_TREND",
-  "expr": "# Thesis: Three straight up-closes on fading volume is a weak rally to sell. (Alpha #30, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ns1 = (ret1 > 0) - (ret1 < 0)  # sign of today's return\ns2 = ts_delay(s1, 1) + ts_delay(s1, 2)  # signs of the previous two days\nalpha = (1 - cs_rank(s1 + s2))*ts_sum(volume, 5)/ts_sum(volume, 20)  # fewer up days and higher recent volume is better",
+  "expr": "# Thesis: Three straight up-closes on fading volume is a weak rally to sell. (Alpha #30, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ns1 = (close/close)*(ret1 > 0) - (close/close)*(ret1 < 0)  # sign of today's return as float32 (+1/-1)\ns2 = ts_delay(s1, 1) + ts_delay(s1, 2)  # signs of the previous two days\nalpha = (1 - cs_rank(s1 + s2))*ts_sum(volume, 5)/ts_sum(volume, 20)  # fewer up days and higher recent volume is better",
   "source_url": "https://arxiv.org/abs/1601.00991"
  },
  {

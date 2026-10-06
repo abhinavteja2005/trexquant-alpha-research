@@ -13,7 +13,7 @@ import re
 import sys
 from pathlib import Path
 
-from check_alpha import call_args, check, strip_comment
+from check_alpha import IDENT, call_args, check, expr_hash, known_items, strip_comment
 from mutate import load_drafts
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -35,16 +35,16 @@ INFO = {
 
 # technique -> lines appended after 's = ...' (each ends in a comment)
 TEMPLATES = {
-    "band": [
+    "band": [  # weighted book (0/1 flags flip too often: R_PRICE2_band2 TVR 1.93); flags cast to float32
         "q = cs_rank(s)  # cross-sectional rank of the signal, in [1,2]",
-        "hl = (ts_max(q, 5) > 1.8)*(q > 1.6)  # long: was in the top tail within 5 days and still in the upper band",
-        "hs = (ts_min(q, 5) < 1.2)*(q < 1.4)  # short: was in the bottom tail within 5 days and still in the lower band",
-        "alpha = at_zero2nan(hl - hs)  # hold long/short until the rank leaves the band (buy-hold spread)",
+        "up = (q*0 + 1)*((ts_max(q, 5) > 1.8)*(q > 1.6))  # float32 1 (no extra variable) if the name reached the top tail in 5 days and is still in the upper band",
+        "dn = (q*0 + 1)*((ts_min(q, 5) < 1.2)*(q < 1.4))  # float32 1 if the name reached the bottom tail in 5 days and is still in the lower band",
+        "alpha = at_zero2nan((up + dn)*cs_zscore(s))  # hold the banded names at signal weight; no position elsewhere",
     ],
     "ewm": ["alpha = ts_mean_exp(s, 10, 0.7)  # exponentially smoothed signal: trade partially toward the target"],
     "weekly": [
         "s0 = at_nan2zero(s)  # signal with NaN as 0 so the stale-signal blend is defined",
-        "f0 = day_of_the_week < ts_delay(day_of_the_week, 1)  # 1 on the first trading day of the week",
+        "f0 = (day_of_the_week*0 + 1)*(day_of_the_week < ts_delay(day_of_the_week, 1))  # float32 1 on the week's first trading day",
         "f1 = ts_delay(f0, 1)  # 1 if the week started yesterday",
         "f2 = ts_delay(f0, 2)  # 1 if the week started 2 days ago",
         "f3 = ts_delay(f0, 3)  # 1 if the week started 3 days ago",
@@ -109,7 +109,7 @@ def swap_windows(line, old, new):
     spots = window_spots(code, old)
     for m in reversed(spots):
         code = code[:m.start()] + m.group().replace(str(old), str(new)) + code[m.end():]
-    return code + sep + (com.replace(f"{old}-day", f"{new}-day") if spots else com)
+    return code + sep + (re.sub(rf"(?<!\d){old}-day", f"{new}-day", com) if spots else com)
 
 
 def has_window(code, w):
@@ -157,11 +157,15 @@ def slow(code, k):
     inner = m.group(1) if m else e
     terms = top_split_plus(inner)
     fast = [t for t in terms if not is_slow(t, code)]
-    if len(terms) < 2 or len(fast) != 1:
-        die(f"slow{k}x needs exactly one fast (non-ts_fill) term; parent has {len(fast)} of {len(terms)}")
+    if len(terms) < 2:
+        die(f"slow{k}x needs a final line that is a sum of terms; the parent's has one term")
+    if len(fast) != 1:
+        die(f"slow{k}x needs exactly one fast (non-ts_fill, short-window) term; parent has {len(fast)} of {len(terms)}")
+    if any(re.search(r"\*\s*\d+(\.\d+)?\s*$", t) for t in terms):
+        die(f"slow{k}x: write weights in front (k*term), not behind")
     out = []
     for t in terms:
-        g = re.fullmatch(r"\d+(?:\.\d+)?\s*\*\s*(\(.*\))", t)
+        g = re.fullmatch(r"\d+(?:\.\d+)?\s*\*\s*(.+)", t)  # drop any existing leading weight
         out.append(t if t in fast else f"{k}*{g.group(1) if g else t}")
     new = " + ".join(out)
     line = (f"alpha = at_zero2nan({new})" if m else f"alpha = {new}") + \
@@ -175,14 +179,14 @@ def multihorizon(code):
     _, e, com = parts(code[i])
     base = [f"s_5 = {e}  # {com or 'parent signal'}"]
     base_code = body + base
-    names = [parts(l)[0] for l in body if "=" in strip_comment(l)] + ["s"]
+    names = sorted({parts(l)[0] for l in body if "=" in strip_comment(l)} | {"s"}, key=len, reverse=True)
+    pat = re.compile(r"(?<![\w.])(" + "|".join(map(re.escape, names)) + r")(?![\w(])")
     extra = []
     for w in (10, 20):
         for l in body + [f"s = {e}  # {com or 'parent signal'}"]:
+            l = swap_windows(l, 5, w)  # rolling windows only, comments kept in step
             c, sep, cm = l.partition("#")
-            c = re.sub(r"(,\s*)5(\s*\))", rf"\g<1>{w}\g<2>", c)
-            for n in names:
-                c = re.sub(rf"(?<![\w.]){n}(?![\w(])", f"{n}_{w}", c)
+            c = pat.sub(lambda m: f"{m.group(1)}_{w}", c)  # one pass: no chained renames
             extra.append(c + sep + cm)
     # parent body (5-day) stays as written; s_5 is the 5-day signal
     final = "alpha = (cs_rank(s_5) + cs_rank(s_10) + cs_rank(s_20))/3  # average rank across 5/10/20-day horizons"
@@ -206,20 +210,32 @@ def apply(tech, code):
     return out + TEMPLATES[tech]
 
 
-def lookback(code_lines):
-    code = "\n".join(strip_comment(l) for l in code_lines)
-    win, dly = 0, 0
-    for m in re.finditer(r"\b(ts_\w+|decay_linear|delta)\s*\(", code):
-        args = call_args(code, m.end() - 1)
+WINCALL = re.compile(r"\b(ts_\w+|decay_linear|delta)\s*\(")
+LB_MAX = 300  # portal maximum ("Lookback cannot exceed 300", lessons Oct 6 11:45)
+
+
+def expr_need(text, needs):
+    """Days of history `text` needs: nested windows and lags add up, locals carry their own need."""
+    best = max([needs[n] for n in IDENT.findall(text) if n in needs] + [0])
+    for m in WINCALL.finditer(text):
+        args = call_args(text, m.end() - 1)
         ints = [int(a) for a in args[1:] if re.fullmatch(r"\d+", a)]
-        if not ints:
-            continue
-        if m.group(1) == "ts_delay":
-            dly = max(dly, max(ints))
-        else:
-            win = max(win, max(ints))
-    lb = win + dly + (70 if "ts_fill" in code else 0) + 20
-    return min(max(lb, 60), 330)
+        inner = max([expr_need(a, needs) for a in args if not re.fullmatch(r"[\d.]+|True|False", a)] + [0])
+        best = max(best, (ints[0] if ints else 0) + inner)
+    return best
+
+
+def lookback(code_lines):
+    """Slow lookback: the alpha's nested window/lag need, +70 for ts_fill, +20 warm-up, in [60, 300]."""
+    needs = {}
+    for l in code_lines:
+        c = strip_comment(l)
+        if re.match(r"\s*[A-Za-z_]\w*\s*=(?!=)", c):
+            name, rhs = c.split("=", 1)
+            needs[name.strip()] = expr_need(rhs, needs)  # sequential: redefinitions see earlier values
+    code = "\n".join(strip_comment(l) for l in code_lines)
+    lb = needs.get("alpha", 0) + (70 if "ts_fill" in code else 0) + 20
+    return min(max(lb, 60), LB_MAX)
 
 
 def ledger_metrics(tag):
@@ -230,7 +246,7 @@ def ledger_metrics(tag):
         c = [x.strip() for x in l.strip().strip("|").split("|")]
         if len(c) == 13 and c[1] == tag:
             ir = re.match(r"-?\.?\d+\.?\d*", c[8])
-            co = re.match(r"-?\.?\d+\.?\d*(@\d+)?", c[9])
+            co = re.match(r"-?\.?\d+\.?\d*(@\d+)?( own)?", c[9])
             if ir or co:
                 return (ir.group() if ir else None), (co.group() if co else None)
     return None, None
@@ -273,7 +289,15 @@ def main():
     errs, warns, _, nv = check(expr)
     if a.print:
         print(expr)
+    if expr_hash(expr) == expr_hash(par["expr"]):
+        die(f"{'+'.join(a.techniques)} leaves {a.parent}'s code unchanged (e.g. slow3x on a 3x parent)")
     out = Path(a.out)
+    tags, hashes = known_items(out.resolve())
+    if not a.force:
+        if tag in tags or tag in drafts:
+            die(f"tag {tag} already exists in the ledger or drafts; use --tag")
+        if expr_hash(expr) in hashes:
+            die(f"same code as {hashes[expr_hash(expr)]}")
     items = json.loads(out.read_text(encoding="utf-8")) if out.exists() else []
     if any(x["tag"] == tag for x in items) and not a.force:
         die(f"{tag} already in {out} (it may have run); use --tag or --force")

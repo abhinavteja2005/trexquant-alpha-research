@@ -35,11 +35,14 @@ def fingerprint(expr):
     return fp
 
 
-def same_structure(a, b):
-    """Same variables and operators (with counts), ignoring window literals."""
-    def core(c):
-        return Counter({k: v for k, v in c.items() if not k.startswith("#")})
-    return bool(core(a)) and core(a) == core(b)
+def skeleton(expr):
+    """Comment-free code with integers masked and local names numbered: equal skeletons = same alpha
+    up to windows/constants."""
+    code = "\n".join(strip_comment(l) for l in expr.splitlines() if strip_comment(l).strip())
+    local = list(dict.fromkeys(re.findall(r"^\s*([A-Za-z_]\w*)\s*=(?!=)", code, re.M)))
+    for i, n in enumerate(local):
+        code = re.sub(rf"(?<![\w.]){re.escape(n)}(?!\w)", f"L{i}_", code)
+    return re.sub(r"\s+", "", re.sub(r"(?<![\w.])\d+(\.\d+)?(?![\w.])", "N", code))
 
 
 def jaccard(a, b):
@@ -59,12 +62,12 @@ def ledger_rows():
 
 
 def references():
-    """tag -> (fingerprint, submitted) for every tested draft (one with a ledger row)."""
+    """tag -> (fingerprint, submitted, skeleton) for every tested draft (one with a ledger row)."""
     rows, refs = ledger_rows(), {}
     for f in (ROOT / "alphas" / "drafts").glob("*.json"):
         for it in json.loads(f.read_text(encoding="utf-8")):
             if it["tag"] in rows:
-                refs[it["tag"]] = (fingerprint(it["expr"]), rows[it["tag"]])
+                refs[it["tag"]] = (fingerprint(it["expr"]), rows[it["tag"]], skeleton(it["expr"]))
     return refs
 
 
@@ -77,20 +80,20 @@ def main(argv):
     parent = {it["tag"]: it.get("parent") for it in items}
     out = []
     for n, it in enumerate(items):
-        fp = fingerprint(it["expr"])
+        fp, sk = fingerprint(it["expr"]), skeleton(it["expr"])
         best, who = 0.0, "-"
         # earlier untested drafts in the same file count too (catches sibling duplicates)
-        pool = list(refs.items()) + [(x["tag"], (fingerprint(x["expr"]), False)) for x in items[:n]
-                                     if x["tag"] not in refs]
-        for tag, (rfp, sub) in pool:
+        pool = list(refs.items()) + [(x["tag"], (fingerprint(x["expr"]), False, skeleton(x["expr"])))
+                                     for x in items[:n] if x["tag"] not in refs]
+        for tag, (rfp, sub, rsk) in pool:
             if tag == it["tag"]:
                 continue
-            par = it.get("parent")
-            if par and (tag == par or parent.get(tag) == par):  # deliberate repair/mutation of its parent
-                continue
             s = jaccard(fp, rfp)
-            if s < 1 and same_structure(fp, rfp):
-                s = max(s, REJECT + 0.01)  # same variables and operators, only windows differ
+            if s < 1 and sk == rsk:
+                s = max(s, REJECT + 0.01)  # same code up to windows/constants
+            par = it.get("parent")
+            if par and (tag == par or parent.get(tag) == par) and s < 1 and sk != rsk:
+                continue  # a deliberate repair/mutation of its parent (exact copies are never exempt)
             if s > best:
                 best, who = s, tag + (" (submitted)" if sub else "")
         status = "REJECT" if best > REJECT else "WARN" if best > WARN else "OK"

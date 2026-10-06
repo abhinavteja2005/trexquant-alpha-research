@@ -1,7 +1,12 @@
 # Trexsim operators (from /trexsim/pysim/api/builtin_operators/, Oct 5)
 
-Alpha code is Python over (stocks x dates) matrices. Comparisons give 0/1 matrices, so write
-ternaries as `cond*a + (1-cond)*b`. Python `abs()` works. Avoid `np.*` until one sim confirms it.
+Alpha code is Python over (stocks x dates) matrices. Comparisons give numpy BOOL matrices:
+- `bool - bool` crashes the sim; ts_*/cs_* reject bool (and float64) inputs: they need float32.
+- Cast a flag with `(close/close)*(cond)` or, to avoid an extra variable, `(x*0 + 1)*(cond)` with any float32
+  matrix x already in the alpha (float32); never `1.0*cond` (float64). Sign: `f = close/close`,
+  `f*(x > 0) - f*(x < 0)`. Ternary: `c = f*(cond)`, then `c*a + (1 - c)*b`.
+- Python `abs()` works. Avoid `np.*` until one sim confirms it. cs_indneut groups must be integer codes
+  (`industry*0` = one all-stock group). Slow lookback max is 300.
 
 ## Builtin (32)
 | Operator | What it does |
