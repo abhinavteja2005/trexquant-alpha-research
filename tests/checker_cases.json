@@ -129,5 +129,30 @@
   "code": "alpha = cs_rank(ret1) - cs_indneut(cs_rank(ret1), industry*0)",
   "expect": "PASS",
   "origin": "fixed form for single all-stock group"
+ },
+ {
+  "name": "cs_indneut with industry directly (valid)",
+  "code": "alpha = cs_rank(ret1) - cs_indneut(cs_rank(ret1), industry)",
+  "expect": "PASS",
+  "origin": "reviewer D6: direct group variable"
+ },
+ {
+  "name": "cs_indneut with subindustry (valid)",
+  "code": "alpha = cs_rank(ret1) - cs_indneut(cs_rank(ret1), subindustry)",
+  "expect": "PASS",
+  "origin": "reviewer D6: subindustry group"
+ },
+ {
+  "name": "lookback warning (ts_fill + ts_delay 250)",
+  "code": "roa = ts_fill(return_on_assets)\nalpha = cs_rank(roa - ts_delay(roa, 250))",
+  "expect": "PASS",
+  "expect_warn": "lookback",
+  "origin": "reviewer D6: Rule C coverage (min_lb ~340 > 300)"
+ },
+ {
+  "name": "lookback OK (ts_delay 60 no ts_fill)",
+  "code": "alpha = cs_rank(ret1 - ts_delay(ret1, 60))",
+  "expect": "PASS",
+  "origin": "reviewer D6: Rule C should NOT warn (min_lb ~80)"
  }
 ]

@@ -223,7 +223,7 @@ def check(expr):
                 if assign:
                     resolved = assign.group(1).strip()
             # Check if any group variable name appears in the resolved expression
-            if not any(g in resolved for g in GROUPS):
+            if not any(re.search(r'\b' + g + r'\b', resolved) for g in GROUPS):
                 errs.append(f"cs_indneut group '{group_arg}' must use a group variable (industry/subindustry/sector); "
                             f"use industry*0 for one all-stock group")
 

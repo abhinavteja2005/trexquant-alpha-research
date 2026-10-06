@@ -19,13 +19,17 @@ def main():
     bad = 0
     for c in cases:
         code = "\n".join(l if "#" in l else l + "  # c" for l in c["code"].splitlines())
-        errs = check(HEAD + code)[0]
+        errs, warns = check(HEAD + code)[:2]
         hit = [e for e in errs if c.get("match", "") in e] if c["expect"] == "FAIL" else errs
         ok = bool(hit) if c["expect"] == "FAIL" else not errs
+        if ok and c.get("expect_warn"):
+            ok = any(c["expect_warn"] in w for w in warns)
         bad += not ok
         if not ok:
-            print(f"REGRESSION {c['name']} (expected {c['expect']}{' ~ ' + c['match'] if c.get('match') else ''})"
-                  + "".join(f"\n  - {e}" for e in errs))
+            print(f"REGRESSION {c['name']} (expected {c['expect']}{' ~ ' + c['match'] if c.get('match') else ''}"
+                  f"{' warn~ ' + c['expect_warn'] if c.get('expect_warn') else ''})"
+                  + "".join(f"\n  - {e}" for e in errs)
+                  + ("".join(f"\n  ~ {w}" for w in warns) if c.get("expect_warn") else ""))
     print(f"{len(cases) - bad}/{len(cases)} checker cases OK")
     return 1 if bad else 0
 
