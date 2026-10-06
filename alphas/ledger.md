@@ -133,3 +133,6 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 6 20:12 | MO2_FROG2 | MO |  |  |  |  |  | .008 | .573@595355 (irtvr .023 vs bar .428) | no | sdone | no |
 | Oct 6 20:12 | MO3_VOLMOM | MO |  |  |  |  |  | .007 | .553@595355 (irtvr .023 vs bar .428) | no | sdone | no |
 | Oct 6 20:12 | LIQ_TURNCV | LIQ |  |  |  |  |  | .021 | .473@634793 | no | sdone | no |
+| Oct 6 20:41 | LIQ_ILLIQSHOCK | LIQ |  |  |  |  |  | .003 | .500@575475 | no | sdone | no |
+| Oct 6 20:41 | MOMX_STMOM_HITURN | MOMX |  |  |  |  |  | -.012 | .510@579357 (irtvr -.021 vs bar .198) | no | sdone | no |
+| Oct 6 20:41 | MOMX_SEASON_1Y | MOMX |  |  |  |  |  | .026 | .392@607689 | no | sdone | no |
