@@ -129,3 +129,7 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 6 19:12 | MM1_TOXREV | MM |  |  |  |  |  | .059 | .628@640672 (irtvr .060 vs bar .119) | no | sdone | no |
 | Oct 6 19:42 | MM2_SIZEREV | MM |  |  |  |  |  | .042 | .123@657905 | no | sdone | no |
 | Oct 6 19:42 | MM3_CLOSEPRESS | MM |  |  |  |  |  | .053 | .821@569727 (irtvr .051 vs bar .098) | no | sdone | no |
+| Oct 6 20:12 | MO1_RESMOM | MO |  |  |  |  |  | .008 | .622@595355 (irtvr .026 vs bar .428) | no | sdone | no |
+| Oct 6 20:12 | MO2_FROG2 | MO |  |  |  |  |  | .008 | .573@595355 (irtvr .023 vs bar .428) | no | sdone | no |
+| Oct 6 20:12 | MO3_VOLMOM | MO |  |  |  |  |  | .007 | .553@595355 (irtvr .023 vs bar .428) | no | sdone | no |
+| Oct 6 20:12 | LIQ_TURNCV | LIQ |  |  |  |  |  | .021 | .473@634793 | no | sdone | no |
