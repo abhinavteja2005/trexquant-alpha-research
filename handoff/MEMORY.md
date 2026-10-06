@@ -1,6 +1,13 @@
 # MEMORY: state and playbook
 
-## LATEST (Oct 6, 16:45 IST, cloud chat handing over)
+## LATEST (Oct 6, 17:20 IST): 5 SUBMITTED; RUNNER TAB CLOSED FOR HANDOVER (Plan B)
+- Abhinav submitted a 5th alpha by hand at ~17:15 (the portal allowed it through the IR/sqrt(TVR) 1.2x route). Its tag/ID is not yet recorded: most likely Y_PLsz_ACC_w07 (sid 698181, in flight at handover). Desktop: identify it from the portal's submission status, mark it `submitted` in R.jobs, and update the registry and report.
+- The cloud chat ran R.save() (168 jobs: 13 Slow + 25 Fast queued, Y_PLsz_ACC_w07 in flight as sid 698181), stopped its runner and closed the tab. Desktop: open https://www.trexsim.com/trexsim/pysim/alphalist in your group, paste runner/runner.js (NOT localStorage.R3_code), call RUNNER(), check R.counts() and R.cur(), set R3_owner. The repo runner honours each job's j.lb (all queued jobs carry lb <= 300), so the old wlb patch is not needed.
+
+- NEW DIRECTIONS (17:30): `ideas/cards-oct6-new-families.md`: market making (toxicity-aware and trade-size-aware reversal, closing-auction pressure), residual reversal, morning-anchor reversion, and slow momentum partners (residual momentum, dtype-fixed FROG, volume-confirmed momentum). Stop building the saturated families (VWAP-gap / late-day + fundamental change, R&D / gross-profit blends).
+- DECISION: do not delete submission #695151. Its would-be replacements (X_PL_FM4_w1/_w05, X_VW_FM5_w1) are also blocked by #604930 (bar .173), so deleting gains nothing and loses a slot.
+
+## State at 16:45
 - SUBMITTED: 4. T_LATE_accr_w2, T_COMP7, T_LATE_w3 (IR/sqrt(TVR) route) and U_VWAPT_FMOM_w1 (corr .466 route; submitted manually by Abhinav; marked `submitted` in the runner).
 - BEST LEAD: anti-correlated partners. Price-reversal blends (IR ~.093) are blocked by #570310 / #604930 (bar .173). Partners whose daily PnL moves AGAINST them cut turnover and correlation:
   fundamental changes (now blocked by our own #695151) and ACCRUALS (corr -.215; replay predicts IR ~.12). Running: Y_PLsz_ACC_w07, Y_PLsz_ACC_w12, Y_PLewm_ACC_w1, Y_VW_ACC_w1. Read them first; if one passes, apply the same partner to the other near-misses (`PX.triage`), and keep scanning for new partners with `PX.pair` against our blocked bases (corr < -.05 and own-corr < .5).
@@ -44,6 +51,7 @@ Read this first, then `handoff/AUTORESEARCHER.md` (the build-and-loop program, i
 3. Desktop cycle-1 families (vol-of-vol, coskew, downside beta, trade size, MAX): if any has Slow IR > .03 with low pool corr, use it as a blend partner.
 4. Before queueing a blend, paste `runner/px.js` and use `PX.blend` / `PX.own` (reads ~.04-.08 above the portal's number, so it is conservative). Otherwise estimate its corr with our 3 submissions from daily PnL (fetch `/trexsim/pysim/alpha/<id>/?format=json`, `simresdata`); skip anything > .5 unless its irtvr will clear 1.2x.
 
+NO DELETIONS: never delete or withdraw any alpha or submission on the portal; report deletion ideas to Abhinav, who acts manually.
 ## Rules
 - One runner, one tab. Only `window.R` starts simulations. Never reload or navigate the runner tab; use another tab to browse. If `window.R` is missing, rebuild from `localStorage.R3_code` or `runner/runner.js` (state survives in `localStorage.R3_jobs`).
 - Add jobs with `R.add([{tag, base, expr}])`, then set `state:'squeued'` and an explicit `lb` (60 price-only, 300 with 250-day windows, 400 with ts_fill + 250-day delays), then `R.save()`.

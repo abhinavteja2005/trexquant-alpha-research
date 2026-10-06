@@ -3,7 +3,7 @@
 Usage: python tools/make_queue.py SLOW:alphas/drafts/c1.json FAST:alphas/drafts/a101.json
 SLOW items get state 'squeued' and an explicit Slow lookback; FAST items get state 'queued'.
 Only drafts that PASS check_alpha and are not already in the ledger are included, in the given order.
-Lookback = 2 x the longest window + 20 (min 60): covers nested windows and the warm-up.
+Lookback = the draft's own `lb` if it has one, else 2 x the longest window + 20 (min 60); capped at 300.
 """
 import json
 import re
@@ -14,6 +14,7 @@ from check_alpha import check, known_items
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "alphas" / "queue" / "next.json"
+MAX_LB = 300  # portal rejects Slow lookbacks above 300
 
 
 def lookback(expr):
@@ -36,7 +37,7 @@ def main(specs):
                 continue
             job = {"tag": it["tag"], "base": it.get("family") or it.get("base"), "expr": it["expr"]}
             if mode.upper() == "SLOW":
-                job.update(state="squeued", lb=lookback(it["expr"]))
+                job.update(state="squeued", lb=min(MAX_LB, int(it.get("lb") or lookback(it["expr"]))))
             queue.append(job)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(queue, indent=1), encoding="utf-8")

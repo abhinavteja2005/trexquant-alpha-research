@@ -1,0 +1,9 @@
+{
+ "note": "Operator instructions for the next visit (written by the cloud master). See handoff/OPERATOR.md.",
+ "skip": ["A101_009", "A101_012", "A101_030"],
+ "px": [
+  "PX.triage(.065)",
+  "PX.submitted()",
+  "['Y_PLsz_ACC_w07','Y_PLsz_ACC_w12','Y_PLewm_ACC_w1','Y_VW_ACC_w1'].map(t=>t+' '+JSON.stringify(PX.own(t)))"
+ ]
+}

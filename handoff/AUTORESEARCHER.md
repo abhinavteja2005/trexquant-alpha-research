@@ -23,6 +23,7 @@ rebuilds the runner by pasting `runner/runner.js` from the repo (NOT `localStora
 in `localStorage.R3_jobs`. A Slow job that was running keeps running on the server, and the runner picks up its
 result by id.
 
+NO DELETIONS: never delete or withdraw any alpha or submission on the portal; report deletion ideas to Abhinav, who acts manually.
 Never: open a second runner, reload or navigate the runner tab, edit `R.cfg` / `R.promoteOk` / `R.submitOk`,
 delete submissions, type credentials, or simulate by hand on the portal while the runner works.
 

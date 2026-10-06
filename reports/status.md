@@ -1,8 +1,8 @@
 # Status
-Runner owner: PENDING — cloud session ready, waiting for Abhinav to say "the tab is yours".
-Last update: Oct 6, cloud session startup.
-- Submitted: 4 (T_LATE_w3, T_LATE_accr_w2, T_COMP7 via IR/sqrt(TVR); U_VWAPT_FMOM_w1 via corr .466).
-- Crash Analyst: DONE. 12 crashes diagnosed, 3 new checker rules (ts_delay lag, cs_indneut group, lookback warning), 20/20 tests pass. Code review in progress.
-- Best lead: Y_ accrual-partner blends (replay IR .115-.124, own-corr <= .47). Results pending in runner.
-- Blocked on: Chrome access for runner takeover, ledger sync, and queueing.
-- Next: reviewer feedback -> fix defects -> push -> Chrome takeover -> ledger sync -> cycle 1.
+Runner owner: LAPTOP OPERATOR (Claude Desktop + Claude in Chrome, Sonnet), per `handoff/OPERATOR.md`; not yet rebuilt (first visit pending).
+Research master: CLOUD session (claude.ai/code, branch `claude/focused-fermat-5fdhyo`). It never touches Chrome.
+Last update: Oct 6, ~18:30 IST.
+- Submitted: 5 (T_LATE_w3, T_LATE_accr_w2, T_COMP7 via IR/sqrt(TVR); U_VWAPT_FMOM_w1 via corr .466; 5th by hand ~17:15, probably Y_PLsz_ACC_w07 sid 698181, to be confirmed by the operator).
+- Runner: closed at 17:10 with 168 jobs saved in localStorage (13 Slow + 25 Fast queued); Y_PLsz_ACC_w07 still running on the server.
+- Waiting for the operator: rebuild runner, snapshot, PX requests in `alphas/queue/ops.json`, skip A101_009/012/030 originals, load `alphas/queue/next.json`.
+- Cloud: crash forensics done (3 checker rules, 24/24 tests); make_queue lookback capped at 300; 8 new-family cards being coded (MM/MR/MO).
