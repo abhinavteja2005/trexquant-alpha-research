@@ -3,7 +3,7 @@
 Machine-readable copy: `alphas/registry.csv`. Regenerate from the runner each cycle (`tools/ledger_sync.py`).
 Expressions: `expr_file` points to `alphas/drafts/*.json`; others live in the runner (`localStorage.R3_jobs`) and `ideas/backlog.md`.
 
-Status counts (Oct 6, 14:50 IST): FAST ONLY (not Slow-tested): 49, REJECTED: IR below .072: 29, QUEUED (Fast screen): 25, REJECTED: correlation (IR ok): 17, QUEUED (Slow): 16, SKIPPED (look-ahead variable dropped): 12, FAILED (cs_indneut needs integer group): 4, FAILED (Fast timeout): 3, SUBMITTED: 3, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, FAILED (portal: lookback > 300): 1, FAILED (bool - bool crash): 1, FAILED (bool to ts_delay: needs float32): 1, RUNNING: 1
+Status counts (Oct 6, 15:40 IST): FAST ONLY (not Slow-tested): 49, REJECTED: IR below .072: 29, QUEUED (Fast screen): 25, REJECTED: correlation (IR ok): 18, SKIPPED (look-ahead variable dropped): 12, QUEUED (Slow): 12, FAILED (cs_indneut needs integer group): 4, FAILED (Fast timeout): 3, SUBMITTED: 3, SKIPPED (gates retired: switching raises turnover): 2, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, FAILED (portal: lookback > 300): 1, FAILED (bool - bool crash): 1, FAILED (bool to ts_delay: needs float32): 1, SUBMITTED (manual, Abhinav): 1, RUNNING: 1
 
 Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_intra Fast IR .090 / corr .649, c3_rnd_earn Fast .094 -> Slow .082 / corr .688), summarised in `knowledge/lessons.md` and `alphas/ledger.md`.
 
@@ -165,11 +165,11 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_
 | G_VWAPT_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | REJECTED: IR below .072 | 0.071 | 1.135 | 0.066 | 0.658 @604930 | 0.173 | 0.073 |  |
 | G_ACCR_mom20b | ACCR | Oct 6 14:00 reruns (dtype fixes) | REJECTED: correlation (IR ok) | 0.073 | 0.481 | 0.105 | 0.673 @673102 | 0.409 | 0.109 |  |
 | G_VWAPT_mom60ind | VWAPT | Oct 6 14:00 reruns (dtype fixes) | REJECTED: IR below .072 | 0.065 | 1.092 | 0.062 | 0.682 @570310 | 0.119 | 0.056 |  |
-| U_VWAPT_FMOM_w1 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | RUNNING |  |  |  |  |  |  |  |
+| U_VWAPT_FMOM_w1 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | SUBMITTED (manual, Abhinav) | 0.070 | 0.525 | 0.097 | 0.466 @659499 |  | 0.057 |  |
 | G_ACCR_stop10b | ACCR | Oct 6 14:00 reruns (dtype fixes) | SKIPPED (gates retired: switching raises turnover) |  |  |  |  |  |  |  |
 | G_RIG_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | SKIPPED (gates retired: switching raises turnover) |  |  |  |  |  |  |  |
 | R_RIG_weekly2 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
-| X_PL_FM4_w1 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
-| X_PL_FM4_w05 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
+| X_PL_FM4_w1 | MIXF | Oct 6 14:45 anti-correlated blends | REJECTED: correlation (IR ok) | 0.093 | 0.689 | 0.112 | 0.637 @604930 | 0.173 | 0.097 |  |
+| X_PL_FM4_w05 | MIXF | Oct 6 14:45 anti-correlated blends | RUNNING |  |  |  |  |  |  |  |
 | X_VW_FM5_w1 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
 | X_VW_FM5_w05 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |

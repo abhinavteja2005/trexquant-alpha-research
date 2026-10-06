@@ -26,3 +26,5 @@
 | Oct 6 | G_ACCR_mom20b | Q_ACCR_AG | in-code 20-day gate | .067 / .051 / .879@567998 | .073 / .481 / .673@673102 | IR up, but TVR .05 -> .48 (switching) | no |
 | Oct 6 | G_VWAPT_mom60ind | P_VWAPT | per-industry gate | .083 / 1.047 / .782 | .065 / 1.092 / .682@570310 | worse | no |
 | pending | X_PL_FM4_w1/_w05, X_VW_FM5_w1/_w05 | U_PRICE2_szvo / P_VWAPT + U_FMOM5_d120 | anti-correlated blend (PnL corr -.37 / -.18), predicted IR .082-.106 | | | | |
+| Oct 6 | U_VWAPT_FMOM_w1 | U_VWAPT_FMOM_w2 | more reversal weight (1:1 instead of 1:2) | .055 / .341 / .436@595355 | .070 / .525 / .466@659499 | eligible (corr < .5) | YES (manual) |
+| Oct 6 | X_PL_FM4_w1 | U_PRICE2_szvo + U_FMOM5_d120 | anti-correlated partner 1:1 | .093 / .998 / .704@570310 | .093 / .689 / .637@604930 | .112 vs .173 | no |
