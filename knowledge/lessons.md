@@ -67,3 +67,8 @@
 - ts_delay(shsout, 252) caused 3 Fast timeouts (VWAPV/RETL/OVN_fcf_iss_w2). Lag 252 is not 250 — always use allowed windows.
 - Gate template `cs_indneut(x, close/close)` crashed all 4 G_ alphas: float32 is not an integer group code. Fix: `cs_indneut(x, industry*0)`. The repair-playbook gate template has been updated.
 - Regime gates RETIRED as a technique: on/off switching raises TVR from .05 to .48, destroying the IR/sqrt(TVR) route (G_ACCR_mom20b). In-code gates also underperform replay predictions (G_VWAPT_mom60b: predicted .093, real .071).
+
+## Oct 6 22:00 (cloud): new families failed; field sweep started
+- Accrual partner works: Y_PLsz_ACC_w07 IR .109 (submitted), w12 .116 (irtvr .138 vs own-bar .144), ewm .101, VW .091. Variants of our own submission collide with it (.85-.98).
+- MM1 toxicity reversal .059 (corr .63), MM3 closing pressure .053 (.82), MM2 trade-size reversal .042 but corr .12 (partner). Residual/volume/FROG momentum, turnover CV, illiquidity shock, 1y seasonality, HKS hour persistence, org capital, tax momentum, CORD: |IR| <= .035.
+- Strategy: breadth over hand-crafting. `tools/sweep.py` sweeps unused fields x templates (L/D/Z/IF/IZ); `--flip` re-queues negatives. Track hit rate by class/template before scaling.

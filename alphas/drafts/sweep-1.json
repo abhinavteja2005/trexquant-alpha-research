@@ -1,0 +1,402 @@
+[
+ {
+  "tag": "SW_L_AOCI49",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "accumulated_other_comprehensive_income",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of accumulated_other_comprehensive_income is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accumulated_other_comprehensive_income)/ts_fill(total_assets)  # accumulated_other_comprehensive_income scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_AOIA31",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "amortization_of_intangible_assets",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of amortization_of_intangible_assets is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(amortization_of_intangible_assets)/ts_fill(total_assets)  # amortization_of_intangible_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CPOLTD33",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "current_portion_of_long_term_debt",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of current_portion_of_long_term_debt is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(current_portion_of_long_term_debt)/ts_fill(total_assets)  # current_portion_of_long_term_debt scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DTALT70",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "deferred_tax_assets_long_term",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of deferred_tax_assets_long_term is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_tax_assets_long_term)/ts_fill(total_assets)  # deferred_tax_assets_long_term scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DA60",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "depreciation_amortization",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of depreciation_amortization is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(depreciation_amortization)/ts_fill(total_assets)  # depreciation_amortization scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_EOERCO55",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "effect_of_exchange_rate_changes_on_cash",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of effect_of_exchange_rate_changes_on_cash is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(effect_of_exchange_rate_changes_on_cash)/ts_fill(total_assets)  # effect_of_exchange_rate_changes_on_cash scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_LTD22",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "long_term_debt",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of long_term_debt is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(long_term_debt)/ts_fill(total_assets)  # long_term_debt scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_STI78",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "short_term_investments",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of short_term_investments is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(short_term_investments)/ts_fill(total_assets)  # short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_TOE60",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "total_operating_expenses",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of total_operating_expenses is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_operating_expenses)/ts_fill(total_assets)  # total_operating_expenses scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_ANR30",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "accounts_notes_receivable",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of accounts_notes_receivable is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_notes_receivable)/ts_fill(total_assets)  # accounts_notes_receivable scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_AP44",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "accounts_payable",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of accounts_payable is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_payable)/ts_fill(total_assets)  # accounts_payable scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_AREN21",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "accounts_receivable_excluding_notes",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of accounts_receivable_excluding_notes is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_receivable_excluding_notes)/ts_fill(total_assets)  # accounts_receivable_excluding_notes scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_AD4",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "accumulated_depreciation",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of accumulated_depreciation is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accumulated_depreciation)/ts_fill(total_assets)  # accumulated_depreciation scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_APIC78",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "additional_paid_in_capital",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of additional_paid_in_capital is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(additional_paid_in_capital)/ts_fill(total_assets)  # additional_paid_in_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_TSA62",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "treasury_stock_amount",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of treasury_stock_amount is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(treasury_stock_amount)/ts_fill(total_assets)  # treasury_stock_amount scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_BSCNCI28",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "balance_sheet_cash_near_cash_items",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of balance_sheet_cash_near_cash_items is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(balance_sheet_cash_near_cash_items)/ts_fill(total_assets)  # balance_sheet_cash_near_cash_items scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CS49",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "common_stocks",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of common_stocks is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(common_stocks)/ts_fill(total_assets)  # common_stocks scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CAR57",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "current_assets_report",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of current_assets_report is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(current_assets_report)/ts_fill(total_assets)  # current_assets_report scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CL89",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "current_liabilities",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of current_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(current_liabilities)/ts_fill(total_assets)  # current_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DTL94",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "deferred_tax_liabilities",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of deferred_tax_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_tax_liabilities)/ts_fill(total_assets)  # deferred_tax_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_G89",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "goodwill",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of goodwill is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(goodwill)/ts_fill(total_assets)  # goodwill scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_I42",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "inventories",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of inventories is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(inventories)/ts_fill(total_assets)  # inventories scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_LTB28",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "long_term_borrowings",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of long_term_borrowings is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(long_term_borrowings)/ts_fill(total_assets)  # long_term_borrowings scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_MSAOST52",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "marketable_securities_and_other_short_term_investments",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of marketable_securities_and_other_short_term_investments is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(marketable_securities_and_other_short_term_investments)/ts_fill(total_assets)  # marketable_securities_and_other_short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_OCA32",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "other_current_assets",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of other_current_assets is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_current_assets)/ts_fill(total_assets)  # other_current_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_OLTL53",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "other_long_term_liabilities",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of other_long_term_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_long_term_liabilities)/ts_fill(total_assets)  # other_long_term_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_OSTL84",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "other_short_term_liabilities",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of other_short_term_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_short_term_liabilities)/ts_fill(total_assets)  # other_short_term_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_PRE5",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "pure_retained_earnings",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of pure_retained_earnings is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(pure_retained_earnings)/ts_fill(total_assets)  # pure_retained_earnings scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_REAOE16",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "retained_earnings_and_other_equity",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of retained_earnings_and_other_equity is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(retained_earnings_and_other_equity)/ts_fill(total_assets)  # retained_earnings_and_other_equity scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_STB59",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "short_term_borrowings",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of short_term_borrowings is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(short_term_borrowings)/ts_fill(total_assets)  # short_term_borrowings scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_TEPC45",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "total_equity_partnership_capital",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of total_equity_partnership_capital is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_equity_partnership_capital)/ts_fill(total_assets)  # total_equity_partnership_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_TL60",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "total_liabilities",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of total_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_liabilities)/ts_fill(total_assets)  # total_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_TOPAE77",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "total_other_property_and_equipment",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of total_other_property_and_equipment is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_other_property_and_equipment)/ts_fill(total_assets)  # total_other_property_and_equipment scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_APAA29",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "accounts_payable_and_accruals",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of accounts_payable_and_accruals is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_payable_and_accruals)/ts_fill(total_assets)  # accounts_payable_and_accruals scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CEPA20",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "capital_expenditures_property_additions",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of capital_expenditures_property_additions is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(capital_expenditures_property_additions)/ts_fill(total_assets)  # capital_expenditures_property_additions scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CFFA50",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "cash_from_financing_activities",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_from_financing_activities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_financing_activities)/ts_fill(total_assets)  # cash_from_financing_activities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CFIA92",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "cash_from_investing_activities",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_from_investing_activities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_investing_activities)/ts_fill(total_assets)  # cash_from_investing_activities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CII91",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "change_in_inventories",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of change_in_inventories is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(change_in_inventories)/ts_fill(total_assets)  # change_in_inventories scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DIT73",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "deferred_income_taxes",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of deferred_income_taxes is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_income_taxes)/ts_fill(total_assets)  # deferred_income_taxes scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DP8",
+  "base": "sweep L",
+  "family": "SW_DOLLAR",
+  "field": "dividends_paid",
+  "template": "L",
+  "sign": 1,
+  "expr": "# Thesis: the cross-sectional LEVEL of dividends_paid is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(dividends_paid)/ts_fill(total_assets)  # dividends_paid scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "lb": 100
+ }
+]
