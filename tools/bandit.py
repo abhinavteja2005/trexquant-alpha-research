@@ -16,12 +16,16 @@ from check_alpha import ROOT
 
 
 def fam_key(text, tag=""):
-    k = re.split(r"[+\s(]", text.strip(), maxsplit=1)[0].upper().rstrip("0123456789")
-    return k or tag.split("_")[0].upper().rstrip("0123456789")
+    k = re.split(r"[+\s(]", text.strip(), maxsplit=1)[0].upper() or tag.split("_")[0].upper()
+    k = re.sub(r"^ANOM_", "", k)  # ANOM_MAX and MAX are one family
+    if k.startswith("A101"):
+        return "A101"  # A101_GAP, A101_REV, ... are one source family
+    stem = k.rstrip("0123456789")
+    return stem if len(stem) >= 3 else k  # COMP7 -> COMP, but keep A101, D3
 
 
 def num(s):
-    m = re.search(r"\d*\.?\d+", s)
+    m = re.search(r"-?\d*\.?\d+", s)  # keep the sign: a negative IR is never a hit
     return float(m.group()) if m else None
 
 
@@ -71,7 +75,9 @@ def main():
         wins[max(exploit, key=lambda f: rnd.betavariate(hits[f] + 1, trials[f] - hits[f] + 1))] += 1
     explore = [f for f in fams if trials[f] < 3]
     n_exp = min(a.slots, max(-(-a.slots * 3 // 10), 0)) if explore else 0
-    slots = Counter(allocate({f: 1 / len(explore) for f in explore}, n_exp)) if explore else Counter()
+    slots = Counter()
+    for _ in range(n_exp):  # Thompson-sample the explore slots too: random among equals
+        slots[max(explore, key=lambda f: rnd.betavariate(hits[f] + 1, trials[f] - hits[f] + 1))] += 1
     rest = a.slots - n_exp
     for f, s in allocate({f: w / 2000 for f, w in wins.items()}, rest).items():
         slots[f] += s

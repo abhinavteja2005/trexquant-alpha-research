@@ -86,9 +86,34 @@ def parts(line):
     return name.strip(), e.strip(), com.strip()
 
 
+def window_spots(code, w):
+    """Positions of a last argument == w in calls that are rolling windows (ts_delay lags excluded)."""
+    spots = []
+    for m in re.finditer(rf",\s*{w}\s*\)", code):
+        depth, i = 0, m.end() - 1  # walk back from the ')' to its matching '('
+        while i >= 0:
+            depth += code[i] == ")"
+            depth -= code[i] == "("
+            if depth == 0:
+                break
+            i -= 1
+        fn = re.search(r"(\w+)\s*$", code[:i])
+        if fn and fn.group(1) != "ts_delay":
+            spots.append(m)
+    return spots
+
+
 def swap_windows(line, old, new):
+    """Change rolling windows old -> new (not ts_delay lags); keep comments in step."""
     code, sep, com = line.partition("#")
-    return re.sub(rf"(,\s*){old}(\s*\))", rf"\g<1>{new}\g<2>", code) + sep + com
+    spots = window_spots(code, old)
+    for m in reversed(spots):
+        code = code[:m.start()] + m.group().replace(str(old), str(new)) + code[m.end():]
+    return code + sep + (com.replace(f"{old}-day", f"{new}-day") if spots else com)
+
+
+def has_window(code, w):
+    return any(window_spots(strip_comment(l), w) for l in code)
 
 
 def top_split_plus(e):
@@ -105,17 +130,42 @@ def top_split_plus(e):
     return out
 
 
+def is_slow(term, code):
+    """A term is slow if it reaches filing data (ts_fill) or a window/delay >= 60 days
+    through the local definitions; the fast base uses only short windows."""
+    def slowtxt(t):
+        return "ts_fill" in t or any(int(x) >= 60 for x in re.findall(r",\s*(\d+)\s*\)", t))
+    defs = {parts(l)[0]: strip_comment(l) for l in code if "=" in strip_comment(l)}
+    seen, todo = set(), set(re.findall(r"[A-Za-z_]\w*", term))
+    while todo:
+        n = todo.pop()
+        if n in seen or n not in defs:
+            continue
+        seen.add(n)
+        if slowtxt(defs[n]):
+            return True
+        todo |= set(re.findall(r"[A-Za-z_]\w*", defs[n].split("=", 1)[1]))
+    return slowtxt(term)
+
+
 def slow(code, k):
+    """Weight every slow (filing-data) term k x and keep the single fast base at 1x.
+    Accepts 'a(r) + a(k1) + ...' and the playbook form 'a(r) + 3*(a(k1) + ...)'."""
     i = last_alpha(code)
     _, e, com = parts(code[i])
     m = re.fullmatch(r"at_zero2nan\((.*)\)", e)
     inner = m.group(1) if m else e
     terms = top_split_plus(inner)
-    if len(terms) < 2 or not all(re.fullmatch(r"at_nan2zero\(.*\)", t) for t in terms):
-        die("slow%dx needs a final line that is a sum of at_nan2zero(...) terms; parent's is not" % k)
-    new = " + ".join([terms[0]] + [f"{k}*{t}" for t in terms[1:]])
+    fast = [t for t in terms if not is_slow(t, code)]
+    if len(terms) < 2 or len(fast) != 1:
+        die(f"slow{k}x needs exactly one fast (non-ts_fill) term; parent has {len(fast)} of {len(terms)}")
+    out = []
+    for t in terms:
+        g = re.fullmatch(r"\d+(?:\.\d+)?\s*\*\s*(\(.*\))", t)
+        out.append(t if t in fast else f"{k}*{g.group(1) if g else t}")
+    new = " + ".join(out)
     line = (f"alpha = at_zero2nan({new})" if m else f"alpha = {new}") + \
-           f"  # first term (assumed the fast base) at 1x, the other {len(terms) - 1} terms at {k}x"
+           f"  # fast base at 1x, the {len(terms) - 1} slow term(s) at {k}x"
     return code[:i] + [line] + code[i + 1:]
 
 
@@ -140,6 +190,8 @@ def multihorizon(code):
 
 
 def apply(tech, code):
+    if tech in ("w10", "multihorizon") and not has_window(code, 5):
+        die(f"{tech} needs 5-day windows in the parent; none found")
     if tech == "w10":
         return [swap_windows(l, 5, 10) for l in code]
     if tech in ("slow2x", "slow3x"):
@@ -178,7 +230,7 @@ def ledger_metrics(tag):
         c = [x.strip() for x in l.strip().strip("|").split("|")]
         if len(c) == 13 and c[1] == tag:
             ir = re.match(r"-?\.?\d+\.?\d*", c[8])
-            co = re.match(r"-?\.?\d+\.?\d*", c[9])
+            co = re.match(r"-?\.?\d+\.?\d*(@\d+)?", c[9])
             if ir or co:
                 return (ir.group() if ir else None), (co.group() if co else None)
     return None, None
@@ -191,9 +243,12 @@ def main():
     ap.add_argument("--out", default=str(ROOT / "alphas" / "drafts" / "repairs.json"))
     ap.add_argument("--print", action="store_true")
     ap.add_argument("--tag")
+    ap.add_argument("--force", action="store_true", help="replace an existing tag in --out")
     a = ap.parse_args()
     if len(a.techniques) > 2:
         die("at most 2 techniques stacked")
+    if any(t in ("w10", "multihorizon") for t in a.techniques[1:]):
+        die("w10/multihorizon edit the parent's windows: list them first")
     bad = [t for t in a.techniques if t not in INFO]
     if bad:
         die(f"unknown technique {bad}; choose from {', '.join(INFO)}")
@@ -215,14 +270,17 @@ def main():
     item = {"tag": tag, "base": par.get("base"), "family": par.get("family") or par.get("base"),
             "parent": a.parent, "technique": "+".join(a.techniques), "expr": expr,
             "lb": lb, "wlb": lb, "state": "squeued"}
-    out = Path(a.out)
-    items = json.loads(out.read_text(encoding="utf-8")) if out.exists() else []
-    items = [x for x in items if x["tag"] != tag] + [item]
-    out.write_text(json.dumps(items, indent=1), encoding="utf-8")
     errs, warns, _, nv = check(expr)
     if a.print:
         print(expr)
-    print(f"{'FAIL' if errs else 'PASS'} {tag} (vars={nv}, lb={lb}) -> {out}"
+    out = Path(a.out)
+    items = json.loads(out.read_text(encoding="utf-8")) if out.exists() else []
+    if any(x["tag"] == tag for x in items) and not a.force:
+        die(f"{tag} already in {out} (it may have run); use --tag or --force")
+    if not errs:  # never write a variant that fails the checker
+        items = [x for x in items if x["tag"] != tag] + [item]
+        out.write_text(json.dumps(items, indent=1), encoding="utf-8")
+    print(f"{'FAIL (not written)' if errs else 'PASS'} {tag} (vars={nv}, lb={lb}) -> {out}"
           + "".join(f"\n  - {e}" for e in errs) + "".join(f"\n  ~ {w}" for w in warns))
     return 1 if errs else 0
 

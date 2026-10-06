@@ -35,6 +35,13 @@ def fingerprint(expr):
     return fp
 
 
+def same_structure(a, b):
+    """Same variables and operators (with counts), ignoring window literals."""
+    def core(c):
+        return Counter({k: v for k, v in c.items() if not k.startswith("#")})
+    return bool(core(a)) and core(a) == core(b)
+
+
 def jaccard(a, b):
     keys = set(a) | set(b)
     den = sum(max(a[k], b[k]) for k in keys)
@@ -51,12 +58,10 @@ def ledger_rows():
     return rows
 
 
-def references(exclude_path):
-    """tag -> (fingerprint, submitted) for tested drafts (ledger row) outside the file under check."""
+def references():
+    """tag -> (fingerprint, submitted) for every tested draft (one with a ledger row)."""
     rows, refs = ledger_rows(), {}
     for f in (ROOT / "alphas" / "drafts").glob("*.json"):
-        if f.resolve() == exclude_path:
-            continue
         for it in json.loads(f.read_text(encoding="utf-8")):
             if it["tag"] in rows:
                 refs[it["tag"]] = (fingerprint(it["expr"]), rows[it["tag"]])
@@ -68,15 +73,24 @@ def main(argv):
     items = json.loads(p.read_text(encoding="utf-8"))
     # the file under test is NOT excluded wholesale: tested tags in it count as references
     # (the same-tag skip below prevents self-comparison)
-    refs = references(None)
+    refs = references()
+    parent = {it["tag"]: it.get("parent") for it in items}
     out = []
-    for it in items:
+    for n, it in enumerate(items):
         fp = fingerprint(it["expr"])
         best, who = 0.0, "-"
-        for tag, (rfp, sub) in refs.items():
+        # earlier untested drafts in the same file count too (catches sibling duplicates)
+        pool = list(refs.items()) + [(x["tag"], (fingerprint(x["expr"]), False)) for x in items[:n]
+                                     if x["tag"] not in refs]
+        for tag, (rfp, sub) in pool:
             if tag == it["tag"]:
                 continue
+            par = it.get("parent")
+            if par and (tag == par or parent.get(tag) == par):  # deliberate repair/mutation of its parent
+                continue
             s = jaccard(fp, rfp)
+            if s < 1 and same_structure(fp, rfp):
+                s = max(s, REJECT + 0.01)  # same variables and operators, only windows differ
             if s > best:
                 best, who = s, tag + (" (submitted)" if sub else "")
         status = "REJECT" if best > REJECT else "WARN" if best > WARN else "OK"
