@@ -3722,5 +3722,33 @@
   "err": "",
   "expr": "# Thesis: when rallies come with volume surges and declines with volume drops (high correlation of daily return with volume change), the moves are attention- or hedging-driven and get unwound; Llorente et al. show that returns from risk-sharing trades reverse while speculative ones continue.\n# Source: Microsoft qlib Alpha158 CORD feature (GitHub repository), https://github.com/microsoft/qlib/blob/main/qlib/contrib/data/loader.py; Llorente, Michaely, Saar & Wang, \"Dynamic Volume-Return Relation of Individual Stocks\" (Review of Financial Studies 2002), https://www.johnhcochrane.com/s/llorente_michaely_saar_wang_volume_rfs.pdf\n# Caveat: the US sign is unverified; screen -cord and +cord in Fast.\ndv = at_signlog(volume/ts_delay(volume, 1))  # log(1 + today's volume / yesterday's), exactly qlib's Log(x+1)\ncord = ts_corr_binary(ret1, dv, 60)  # 3-month correlation of daily return with volume change\nalpha = -cs_rank(cord)  # short names whose rallies come with volume surges, long the opposite",
   "family": "PV"
+ },
+ "R_RIG_weekly2": {
+  "tag": "R_RIG_weekly2",
+  "state": "sdone",
+  "lb": "300",
+  "wlb": "300",
+  "f_ir": "",
+  "f_tvr": "",
+  "f_irtvr": "",
+  "f_corr": "",
+  "f_elig": "",
+  "f_rw": "",
+  "f_best": "",
+  "s_ir": "0.075",
+  "s_tvr": "0.259",
+  "s_irtvr": "0.147",
+  "s_corr": "0.584",
+  "s_corrId": "601796",
+  "s_corrIrTvr": "0.141",
+  "s_corrOwn": "0",
+  "s_elig": "0",
+  "s_oos1": "0.0712",
+  "s_rw": "0.0801",
+  "s_best": "0.27",
+  "s_vt": "corr_ir_tvr_not_ok",
+  "err": "",
+  "expr": null,
+  "family": null
  }
 }

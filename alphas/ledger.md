@@ -140,3 +140,4 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 6 21:12 | FUND_ORGCAP | FUND |  |  |  |  |  | .013 | .242@697353 | no | sdone | no |
 | Oct 6 21:12 | FUND_TAXMOM | FUND |  |  |  |  |  | .025 | .405@574700 | no | sdone | no |
 | Oct 6 21:12 | PV_CORD | PV |  |  |  |  |  | .035 | .392@575403 | no | sdone | no |
+| Oct 6 21:42 | R_RIG_weekly2 | R |  |  |  |  |  | .075 | .584@601796 (irtvr .147 vs bar .169) | no | sdone | no |
