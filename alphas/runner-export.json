@@ -3246,5 +3246,33 @@
   "err": "",
   "expr": null,
   "family": null
+ },
+ "Y_PLsz_ACC_w12": {
+  "tag": "Y_PLsz_ACC_w12",
+  "state": "sdone",
+  "lb": "140",
+  "wlb": "140",
+  "f_ir": "",
+  "f_tvr": "",
+  "f_irtvr": "",
+  "f_corr": "",
+  "f_elig": "",
+  "f_rw": "",
+  "f_best": "",
+  "s_ir": "0.116",
+  "s_tvr": "0.711",
+  "s_irtvr": "0.138",
+  "s_corr": "0.979",
+  "s_corrId": "698181",
+  "s_corrIrTvr": "0.12",
+  "s_corrOwn": "1",
+  "s_elig": "0",
+  "s_oos1": "0.1422",
+  "s_rw": "0.1367",
+  "s_best": "0.2",
+  "s_vt": "corr_ir_tvr_not_ok",
+  "err": "",
+  "expr": null,
+  "family": null
  }
 }
