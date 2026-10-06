@@ -32,3 +32,4 @@
 | Oct 6 | X_VW_FM5_w1 | P_VWAPT + U_FMOM5_d120 | partner 1:1 | .083 / 1.047 / .782 | .086 / .677 / .799@695151 (own) | .105 vs .116 | no |
 | Oct 6 | VWAPV_fcf_iss_w2, RETL_fcf_iss_w2, OVN_fcf_iss_w2 | reversal + fcf + issuance | blend (2x slow weight) | | FAILED (Fast timeout): ts_delay(shsout, 252) — lag 252 not allowed; fix: 250 | | no |
 | pending | Y_PLsz_ACC_w07/_w12, Y_PLewm_ACC_w1, Y_VW_ACC_w1 | price reversal + accruals | anti-correlated partner (PnL corr -.215), replay IR .115-.124 | | | | |
+| pending | R_RIGwk_k15, R_RIGwk_k2, R_RIGwk_w10, R_RIGwk_w10k15 | R_RIG_weekly2 (#703370) | slow 1.5x / 2x, 10-day reversal, both | .075 / .259 / .584@601796 (irtvr .147, bar .169) | | need TVR <= .197 or corr < .5 | |
