@@ -1,59 +1,58 @@
 [
  {
-  "tag": "MM1_TOXREV",
-  "base": "MM",
-  "expr": "# Thesis: market makers lose to informed (toxic) flow and earn from uninformed flow. A last-hour move that was smooth and one-directional (high |information ratio| within the hour) looks informed and tends to continue; a choppy move looks like noise or liquidity demand and reverts.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Easley, Lopez de Prado & O'Hara, \"Flow Toxicity and Liquidity in a High-Frequency World\" (Review of Financial Studies 2012), https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1695596\nr = cs_zscore(ts_mean(return_last_hour, 5))  # 5-day average last-hour return, cross-sectional z-score\nsz = cs_rank(ts_mean(abs(return_last_hour), 5))  # typical size of the last-hour move, rank 1..2\nsmooth = cs_rank(cs_rank(ts_mean(abs(information_ratio_last_hour), 5)) - sz)  # smoothness beyond what move size explains (|IR| alone mostly ranks move size), rank 1..2\nalpha = -r * (1.5 - smooth)  # fade choppy moves (+0.5 weight), follow the smoothest ones (-0.5 weight)",
+  "tag": "LIQ_TURNCV",
+  "base": "LIQ",
+  "expr": "# Thesis: stocks whose trading volume is erratic (high coefficient of variation) earn LOWER future returns even after controlling for the volume level; steady-volume names are priced cheaper and outperform.\n# Critic fix (Oct 6): see alphas/drafts/c3-scrape.critic.md\n# Source: Chordia, Subrahmanyam & Anshuman, \"Trading Activity and Expected Stock Returns\" (Journal of Financial Economics 2001), https://repository.iimb.ac.in/handle/2074/11853; qlib Alpha158 VSTD/WVMA features, https://github.com/microsoft/qlib/blob/main/qlib/contrib/data/loader.py\ncv = ts_std(volume, 250)/ts_mean(volume, 250)  # 1-year CV of daily volume: always spans ~4 earnings spikes (dimensionless)\nlvl = ts_mean(volume/shsout, 60)  # 3-month average share turnover: the volume-level control the paper uses\nalpha = cs_factorneut(-cs_zscore(cv), [cs_zscore(lvl), cs_zscore(at_signlog(mktcap))])  # short erratic-trading names, long steady ones, beyond their turnover level",
+  "state": "squeued",
+  "lb": 270
+ },
+ {
+  "tag": "LIQ_ILLIQSHOCK",
+  "base": "LIQ",
+  "expr": "# Thesis: investors underreact to stock-level liquidity shocks. A fall in Amihud illiquidity versus the stock's own 1-year norm predicts higher returns (continuation) for months, and a rise predicts lower returns; inattention is the driver.\n# Source: Bali, Peng, Shen & Tang, \"Liquidity Shocks and Stock Market Reactions\" (Review of Financial Studies 2014), https://ideas.repec.org/a/oup/rfinst/v27y2014i5p1434-1485..html\nil = abs(ret1)/(volume*close + 1)  # Amihud price impact per dollar traded today (dollar volume is split-invariant)\nshock = ts_mean(il, 20)/ts_mean(il, 250)  # this month's illiquidity vs the stock's own 1-year norm (ratio: dimensionless)\nalpha = -cs_rank(shock)  # long names whose liquidity improved, short names whose liquidity dried up",
+  "state": "squeued",
+  "lb": 270
+ },
+ {
+  "tag": "MOMX_STMOM_HITURN",
+  "base": "MOMX",
+  "expr": "# Thesis: among last month's high-turnover stocks, last month's return CONTINUES (short-term momentum), while low-turnover stocks reverse; it is strongest in large, liquid names because traders underweight the information in heavily traded prices.\n# Critic fix (Oct 6): see alphas/drafts/c3-scrape.critic.md\n# Source: Medhat & Schmeling, \"Short-term Momentum\" (Review of Financial Studies 2022), https://repec.cepr.org/repec/cpr/ceprdp/DP15857.pdf\nf = close/close  # float32 ones (NaN where no price), used to cast the flag\nturn = ts_mean(volume/shsout, 20)  # last month's average daily share turnover (dimensionless)\nhi = f*(cs_rank(turn) > 1.8)  # 1 for the top-20% turnover names, else 0\nm = ts_delay(ret20, 5)  # last month's return skipping the final week (days t-25..t-5)\nalpha = at_zero2nan((cs_rank(m) - 1.5)*hi)  # follow last month's return in the most-traded names only; the rest get no position",
   "state": "squeued",
   "lb": 60
  },
  {
-  "tag": "MM2_SIZEREV",
-  "base": "MM",
-  "expr": "# Thesis: late-day moves made by small (retail-sized) trades revert; moves made by large (institutional) trades carry information and continue.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Barber, Odean & Zhu, \"Do Retail Trades Move Markets?\" (Review of Financial Studies 2009), https://ideas.repec.org/a/oup/rfinst/v22y2009i1p151-186.html; Hvidkjaer, \"Small Trades and the Cross-Section of Stock Returns\" (Review of Financial Studies 2008), https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm\n# Caveat: Barber, Odean & Zhu find small-trade imbalance continues for about a week before reversing over a year, so the sim decides whether the small-trade leg reverts at this 5-day horizon.\nr = cs_zscore(ts_mean(return_last_hour, 5))  # 5-day average last-hour return, cross-sectional z-score\nq = (volume_last_hour/number_of_trades_last_hour)/(volume_first_hour/number_of_trades_first_hour)  # today's close-hour vs open-hour average trade size (dimensionless)\nsize = cs_rank(ts_mean(q, 5)/ts_mean(q, 60))  # this week's trade size vs the stock's own 3-month norm (who made THIS move), rank 1..2\nalpha = -r * (1.5 - size)  # fade moves made by small trades, follow moves made by large trades",
+  "tag": "MOMX_SEASON_1Y",
+  "base": "MOMX",
+  "expr": "# Thesis: stocks tend to earn relatively high (or low) returns in the same calendar window every year, at annual lags, on top of momentum and reversal and independent of earnings announcements; with the 300-day lookback cap only the 1-year lag fits.\n# Source: Heston & Sadka, \"Seasonality in the Cross-Section of Stock Returns\" (Journal of Financial Economics 2008), https://rhsmith.umd.edu/news/seasonality-stock-market-returns; implementation https://github.com/paperswithbacktest/awesome-systematic-trading/blob/main/static/strategies/12-month-cycle-in-cross-section-of-stocks-returns.py\n# Note: lb 280 = 240-day lag + 20 days in case ret20 is built from in-window data + 20 margin.\ns = ts_delay(ts_delay(ret20, 120), 120)  # 20-day return ending 240 trading days ago: the window around this date one year ago\nalpha = cs_rank(s)  # long names that did well in this calendar window last year, short those that did badly",
   "state": "squeued",
-  "lb": 80
+  "lb": 280
  },
  {
-  "tag": "MM3_CLOSEPRESS",
-  "base": "MM",
-  "expr": "# Thesis: when an unusually large share of the day's volume prints in the last hour (index rebalancing, fund flows), the close is pushed away from fair value and reverts.\n# Source: Bogousslavsky & Muravyev, \"Who Trades at the Close? Implications for Price Discovery and Liquidity\" (Journal of Financial Markets 2023), https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html\nshare = volume_last_hour/volume  # fraction of the day's volume traded in the last hour\nspike = cs_rank(ts_mean(share, 5) / ts_mean(share, 60)) > 1.5  # last-hour share recently above its own 3-month norm (top half)\nalpha = at_zero2nan(-cs_rank(ts_mean(return_last_hour, 5)) * spike)  # fade the 5-day last-hour return only on close-pressure stocks; others get no position",
+  "tag": "HR_HKS_PERIOD",
+  "base": "HR",
+  "expr": "# Thesis: returns in a given intraday interval CONTINUE at lags that are exact multiples of a trading day, for at least 40 days, because institutions trade at the same time each day; tomorrow's first and last hours sit inside our close-to-close hold, so past first-hour and last-hour returns (skipping the reversal week) predict them.\n# Critic fix (Oct 6): see alphas/drafts/c3-scrape.critic.md\n# Source: Heston, Korajczyk & Sadka, \"Intraday Patterns in the Cross-Section of Stock Returns\" (Journal of Finance 2010), https://ideas.repec.org/a/bla/jfinan/v65y2010i4p1369-1407.html\na = ts_delay(ts_mean(return_first_hour, 40), 5)  # average first-hour return over days t-44..t-5 (skips the 1-week reversal zone)\nb = ts_delay(ts_mean(return_last_hour, 40), 5)  # same for the last hour\nm = ts_delay(ts_mean(ret1, 40), 5)  # plain return over the same t-44..t-5 window\nalpha = cs_factorneut(cs_zscore(cs_rank(a)) + cs_zscore(cs_rank(b)), [cs_zscore(cs_rank(m))])  # bet that tomorrow's first and last hours repeat these same-hour patterns",
   "state": "squeued",
-  "lb": 80
+  "lb": 65
  },
  {
-  "tag": "MO1_RESMOM",
-  "base": "MO",
-  "expr": "# Thesis: momentum in the stock-specific return, scaled by its volatility, has about half the risk of plain momentum and avoids momentum crashes.\n# Source: Blitz, Huij & Martens, \"Residual Momentum\" (Journal of Empirical Finance 2011), https://www.econbiz.de/Record/residual-momentum-blitz-david/10009194616; Huij & Lansdorp, \"Residual Momentum and Reversal Strategies Revisited\" (2017), https://www.ssrn.com/abstract=2929306\n# Note: the card's rolling 120-day beta feeding 250-day residual sums needs 120 + 250 = 370 days, over the Slow max of 300 (empty alpha). Fixed as in Blitz et al.: one beta over the 250-day formation window applied to the 12-1 month sums, with residual std = std(ret1)*sqrt(1 - corr^2) (exact for that beta). Same quantity, 250 days of history.\nrho = ts_corr_binary(ret1, ret1_spx, 250)  # 1-year correlation with the S&P 500\nbeta = rho * ts_std(ret1, 250) / (ts_std(ret1_spx, 250) + 0.0001)  # 1-year market beta = corr * vol ratio\nres = (ts_sum(ret1, 250) - ts_sum(ret1, 20)) - beta*(ts_sum(ret1_spx, 250) - ts_sum(ret1_spx, 20))  # 12-1 month residual return (market part removed)\nsres = ts_std(ret1, 250) * at_signsqrt(1 - rho*rho)  # 1-year daily residual volatility\nalpha = cs_rank(res / (sres + 0.0001))  # long high, short low volatility-scaled residual momentum",
+  "tag": "FUND_ORGCAP",
+  "base": "FUND",
+  "expr": "# Thesis: organization capital built through SG&A spending (key talent with firm-specific efficiency) is risky for shareholders, so firms with more of it than industry peers earn higher returns (about 4.7%/yr, unexplained by CAPM, FF3 or Carhart).\n# Critic fix (Oct 6): see alphas/drafts/c3-scrape.critic.md\n# Source: Eisfeldt & Papanikolaou, \"Organization Capital and the Cross-Section of Expected Returns\" (Journal of Finance 2013), https://www.tse-fr.eu/sites/default/files/medias/stories/SEMIN_09_10/FINANCE/eisfeldt.pdf\nato = ts_fill(sales_to_total_assets_ratio)  # asset turnover (sales / assets)\nsga = ts_fill(sell_and_admin_exp_to_net_sales_ratio)*ato  # SG&A / assets: flow proxy for organization capital\nalpha = cs_factorneut(cs_zscore(ts_mean(sga, 120)), [cs_zscore(ato)])  # 6-month SG&A intensity (stock proxy) beyond plain asset turnover; industry neutralisation makes it peer-relative",
   "state": "squeued",
-  "lb": 300
+  "lb": 250
  },
  {
-  "tag": "MO2_FROG2",
-  "base": "MO",
-  "expr": "# Thesis: momentum built from many small steady moves (\"frog in the pan\") is under-noticed and persists; momentum from a few big jumps gets priced fast.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Da, Gurun & Warachka, \"Frog in the Pan: Continuous Information and Momentum\" (Review of Financial Studies 2014), https://doi.org/10.1093/rfs/hhu003\n# Note: dtype-fixed rerun of Q_FROG, which crashed because a true/false flag went into ts_mean; flags are now cast to float32 with one*(...).\none = close/close  # float32 matrix of ones (NaN where no price), used to cast flags\npret = ts_delay(close, 20)/ts_delay(close, 250) - 1  # 12-1 month return (skips the latest month, as in the paper)\npos = ts_mean(one*(ret1 > 0), 250)  # share of up days over the year\nneg = ts_mean(one*(ret1 < 0), 250)  # share of down days over the year\nsgn = one*(pret > 0)*2 - 1  # +1 winners, -1 losers\nalpha = (cs_rank(pret) - 1.5) * (2 - cs_rank(sgn*(neg - pos)))  # momentum, amplified where information arrived continuously (low information discreteness)",
+  "tag": "FUND_TAXMOM",
+  "base": "FUND",
+  "expr": "# Thesis: the year-over-year change in tax expense carries news about core profitability beyond reported earnings; prices absorb it slowly, so it predicts returns over the next two quarters, separately from size, B/M, accruals and momentum.\n# Critic fix (Oct 6): see alphas/drafts/c3-scrape.critic.md\n# Source: Thomas & Zhang, \"Tax Expense Momentum\" (Journal of Accounting Research 2011), https://ideas.repec.org/a/bla/joares/v49y2011i3p791-821.html\n# Caveat: the paper scales the YoY tax change by assets; the growth-pct field is the closest available input, ranked so small or negative bases do not dominate.\ng = cs_rank(ts_fill(income_tax_expense_year_growth_pct))  # YoY tax-expense growth, rank 1..2\np = cs_rank(ts_fill(pretax_income_year_growth_pct))  # YoY pre-tax book-income growth, rank 1..2\nalpha = cs_factorneut(cs_zscore(g), [cs_zscore(p)])  # tax-expense news beyond book-income news",
   "state": "squeued",
-  "lb": 300
+  "lb": 150
  },
  {
-  "tag": "MO3_VOLMOM",
-  "base": "MO",
-  "expr": "# Thesis: past winners with LOW turnover keep winning (under-followed), while high-turnover winners are crowded and fade. Momentum is best where attention is low.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Lee & Swaminathan, \"Price Momentum and Trading Volume\" (Journal of Finance 2000), https://ideas.repec.org/a/bla/jfinan/v55y2000i5p2017-2069.html\nmom = close/ts_delay(close, 250) - close/ts_delay(close, 20)  # 12-1 month price momentum (12-month minus 1-month return)\nturn = cs_rank(ts_mean(volume/shsout, 120))  # 6-month average daily turnover, rank 1..2\nalpha = (cs_rank(mom) - 1.5) * (2.5 - turn)  # centred momentum rank (long winners, short losers), weighted up for low-turnover (low-attention) stocks",
+  "tag": "PV_CORD",
+  "base": "PV",
+  "expr": "# Thesis: when rallies come with volume surges and declines with volume drops (high correlation of daily return with volume change), the moves are attention- or hedging-driven and get unwound; Llorente et al. show that returns from risk-sharing trades reverse while speculative ones continue.\n# Source: Microsoft qlib Alpha158 CORD feature (GitHub repository), https://github.com/microsoft/qlib/blob/main/qlib/contrib/data/loader.py; Llorente, Michaely, Saar & Wang, \"Dynamic Volume-Return Relation of Individual Stocks\" (Review of Financial Studies 2002), https://www.johnhcochrane.com/s/llorente_michaely_saar_wang_volume_rfs.pdf\n# Caveat: the US sign is unverified; screen -cord and +cord in Fast.\ndv = at_signlog(volume/ts_delay(volume, 1))  # log(1 + today's volume / yesterday's), exactly qlib's Log(x+1)\ncord = ts_corr_binary(ret1, dv, 60)  # 3-month correlation of daily return with volume change\nalpha = -cs_rank(cord)  # short names whose rallies come with volume surges, long the opposite",
   "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "A101_009b",
-  "base": "A101_TREND",
-  "expr": "# Note: b-version = dtype-fixed rerun; the runner copy under the old tag is the crashing code (skipped).\n# Thesis: Follow a move only when the last week was one-directional; otherwise fade it. (Alpha #9, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nup = (close/close)*(ts_min(ret1, 5) > 0)  # 1.0 if every day of the last 5 was up\ndn = (close/close)*(ts_min(-ret1, 5) > 0)  # 1.0 if every day of the last 5 was down\ntrend = up + dn  # 1.0 if the week was one-directional\nalpha = trend*ret1 - (1 - trend)*ret1  # momentum in clean trends, reversal otherwise"
- },
- {
-  "tag": "A101_012b",
-  "base": "A101_VOLPX",
-  "expr": "# Note: b-version = dtype-fixed rerun; the runner copy under the old tag is the crashing code (skipped).\n# Thesis: A price move made on rising volume reverses next day (liquidity shock). (Alpha #12, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ndv = delta(volume, 1)/ts_mean(volume, 20)  # change in volume, scaled by average volume\nsg = (close/close)*(dv > 0) - (close/close)*(dv < 0)  # sign of the volume change as float32 (+1/-1)\nalpha = -sg*ret1  # fade today's return in the direction of the volume change"
- },
- {
-  "tag": "A101_030b",
-  "base": "A101_TREND",
-  "expr": "# Note: b-version = dtype-fixed rerun; the runner copy under the old tag is the crashing code (skipped).\n# Thesis: Three straight up-closes on fading volume is a weak rally to sell. (Alpha #30, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ns1 = (close/close)*(ret1 > 0) - (close/close)*(ret1 < 0)  # sign of today's return as float32 (+1/-1)\ns2 = ts_delay(s1, 1) + ts_delay(s1, 2)  # signs of the previous two days\nalpha = (1 - cs_rank(s1 + s2))*ts_sum(volume, 5)/ts_sum(volume, 20)  # fewer up days and higher recent volume is better"
+  "lb": 81
  }
 ]

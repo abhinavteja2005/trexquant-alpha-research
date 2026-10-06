@@ -1,0 +1,38 @@
+[
+ {
+  "tag": "MOMX_HIVOL_MOM6",
+  "base": "HIVOL_MOM6",
+  "family": "MOMX",
+  "expr": "# Thesis: momentum and reversal coexist among large stocks: high-volatility names show momentum and low-volatility names show reversal, so trade 6-month momentum (skipping the last week) only in the high-volatility group.\n# Source: Wei, \"Do Momentum and Reversals Coexist?\" (working paper, implemented by awesome-systematic-trading), https://github.com/paperswithbacktest/awesome-systematic-trading/blob/main/static/strategies/momentum-and-reversal-combined-with-volatility-effect-in-stocks.py; summary https://quantpedia.com/strategies/momentum-and-reversal-combined-with-volatility-effect-in-stocks\n# Caveat: high-vol momentum took the 2009 momentum crash hardest, so check the best-year profit share.\nf = ret1*0 + 1  # float32 ones, used to cast the flag\nmom = ts_delay(ts_sum(ret1, 120), 5)  # 6-month return skipping the last week (sum of daily returns, split-safe)\nhv = f*(cs_rank(ts_std(ret1, 120)) > 1.6)  # 1 for the top-40% 6-month volatility names, else 0\nalpha = at_zero2nan(cs_zscore(mom)*hv)  # momentum only where it lives (high vol); low-vol names would reverse, so no position",
+  "source_url": "https://github.com/paperswithbacktest/awesome-systematic-trading/blob/main/static/strategies/momentum-and-reversal-combined-with-volatility-effect-in-stocks.py",
+  "lb": 145,
+  "status": "DROPPED by Critic (Oct 6): see c3-scrape.critic.md"
+ },
+ {
+  "tag": "MOMX_VALMOM_AMP",
+  "base": "VALMOM_AMP",
+  "family": "MOMX",
+  "expr": "# Thesis: value and momentum premia exist in every market and are negatively correlated with each other, so an equal-weight combination has a much higher Sharpe than either alone; EBIT/EV is the value leg and the portal's industry neutralisation makes it within-industry value.\n# Source: Asness, Moskowitz & Pedersen, \"Value and Momentum Everywhere\" (Journal of Finance 2013), https://pages.stern.nyu.edu/~lpederse/papers/ValMomEverywhere.pdf\n# Note: 6-1 month momentum instead of the paper's 12-1, because a 250-day window plus ts_fill exceeds the 300-day Slow lookback.\nmom = ts_sum(ret1, 120) - ts_sum(ret1, 20)  # 6-1 month momentum: sum of daily returns over months 2-6 (split-safe)\nval = ts_fill(ebit_yield)  # latest EBIT / enterprise value (value measure, dimensionless)\nalpha = cs_zscore(cs_rank(val)) + cs_zscore(cs_rank(mom))  # equal-weight value + momentum: long cheap past winners, short dear past losers",
+  "source_url": "https://pages.stern.nyu.edu/~lpederse/papers/ValMomEverywhere.pdf",
+  "lb": 210,
+  "status": "DROPPED by Critic (Oct 6): see c3-scrape.critic.md"
+ },
+ {
+  "tag": "HR_IR_PERSIST",
+  "base": "IR_PERSIST",
+  "family": "HR",
+  "expr": "# Thesis: institutions execute large orders as multi-day packages whose price impact keeps building; such algorithms leave a smooth, one-directional intra-hour path (a high signed information ratio for the size of the move), and a persistently smooth drift marks an unfinished package that keeps pushing the price.\n# Source: Chan & Lakonishok, \"The Behavior of Stock Prices around Institutional Trades\" (Journal of Finance 1995), https://ideas.repec.org/a/bla/jfinan/v50y1995i4p1147-74.html; mechanism also in Heston, Korajczyk & Sadka (Journal of Finance 2010), https://ideas.repec.org/a/bla/jfinan/v65y2010i4p1369-1407.html\n# Note (bug fix): the signed hour IR is about R/sigma, so on its own it mostly ranks the signed hour return and would FOLLOW recent first/last-hour moves (the crowded reversal input, wrong way round); it is now also netted against the 10-day hour returns, so what is left is smoothness given the move: follow smooth drifts, fade choppy ones.\nirp = ts_mean(information_ratio_first_hour + information_ratio_last_hour, 10)  # 2-week average signed intra-hour drift quality (first + last hour)\nrh = ts_mean(return_first_hour + return_last_hour, 10)  # 2-week average first + last hour return: the move size the IR mostly reflects\nalpha = cs_factorneut(cs_zscore(irp), [cs_zscore(rh), cs_zscore(ret10)])  # smooth one-way drift beyond the hour moves themselves and the 10-day return",
+  "source_url": "https://ideas.repec.org/a/bla/jfinan/v50y1995i4p1147-74.html",
+  "lb": 60,
+  "status": "DROPPED by Critic (Oct 6): see c3-scrape.critic.md"
+ },
+ {
+  "tag": "FUND_OPLEV",
+  "base": "OPLEV",
+  "family": "FUND",
+  "expr": "# Thesis: firms with high operating costs relative to assets (COGS + SG&A over total assets) have more operating leverage, hence riskier cash flows and higher expected returns; within industries this explains much of the value premium.\n# Source: Novy-Marx, \"Operating Leverage\" (Review of Finance 2011), https://ideas.repec.org/a/oup/revfin/v15y2011i1p103-134.html\nta = ts_fill(total_assets)  # latest reported total assets\noc = (ts_fill(net_sales) - ts_fill(operating_income))/ta  # operating costs (COGS + SG&A) per dollar of assets: operating leverage\ngpa = ts_fill(gross_profit)/ta  # gross profitability (gross profit / assets), the saturated GP factor\nalpha = cs_factorneut(cs_zscore(oc), [cs_zscore(gpa)])  # long high operating leverage beyond what gross profitability explains",
+  "source_url": "https://ideas.repec.org/a/oup/revfin/v15y2011i1p103-134.html",
+  "lb": 90,
+  "status": "DROPPED by Critic (Oct 6): see c3-scrape.critic.md"
+ }
+]

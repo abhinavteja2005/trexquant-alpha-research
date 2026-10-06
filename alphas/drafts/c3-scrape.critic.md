@@ -1,0 +1,23 @@
+# Critic review: c3-scrape.json (Oct 6)
+
+| tag | verdict | reason | exact fix |
+|---|---|---|---|
+| LIQ_TURNCV | FIX | a 60-day window holds an earnings volume spike in some weeks of the quarter and not in others, so cv flips on and off with the earnings calendar. Volume CV also mostly ranks small vs large stocks; the paper controls for size | `cv = ts_std(volume, 250)/ts_mean(volume, 250)  # 1-year CV of daily volume: always spans ~4 earnings spikes`; `alpha = cs_factorneut(-cs_zscore(cv), [cs_zscore(lvl), cs_zscore(at_signlog(mktcap))])  # erratic volume beyond turnover level and size`; lb 270 |
+| LIQ_ILLIQSHOCK | KEEP | sign, lb and dtype are correct. log(shock) is roughly a volatility shock (short) minus a dollar-volume shock (long), and both alone are weak here (vol shock < .03, high-volume premium dead). Expect IR .02-.04, so use it as a partner | - |
+| MOMX_STMOM_HITURN | FIX | ret20 includes the last week, so it buys back the 1-week reversal, the strongest daily signal in this universe. A z-score on high-turnover news names lets one extreme mover dominate | `m = ts_delay(ret20, 5)  # last month's return skipping the final week (days t-25..t-5)`; `alpha = at_zero2nan((cs_rank(m) - 1.5)*hi)  # centred rank, top-turnover names only` |
+| MOMX_HIVOL_MOM6 | DROP | 6-1 momentum in high-vol names is the leg that crashed in 2009. Momentum is weak in 2008-21 (Q_52WH -.02), and MO1/MO3 already test momentum. If it is run anyway, use `(cs_rank(mom) - 1.5)*hv`, because z-scores of high-vol 6-month returns reach 5-10 | - |
+| MOMX_SEASON_1Y | KEEP | the window t-260..t-240 is centred on the date one year ago, so it covers tomorrow's analog day. Need 241-261 days, lb 280 fits. Turnover is low | - |
+| MOMX_VALMOM_AMP | DROP | both legs are dead in sample (value's lost decade; Q_VALxQUAL -.003; momentum weak). It is the most common textbook combination, so it is likely in the pool already. ebit_yield moves with price, which adds a hidden reversal tilt | - |
+| HR_HKS_PERIOD | FIX | a+b is mostly the plain lagged 40-day return (the 1-2 month reversal zone). Holding close to close also takes the other hours, which HKS show reverse at non-daily lags. If first-hour returns include the overnight gap, this is the dead tug-of-war signal | `m = ts_delay(ts_mean(ret1, 40), 5)  # plain return over the same t-44..t-5 window`; `alpha = cs_factorneut(cs_zscore(cs_rank(a)) + cs_zscore(cs_rank(b)), [cs_zscore(cs_rank(m))])  # same-hour pattern beyond the window's plain return; ranks tame earnings days` |
+| HR_IR_PERSIST | DROP | IR ~ r/sigma, so the linear residual is about r*(1/sigma - c), and sigma here is mostly the stock's vol level, not how smooth the path was. The result follows hour moves in low-vol stocks and fades them in high-vol stocks: the volatile-close reversal of T_LATE_w3, and a near-duplicate of c2 MM1_TOXREV | - |
+| FUND_OPLEV | DROP | at equal GP/A, higher (sales - OI)/A just means more SG&A and less operating profit, so the residual = long SG&A, short operating profitability. Ball et al. (2015) find operating profitability is the stronger positive premium, so expect the wrong sign. It also duplicates ORGCAP | - |
+| FUND_ORGCAP | FIX | sign and dtype are fine. SG&A/assets is about GP/A - OP/A, so watch its correlation to the GP/R&D pool. ts_fill (gap up to ~75 days) + 120-day mean + 20 days of margin needs ~215 days > lb 210 | lb 250 |
+| FUND_TAXMOM | FIX | the logic is right (tax news beyond book income, which amounts to the change in the effective tax rate). lb 90 gives no margin for a late 10-K (fill gap 75-95 trading days). Caveat: a growth pct on a near-zero or negative base puts random-sign names in the tails | lb 150 |
+| PV_CORD | KEEP | it matches qlib's CORD exactly; lb 81 >= 61 needed. It is a slow stock trait, so expect a small IR. Screen both signs as the card says | - |
+
+## Notes
+- Static checker: all 12 pass (variables at most 5, allowed windows/lags, float32 casts). No look-ahead: every input is known at the delay-0 close; ts_fill is applied to reported data only; there are no negative delays.
+- Sign traces: all 12 match their theses as written. The FIX/DROP calls are about what the signal actually loads on, not about typos.
+- STMOM vs c2 MO3_VOLMOM: they tilt momentum toward opposite turnover ends, but at different horizons (1 month vs 12-1). That is fine, but do not blend them.
+- TURNCV: raw volume over 250 days spans more splits. If the portal's Slow volume is not split-adjusted, a split inflates cv for a year (~2%/yr of names).
+- ILLIQSHOCK/CORD/SEASON/ORGCAP/TAXMOM are low-turnover. Alone, none is likely to reach IR .07; their value is as uncorrelated partners for the reversal bases.
