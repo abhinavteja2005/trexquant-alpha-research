@@ -1,225 +1,59 @@
 [
  {
-  "tag": "VP_VOV_D60",
-  "base": "VP_VOLOFVOL",
-  "expr": "# Thesis: Stocks whose own volatility is unstable (high vol-of-vol) carry uncertainty about risk and underperform.\n# Source: Baltussen, van Bekkum & van der Grient, \"Unknown Unknowns\" (JFQA 2018), https://ideas.repec.org/a/cup/jfinqa/v53y2018i04p1615-1651_00.html\nvol = ts_std(ret1, 20)  # 20-day realized volatility\nvov = ts_std(vol, 60) / ts_mean(vol, 60)  # vol-of-vol: dispersion of rolling vol scaled by its level\nalpha = -cs_rank(vov)  # short high uncertainty-about-risk names, long stable-risk names",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "VP_VOV_INTRA",
-  "base": "VP_VOLOFVOL",
-  "expr": "# Thesis: Vol-of-vol measured from intraday (first/last hour) volatility: unstable intraday risk predicts underperformance.\n# Source: Baltussen, van Bekkum & van der Grient, \"Unknown Unknowns\" (JFQA 2018), https://ideas.repec.org/a/cup/jfinqa/v53y2018i04p1615-1651_00.html\niv = std_dev_return_first_hour + std_dev_return_last_hour  # intraday realized vol at both ends of the day\nvov = ts_std(iv, 20) / ts_mean(iv, 20)  # day-to-day instability of intraday vol, scale-free\nalpha = -cs_rank(ts_mean(vov, 5))  # short names with unstable intraday risk (5-day smoothed)",
+  "tag": "MM1_TOXREV",
+  "base": "MM",
+  "expr": "# Thesis: market makers lose to informed (toxic) flow and earn from uninformed flow. A last-hour move that was smooth and one-directional (high |information ratio| within the hour) looks informed and tends to continue; a choppy move looks like noise or liquidity demand and reverts.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Easley, Lopez de Prado & O'Hara, \"Flow Toxicity and Liquidity in a High-Frequency World\" (Review of Financial Studies 2012), https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1695596\nr = cs_zscore(ts_mean(return_last_hour, 5))  # 5-day average last-hour return, cross-sectional z-score\nsz = cs_rank(ts_mean(abs(return_last_hour), 5))  # typical size of the last-hour move, rank 1..2\nsmooth = cs_rank(cs_rank(ts_mean(abs(information_ratio_last_hour), 5)) - sz)  # smoothness beyond what move size explains (|IR| alone mostly ranks move size), rank 1..2\nalpha = -r * (1.5 - smooth)  # fade choppy moves (+0.5 weight), follow the smoothest ones (-0.5 weight)",
   "state": "squeued",
   "lb": 60
  },
  {
-  "tag": "VP_COSK_60",
-  "base": "VP_COSKEW",
-  "expr": "# Thesis: Stocks that rally when the market makes big moves (positive coskewness, long-gamma-like) are overpriced; negative-coskew stocks earn a premium.\n# Source: Harvey & Siddique, \"Conditional Skewness in Asset Pricing Tests\" (JF 2000), https://people.duke.edu/~charvey/Research/Published_Papers/P56_Conditional_skewness_in.pdf\nm2 = ret1_spx * ret1_spx  # squared market return: a market variance shock\ncosk = ts_corr_binary(ret1, m2, 60)  # coskewness proxy over 60 days\nalpha = -cs_rank(cosk)  # long negative-coskew names, short positive-coskew (lottery-like) names",
+  "tag": "MM2_SIZEREV",
+  "base": "MM",
+  "expr": "# Thesis: late-day moves made by small (retail-sized) trades revert; moves made by large (institutional) trades carry information and continue.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Barber, Odean & Zhu, \"Do Retail Trades Move Markets?\" (Review of Financial Studies 2009), https://ideas.repec.org/a/oup/rfinst/v22y2009i1p151-186.html; Hvidkjaer, \"Small Trades and the Cross-Section of Stock Returns\" (Review of Financial Studies 2008), https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm\n# Caveat: Barber, Odean & Zhu find small-trade imbalance continues for about a week before reversing over a year, so the sim decides whether the small-trade leg reverts at this 5-day horizon.\nr = cs_zscore(ts_mean(return_last_hour, 5))  # 5-day average last-hour return, cross-sectional z-score\nq = (volume_last_hour/number_of_trades_last_hour)/(volume_first_hour/number_of_trades_first_hour)  # today's close-hour vs open-hour average trade size (dimensionless)\nsize = cs_rank(ts_mean(q, 5)/ts_mean(q, 60))  # this week's trade size vs the stock's own 3-month norm (who made THIS move), rank 1..2\nalpha = -r * (1.5 - size)  # fade moves made by small trades, follow moves made by large trades",
   "state": "squeued",
-  "lb": 140
+  "lb": 80
  },
  {
-  "tag": "VP_COSK_RESID120",
-  "base": "VP_COSKEW",
-  "expr": "# Thesis: Coskewness of the idiosyncratic return (beta removed) isolates the systematic-skew premium from market beta.\n# Source: Harvey & Siddique, \"Conditional Skewness in Asset Pricing Tests\" (JF 2000), https://people.duke.edu/~charvey/Research/Published_Papers/P56_Conditional_skewness_in.pdf\nbeta = ts_corr_binary(ret1, ret1_spx, 120) * ts_std(ret1, 120) / ts_std(ret1_spx, 120)  # 120-day market beta\nres = ret1 - beta * ret1_spx  # idiosyncratic daily return\nm2 = ret1_spx * ret1_spx  # squared market return\ncosk = ts_corr_binary(res, m2, 120)  # residual coskewness over 120 days\nalpha = -cs_rank(cosk)  # long negative residual coskewness",
+  "tag": "MM3_CLOSEPRESS",
+  "base": "MM",
+  "expr": "# Thesis: when an unusually large share of the day's volume prints in the last hour (index rebalancing, fund flows), the close is pushed away from fair value and reverts.\n# Source: Bogousslavsky & Muravyev, \"Who Trades at the Close? Implications for Price Discovery and Liquidity\" (Journal of Financial Markets 2023), https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html\nshare = volume_last_hour/volume  # fraction of the day's volume traded in the last hour\nspike = cs_rank(ts_mean(share, 5) / ts_mean(share, 60)) > 1.5  # last-hour share recently above its own 3-month norm (top half)\nalpha = at_zero2nan(-cs_rank(ts_mean(return_last_hour, 5)) * spike)  # fade the 5-day last-hour return only on close-pressure stocks; others get no position",
   "state": "squeued",
-  "lb": 260
+  "lb": 80
  },
  {
-  "tag": "VP_RESREV_VIX",
-  "base": "VP_RESREV_VIX",
-  "expr": "# Thesis: Liquidity-provision (reversal) returns rise with VIX, most in volatile names: fade 3-day idiosyncratic moves and tilt toward high-idio-vol names only when VIX is high versus its past year.\n# Source: Nagel, \"Evaporating Liquidity\" (RFS 2012), https://econpapers.repec.org/RePEc:oup:rfinst:v:25:y:2012:i:7:p:2005-2039\nbeta = ts_corr_binary(ret1, ret1_spx, 60) * ts_std(ret1, 60) / ts_std(ret1_spx, 60)  # 60-day market beta\nres = ret1 - beta * ret1_spx  # idiosyncratic daily return\nvixr = ts_rank(close_vix, 250) - 1  # VIX regime in [0,1] versus the past year\nvolr = cs_winsor(cs_zscore(ts_std(res, 20)), 0.05, False)  # cross-sectional idiosyncratic-vol z-score, tails clipped\nw = 1 + 0.5 * vixr * volr  # high VIX: overweight volatile names, underweight calm ones\nalpha = -cs_zscore(ts_sum(res, 3)) * w  # residual 3-day reversal with a VIX-dependent cross-sectional tilt",
+  "tag": "MO1_RESMOM",
+  "base": "MO",
+  "expr": "# Thesis: momentum in the stock-specific return, scaled by its volatility, has about half the risk of plain momentum and avoids momentum crashes.\n# Source: Blitz, Huij & Martens, \"Residual Momentum\" (Journal of Empirical Finance 2011), https://www.econbiz.de/Record/residual-momentum-blitz-david/10009194616; Huij & Lansdorp, \"Residual Momentum and Reversal Strategies Revisited\" (2017), https://www.ssrn.com/abstract=2929306\n# Note: the card's rolling 120-day beta feeding 250-day residual sums needs 120 + 250 = 370 days, over the Slow max of 300 (empty alpha). Fixed as in Blitz et al.: one beta over the 250-day formation window applied to the 12-1 month sums, with residual std = std(ret1)*sqrt(1 - corr^2) (exact for that beta). Same quantity, 250 days of history.\nrho = ts_corr_binary(ret1, ret1_spx, 250)  # 1-year correlation with the S&P 500\nbeta = rho * ts_std(ret1, 250) / (ts_std(ret1_spx, 250) + 0.0001)  # 1-year market beta = corr * vol ratio\nres = (ts_sum(ret1, 250) - ts_sum(ret1, 20)) - beta*(ts_sum(ret1_spx, 250) - ts_sum(ret1_spx, 20))  # 12-1 month residual return (market part removed)\nsres = ts_std(ret1, 250) * at_signsqrt(1 - rho*rho)  # 1-year daily residual volatility\nalpha = cs_rank(res / (sres + 0.0001))  # long high, short low volatility-scaled residual momentum",
   "state": "squeued",
-  "lb": 520
+  "lb": 300
  },
  {
-  "tag": "REG_VR_FLIP",
-  "base": "REG_VARRATIO",
-  "expr": "# Thesis: The 5-day variance ratio sorts names into trending vs mean-reverting regimes: follow the week where VR is high, fade it where VR is low, skip random walks.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nvr = ts_std(ret5, 120) * ts_std(ret5, 120) / (5 * ts_std(ret1, 120) * ts_std(ret1, 120))  # Lo-MacKinlay 5-day variance ratio\nz = cs_zscore(vr)  # variance ratio relative to the cross-section\ntr = z > 0.5  # trending regime (positive autocorrelation)\nmr = z < -0.5  # mean-reverting regime (negative autocorrelation)\ns = tr * cs_zscore(ret5) - mr * cs_zscore(ret5)  # momentum in trenders, reversal in mean-reverters\nalpha = at_zero2nan(s)  # no position in random-walk names",
+  "tag": "MO2_FROG2",
+  "base": "MO",
+  "expr": "# Thesis: momentum built from many small steady moves (\"frog in the pan\") is under-noticed and persists; momentum from a few big jumps gets priced fast.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Da, Gurun & Warachka, \"Frog in the Pan: Continuous Information and Momentum\" (Review of Financial Studies 2014), https://doi.org/10.1093/rfs/hhu003\n# Note: dtype-fixed rerun of Q_FROG, which crashed because a true/false flag went into ts_mean; flags are now cast to float32 with one*(...).\none = close/close  # float32 matrix of ones (NaN where no price), used to cast flags\npret = ts_delay(close, 20)/ts_delay(close, 250) - 1  # 12-1 month return (skips the latest month, as in the paper)\npos = ts_mean(one*(ret1 > 0), 250)  # share of up days over the year\nneg = ts_mean(one*(ret1 < 0), 250)  # share of down days over the year\nsgn = one*(pret > 0)*2 - 1  # +1 winners, -1 losers\nalpha = (cs_rank(pret) - 1.5) * (2 - cs_rank(sgn*(neg - pos)))  # momentum, amplified where information arrived continuously (low information discreteness)",
   "state": "squeued",
-  "lb": 260
+  "lb": 300
  },
  {
-  "tag": "REG_VR_SMOOTH",
-  "base": "REG_VARRATIO",
-  "expr": "# Thesis: Continuous variance-ratio gate at the 10-day horizon: the sign and size of the bet on the last two weeks scale with the stock's own autocorrelation regime.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nvr = ts_std(ret10, 250) * ts_std(ret10, 250) / (10 * ts_std(ret1, 250) * ts_std(ret1, 250))  # 10-day variance ratio over a year\ng = cs_winsor(cs_zscore(vr), 0.05, False)  # regime score: >0 trending, <0 mean-reverting\nalpha = cs_zscore(ret10) * g  # fade the move in low-VR names, follow it in high-VR names",
+  "tag": "MO3_VOLMOM",
+  "base": "MO",
+  "expr": "# Thesis: past winners with LOW turnover keep winning (under-followed), while high-turnover winners are crowded and fade. Momentum is best where attention is low.\n# Critic fix (Oct 6): see alphas/drafts/c2-newfam.critic.md\n# Source: Lee & Swaminathan, \"Price Momentum and Trading Volume\" (Journal of Finance 2000), https://ideas.repec.org/a/bla/jfinan/v55y2000i5p2017-2069.html\nmom = close/ts_delay(close, 250) - close/ts_delay(close, 20)  # 12-1 month price momentum (12-month minus 1-month return)\nturn = cs_rank(ts_mean(volume/shsout, 120))  # 6-month average daily turnover, rank 1..2\nalpha = (cs_rank(mom) - 1.5) * (2.5 - turn)  # centred momentum rank (long winners, short losers), weighted up for low-turnover (low-attention) stocks",
   "state": "squeued",
-  "lb": 520
+  "lb": 300
  },
  {
-  "tag": "REG_PKCC_REV",
-  "base": "REG_RANGECC",
-  "expr": "# Thesis: When Parkinson range variance exceeds close-to-close variance, intraday swings are noise that mean-reverts; fade the week only in those names.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nlr = at_signlog(high / low - 1)  # log(high/low), the daily range in log terms\npk = ts_mean(lr * lr, 20) / 2.7726  # Parkinson range variance (divided by 4 ln 2)\ncc = ts_std(ret1, 20) * ts_std(ret1, 20)  # close-to-close variance\ng = cs_zscore(pk / cc) > 0  # range vol high relative to close vol: noisy, mean-reverting names\nalpha = at_zero2nan(-g * cs_zscore(ret5))  # 5-day reversal only where noise dominates, NaN elsewhere",
-  "state": "squeued",
-  "lb": 60
- },
- {
-  "tag": "REG_DNBETA_ASYM",
-  "base": "REG_DOWNBETA",
-  "expr": "# Thesis: Stocks that comove with the market more on down days than on up days bear downside risk and earn a premium.\n# Source: Ang, Chen & Xing, \"Downside Risk\" (RFS 2006), https://www.nber.org/papers/w11824\ndn = ret1_spx * (ret1_spx < 0)  # market return on down days only\nup = ret1_spx * (ret1_spx > 0)  # market return on up days only\nasym = ts_corr_binary(ret1, dn, 120) - ts_corr_binary(ret1, up, 120)  # downside minus upside comovement\nalpha = cs_rank(ts_mean(asym, 5))  # long downside-exposed names (5-day smoothed)",
-  "state": "squeued",
-  "lb": 260
- },
- {
-  "tag": "REG_DNBETA_250",
-  "base": "REG_DOWNBETA",
-  "expr": "# Thesis: Downside beta over a year (covariance with the market on down days) carries a positive risk premium beyond plain beta.\n# Source: Ang, Chen & Xing, \"Downside Risk\" (RFS 2006), https://www.nber.org/papers/w11824\ndn = ret1_spx * (ret1_spx < 0)  # market return on down days only\ndbeta = ts_corr_binary(ret1, dn, 250) * ts_std(ret1, 250) / ts_std(dn, 250)  # downside beta\nbeta = ts_corr_binary(ret1, ret1_spx, 250) * ts_std(ret1, 250) / ts_std(ret1_spx, 250)  # regular beta\nalpha = cs_rank(dbeta - beta)  # long excess downside beta, hedging out plain beta",
-  "state": "squeued",
-  "lb": 520
- },
- {
-  "tag": "ID_TSIZE_SHIFT",
-  "base": "ID_TRADESIZE",
-  "expr": "# Thesis: A shrinking average trade size signals a retail influx (small trades) and predicts underperformance; growing trade size signals institutional interest.\n# Source: Hvidkjaer, \"Small Trades and the Cross-Section of Stock Returns\" (RFS 2008), https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm\ntsz = (volume_first_hour + volume_last_hour) / (number_of_trades_first_hour + number_of_trades_last_hour)  # avg trade size, open and close hours\nshift = ts_mean(tsz, 5) / ts_mean(tsz, 120) - 1  # recent trade size versus its own half-year norm\nalpha = cs_rank(shift)  # long names where trades got bigger, short where they shrank",
-  "state": "squeued",
-  "lb": 260
- },
- {
-  "tag": "ID_TSIZE_FLOW",
-  "base": "ID_TRADESIZE",
-  "expr": "# Thesis: Small-trade buying (positive first-hour returns on days with unusually small trades) marks retail-favored stocks that underperform for weeks.\n# Source: Hvidkjaer, \"Small Trades and the Cross-Section of Stock Returns\" (RFS 2008), https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm\ntsz = volume_first_hour / number_of_trades_first_hour  # avg first-hour trade size\nsmall = cs_winsor(ts_mean(tsz, 60) / tsz - 1, 0.05, False)  # >0 when today's trades are smaller than usual, tails clipped\nflow = ts_mean(small * return_first_hour, 20)  # small-trade-weighted first-hour return over a month\nalpha = -cs_rank(flow)  # short stocks bought by small traders, long stocks they sold",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "ANOM_MAX20",
-  "base": "ANOM_MAX",
-  "expr": "# Thesis: Investors overpay for lottery-like stocks: the maximum daily return over the past month predicts low returns.\n# Source: Bali, Cakici & Whitelaw, \"Maxing Out\" (JFE 2011), https://pages.stern.nyu.edu/~rwhitela/papers/max%20jfe11.pdf\nmx = ts_max(ret1, 20)  # largest daily return in the past month (MAX)\nalpha = -cs_rank(mx)  # short lottery stocks",
-  "state": "squeued",
-  "lb": 60
- },
- {
-  "tag": "ANOM_MAX_VOLADJ",
-  "base": "ANOM_MAX",
-  "expr": "# Thesis: MAX scaled by the stock's own volatility isolates lottery-like spikes from plain high volatility.\n# Source: Bali, Cakici & Whitelaw, \"Maxing Out\" (JFE 2011), https://pages.stern.nyu.edu/~rwhitela/papers/max%20jfe11.pdf\nmx = ts_mean(ts_max(ret1, 5), 20)  # average weekly max return over the past month (smoother MAX)\nsd = ts_std(ret1, 60)  # 60-day volatility\nalpha = -cs_rank(mx / sd)  # short names whose spikes are large relative to their normal risk",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "A101_002",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: Days when volume growth and the open-to-close return move together tend to reverse. (Alpha #2, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ndv = delta(at_signlog(volume), 2)  # 2-day change in log volume\noc = (close - open)/open  # open-to-close return\nalpha = -ts_corr_binary(cs_rank(dv), cs_rank(oc), 5)  # short names whose volume and return ranks co-move"
- },
- {
-  "tag": "A101_003",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: A rising open price on rising volume over two weeks is crowded buying that fades. (Alpha #3, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = -ts_corr_binary(cs_rank(open), cs_rank(volume), 10)  # negative 10-day corr of open-price rank and volume rank"
- },
- {
-  "tag": "A101_004",
-  "base": "A101_REV",
-  "expr": "# Thesis: Stocks whose lows are at the top of their own recent range tend to mean-revert. (Alpha #4, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = -ts_rank(cs_rank(low), 10)  # short stocks whose low-price rank is high versus its last 10 days"
- },
- {
-  "tag": "A101_006",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: Price-volume co-movement signals liquidity-driven moves that reverse. (Alpha #6, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = -ts_corr_binary(open, volume, 10)  # negative 10-day correlation of open price and volume"
- },
- {
-  "tag": "A101_009",
+  "tag": "A101_009b",
   "base": "A101_TREND",
-  "expr": "# Thesis: Follow a move only when the last week was one-directional; otherwise fade it. (Alpha #9, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nup = ts_min(ret1, 5) > 0  # every day of the last 5 was up\ndn = ts_max(ret1, 5) < 0  # every day of the last 5 was down\ntrend = up + dn  # 1 if the week was one-directional\nalpha = trend*ret1 - (1 - trend)*ret1  # momentum in clean trends, reversal otherwise"
+  "expr": "# Note: b-version = dtype-fixed rerun; the runner copy under the old tag is the crashing code (skipped).\n# Thesis: Follow a move only when the last week was one-directional; otherwise fade it. (Alpha #9, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nup = (close/close)*(ts_min(ret1, 5) > 0)  # 1.0 if every day of the last 5 was up\ndn = (close/close)*(ts_min(-ret1, 5) > 0)  # 1.0 if every day of the last 5 was down\ntrend = up + dn  # 1.0 if the week was one-directional\nalpha = trend*ret1 - (1 - trend)*ret1  # momentum in clean trends, reversal otherwise"
  },
  {
-  "tag": "A101_012",
+  "tag": "A101_012b",
   "base": "A101_VOLPX",
-  "expr": "# Thesis: A price move made on rising volume reverses next day (liquidity shock). (Alpha #12, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ndv = delta(volume, 1)/ts_mean(volume, 20)  # change in volume, scaled by average volume\nalpha = -((dv > 0) - (dv < 0))*ret1  # fade today's return in the direction of the volume change"
+  "expr": "# Note: b-version = dtype-fixed rerun; the runner copy under the old tag is the crashing code (skipped).\n# Thesis: A price move made on rising volume reverses next day (liquidity shock). (Alpha #12, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ndv = delta(volume, 1)/ts_mean(volume, 20)  # change in volume, scaled by average volume\nsg = (close/close)*(dv > 0) - (close/close)*(dv < 0)  # sign of the volume change as float32 (+1/-1)\nalpha = -sg*ret1  # fade today's return in the direction of the volume change"
  },
  {
-  "tag": "A101_014",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: Accelerating returns combined with price-volume correlation tend to reverse. (Alpha #14, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nacc = delta(ret1, 3)  # 3-day change in daily return\nalpha = -cs_rank(acc)*ts_corr_binary(open, volume, 10)  # short acceleration, scaled by open-volume corr"
- },
- {
-  "tag": "A101_015",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: Persistent high-price/volume co-movement marks crowded moves that fade. (Alpha #15, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nalpha = -ts_sum(cs_rank(c), 3)  # short names where that corr stays high"
- },
- {
-  "tag": "A101_018",
-  "base": "A101_REV",
-  "expr": "# Thesis: Large, volatile intraday bodies that track the open reverse. (Alpha #18, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nbody = (close - open)/close  # open-to-close move as a fraction of price\nvol = ts_std(abs(close - open)/close, 5)  # 5-day volatility of the intraday move\nalpha = -cs_rank(vol + body + ts_corr_binary(close, open, 10))  # fade big, volatile, open-anchored moves"
- },
- {
-  "tag": "A101_020",
-  "base": "A101_GAP",
-  "expr": "# Thesis: Opening above yesterday's high, close and low is an overreaction that fades. (Alpha #20, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ng_hi = open/ts_delay(high, 1) - 1  # gap versus yesterday's high\ng_cl = open/ts_delay(close, 1) - 1  # gap versus yesterday's close\ng_lo = open/ts_delay(low, 1) - 1  # gap versus yesterday's low\nalpha = -cs_rank(g_hi)*cs_rank(g_cl)*cs_rank(g_lo)  # short the stocks that gap up the most"
- },
- {
-  "tag": "A101_022",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: Rising high-price/volume correlation in volatile names precedes reversal. (Alpha #22, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ndc = delta(ts_corr_binary(high, volume, 5), 5)  # 5-day change in the 5-day high-volume corr\nalpha = -dc*cs_rank(ts_std(close, 20)/close)  # weight by 20-day price volatility"
- },
- {
-  "tag": "A101_026",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: When volume and high-price both sit at local peaks together, the move is exhausted. (Alpha #26, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nalpha = -ts_max(c, 3)  # short names with the highest recent co-peaking"
- },
- {
-  "tag": "A101_030",
+  "tag": "A101_030b",
   "base": "A101_TREND",
-  "expr": "# Thesis: Three straight up-closes on fading volume is a weak rally to sell. (Alpha #30, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ns1 = (ret1 > 0) - (ret1 < 0)  # sign of today's return\ns2 = ts_delay(s1, 1) + ts_delay(s1, 2)  # signs of the previous two days\nalpha = (1 - cs_rank(s1 + s2))*ts_sum(volume, 5)/ts_sum(volume, 20)  # fewer up days and higher recent volume is better"
- },
- {
-  "tag": "A101_033",
-  "base": "A101_REV",
-  "expr": "# Thesis: Close above open (intraday gain) reverts the next day. (Alpha #33, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = cs_rank(open/close - 1)  # long stocks that fell from open to close"
- },
- {
-  "tag": "A101_034",
-  "base": "A101_REV",
-  "expr": "# Thesis: Calm stocks that fell today rebound; short-term vol spikes and gains fade. (Alpha #34, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nvr = ts_std(ret1, 3)/ts_std(ret1, 5)  # short- over medium-horizon volatility\nalpha = cs_rank((1 - cs_rank(vr)) + (1 - cs_rank(ret1)))  # low vol ratio and low return rank are long"
- },
- {
-  "tag": "A101_035",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: High-volume days with a weak range position and weak returns lead to rebounds. (Alpha #35, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nv = ts_rank(volume, 40)  # volume versus its last 40 days\nr = 1 - ts_rank((close + high - low)/close, 20)  # low intraday range position versus history\nalpha = v*r*(1 - ts_rank(ret1, 40))  # heavy volume, weak range position, weak return"
- },
- {
-  "tag": "A101_038",
-  "base": "A101_REV",
-  "expr": "# Thesis: Stocks at a local price high that also rose intraday fade. (Alpha #38, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = -cs_rank(ts_rank(close, 10))*cs_rank(close/open)  # short high 10-day rank times intraday gain"
- },
- {
-  "tag": "A101_040",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: Volatile highs that move with volume mark crowded, reversing moves. (Alpha #40, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nhv = ts_std(high, 10)/close  # 10-day volatility of the high, as a fraction of price\nalpha = -cs_rank(hv)*ts_corr_binary(high, volume, 10)  # short volatile, volume-driven highs"
- },
- {
-  "tag": "A101_041",
-  "base": "A101_VWAP",
-  "expr": "# Thesis: A close-hour VWAP above the geometric mid of the day's range signals buying that fades. (Alpha #41, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nmid = (high*low)**0.5/close  # geometric mid of the day's range, relative to the close\nalpha = mid - vwap_last_hour/close  # long when the last-hour VWAP sits below the mid"
- },
- {
-  "tag": "A101_043",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: Price drops on unusually high volume rebound. (Alpha #43, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nrv = ts_rank(volume/ts_mean(volume, 20), 20)  # relative volume versus its recent history\nalpha = rv*ts_rank(-delta(close, 5)/close, 10)  # long recent losers that traded heavily"
- },
- {
-  "tag": "A101_044",
-  "base": "A101_VOLPX",
-  "expr": "# Thesis: High prices that coincide with high volume rank are exhausted. (Alpha #44, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = -ts_corr_binary(high, cs_rank(volume), 5)  # negative 5-day corr of high and volume rank"
- },
- {
-  "tag": "A101_050",
-  "base": "A101_VWAP",
-  "expr": "# Thesis: Persistent co-movement of volume and VWAP ranks marks crowded trades. (Alpha #50, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nalpha = -ts_max(cs_rank(c), 5)  # short the most persistent co-movers"
- },
- {
-  "tag": "A101_053",
-  "base": "A101_RANGE",
-  "expr": "# Thesis: A change in where the close sits within the day's range reverts. (Alpha #53, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nalpha = -delta(pos, 10)  # fade the 10-day change in close location"
- },
- {
-  "tag": "A101_054",
-  "base": "A101_RANGE",
-  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nalpha = -loc*(open/close)**5  # long closes near the low, scaled by the open-to-close drop"
- },
- {
-  "tag": "A101_055",
-  "base": "A101_RANGE",
-  "expr": "# Thesis: Stochastic-oscillator level moving with volume marks crowded moves. (Alpha #55, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nstoch = (close - ts_min(low, 10))/(ts_max(high, 10) - ts_min(low, 10) + 0.001*close)  # 10-day stochastic\nalpha = -ts_corr_binary(cs_rank(stoch), cs_rank(volume), 5)  # short where stochastic and volume co-move"
+  "expr": "# Note: b-version = dtype-fixed rerun; the runner copy under the old tag is the crashing code (skipped).\n# Thesis: Three straight up-closes on fading volume is a weak rally to sell. (Alpha #30, adapted)\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\ns1 = (close/close)*(ret1 > 0) - (close/close)*(ret1 < 0)  # sign of today's return as float32 (+1/-1)\ns2 = ts_delay(s1, 1) + ts_delay(s1, 2)  # signs of the previous two days\nalpha = (1 - cs_rank(s1 + s2))*ts_sum(volume, 5)/ts_sum(volume, 20)  # fewer up days and higher recent volume is better"
  }
 ]

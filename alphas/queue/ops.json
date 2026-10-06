@@ -1,6 +1,7 @@
 {
  "note": "Operator instructions for the next visit (written by the cloud master). See handoff/OPERATOR.md.",
  "skip": ["A101_009", "A101_012", "A101_030"],
+ "front": ["Y_PLsz_ACC_w12", "Y_PLewm_ACC_w1", "Y_VW_ACC_w1", "MM1_TOXREV", "MM2_SIZEREV", "MM3_CLOSEPRESS", "MO1_RESMOM", "MO2_FROG2", "MO3_VOLMOM"],
  "px": [
   "PX.triage(.065)",
   "PX.submitted()",

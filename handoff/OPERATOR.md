@@ -43,6 +43,12 @@ After any later page reload by accident: re-paste runner.js + `RUNNER()` and px.
 6. **Load the queue.** `alphas/queue/next.json` holds new jobs (already checked by the cloud master). Add them with
    `R.add([...])` in batches of <= 10, pasting the JSON objects unchanged (they carry `state` and `lb`). `R.add`
    ignores tags it already has, so loading the same file twice is harmless. Then `R.save()` and `R.counts()`.
+   **Priority:** move the jobs tagged in `ops.json` `front` (in that order) to the front of `R.jobs`, so the runner
+   simulates them next: `const F=<front list>; const pick=R.jobs.filter(j=>F.includes(j.tag)).sort((a,b)=>F.indexOf(a.tag)-F.indexOf(b.tag)); R.jobs=pick.concat(R.jobs.filter(j=>!F.includes(j.tag))); R.save()`.
+   Reordering only: never remove a job.
+6b. **Eligible but not auto-submitted.** `R.jobs.filter(j=>j.s&&j.s.elig&&j.state!=='submitted').map(j=>[j.tag,j.sid,j.s.ir,j.s.corr].join(' '))`.
+   Put each as `ELIGIBLE <tag> <sid> <ir> <corr>` at the top of the snapshot file and in your reply, so Abhinav can
+   decide quickly whether to submit by hand. Never submit them yourself.
 7. **Log and push.** Append one line to `alphas/queue/loaded.log`:
    `<YYYYMMDD-HHMM> | next.json <git short hash of the file> | added <n> | counts <R.counts()>`.
    Commit the snapshot files, `alphas/ledger.md`, `alphas/runner-export.json` and `loaded.log`; push.

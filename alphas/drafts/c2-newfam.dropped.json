@@ -1,0 +1,20 @@
+[
+ {
+  "tag": "MR1_RESREV",
+  "base": "RESREV",
+  "family": "MR",
+  "expr": "# Thesis: reversal of the stock-specific (residual) part of the return is cleaner and less exposed to momentum crashes than raw reversal.\n# Source: Blitz, Huij, Lansdorp & Verbeek, \"Short-Term Residual Reversal\" (Journal of Financial Markets 2013), https://www.ssrn.com/abstract=1911449\n# Note: lb raised from the card's 140 to 200: in Slow mode the 60-day residual std needs 120 (beta) + 60 = 180 days of history, so lb 140 leaves it empty or partial.\nbeta = ts_corr_binary(ret1, ret1_spx, 120) * ts_std(ret1, 120) / (ts_std(ret1_spx, 120) + 0.0001)  # 6-month market beta = corr * vol ratio\nres = ret1 - beta*ret1_spx  # daily residual (stock-specific) return\nalpha = -cs_rank(ts_sum(res, 5) / (ts_std(res, 60) + 0.0001))  # short last week's residual winners, long losers, scaled by residual volatility",
+  "source_url": "https://www.ssrn.com/abstract=1911449",
+  "lb": 200,
+  "status": "DROPPED by Critic (Oct 6): residual reversal after industry neutralisation ~ raw reversal; VP_RESREV_VIX IR .02 corr .83"
+ },
+ {
+  "tag": "MR2_MORNANCH",
+  "base": "MORNANCH",
+  "family": "MR",
+  "expr": "# Thesis: the first-hour VWAP is the day's consensus price after overnight news is absorbed; closes far from it, without an information-like (smooth) last hour, revert.\n# Source: Bogousslavsky & Muravyev, \"Who Trades at the Close? Implications for Price Discovery and Liquidity\" (Journal of Financial Markets 2023), https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html; Gao, Han, Li & Zhou, \"Market Intraday Momentum\" (Journal of Financial Economics 2018), https://doi.org/10.1016/j.jfineco.2018.05.009\ndev = ts_mean((close - vwap_first_hour)/vwap_first_hour, 5)  # 5-day average gap of the close above the first-hour VWAP, in %\nsmooth = cs_rank(ts_mean(abs(information_ratio_last_hour), 5))  # how one-directional (informed-looking) the last hour was, rank 1..2\nalpha = -cs_zscore(dev) * (1.5 - smooth)  # fade the gap to the morning anchor when the close was choppy, follow it when smooth",
+  "source_url": "https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html",
+  "lb": 60,
+  "status": "DROPPED by Critic (Oct 6): same smoothness flaw as MM1 and near-duplicate of it"
+ }
+]
