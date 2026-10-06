@@ -1,6 +1,9 @@
 # MEMORY: state and playbook
 
-## LATEST (Oct 6, 16:45 IST, cloud chat handing over)
+## LATEST (Oct 6, 17:10 IST): RUNNER TAB CLOSED FOR HANDOVER (Plan B)
+- The cloud chat ran R.save() (168 jobs: 13 Slow + 25 Fast queued, Y_PLsz_ACC_w07 in flight as sid 698181), stopped its runner and closed the tab. Desktop: open https://www.trexsim.com/trexsim/pysim/alphalist in your group, paste runner/runner.js (NOT localStorage.R3_code), call RUNNER(), check R.counts() and R.cur(), set R3_owner. The repo runner honours each job's j.lb (all queued jobs carry lb <= 300), so the old wlb patch is not needed.
+
+## State at 16:45
 - SUBMITTED: 4. T_LATE_accr_w2, T_COMP7, T_LATE_w3 (IR/sqrt(TVR) route) and U_VWAPT_FMOM_w1 (corr .466 route; submitted manually by Abhinav; marked `submitted` in the runner).
 - BEST LEAD: anti-correlated partners. Price-reversal blends (IR ~.093) are blocked by #570310 / #604930 (bar .173). Partners whose daily PnL moves AGAINST them cut turnover and correlation:
   fundamental changes (now blocked by our own #695151) and ACCRUALS (corr -.215; replay predicts IR ~.12). Running: Y_PLsz_ACC_w07, Y_PLsz_ACC_w12, Y_PLewm_ACC_w1, Y_VW_ACC_w1. Read them first; if one passes, apply the same partner to the other near-misses (`PX.triage`), and keep scanning for new partners with `PX.pair` against our blocked bases (corr < -.05 and own-corr < .5).
