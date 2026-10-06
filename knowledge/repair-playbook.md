@@ -32,10 +32,35 @@ IR/sqrt(TVR) rises 13%. A repair pays when the % IR loss is well under half the 
 4. Combine two near-misses whose daily PnL correlate < .4 (check with `PX.pair`, predict with `PX.blend`).
 5. Trade only the conviction tails: `cs_remove_middle(x, 0.6)`.
 
+## Route D: regime gate learned from the alpha's OWN past returns (no hard-coded dates)
+Idea (Abhinav): compute the alpha every day, but stand aside after it has been losing, and re-enter once its record
+recovers; the alpha recognises a crash from its own returns instead of being told when crashes happened.
+Theory: a stop rule only helps if strategy returns run in streaks (Kaminski & Lo, Journal of Financial Markets
+2014; factor momentum in Gupta & Kelly 2019). Our reversal alphas have 10-day block autocorrelation of only .03-.08,
+so most rules HURT them; test before queueing.
+1. Pre-screen with `PX.gate(tag, rule)` (rules mom20, mom60, mom120, stop10re5) on the parent's real PnL. Keep a rule
+   only if IR improves in BOTH halves of the sample. Oct 6 replay results:
+   - P_VWAPT mom60 .083 -> .093 (both halves up); S_VWAPT_rnd_iss_gpa mom60 .096 -> .101 (both up);
+     Q_ACCR_AG stop10re5 .067 -> .074 and mom20 .067 -> .076 (both up).
+   - Hurt: stop10re5 on every reversal alpha (e.g. U_PRICE2_szvo .093 -> .072); mom20 on most reversal alphas.
+2. In-code implementation (adds only `ret1` and `close` as variables):
+   `s = <parent alpha>`; `z = at_nan2zero(cs_zscore(s))`; `one = close/close`;
+   `x = at_nan2zero(ts_delay(z, 1)*ret1)`; `p = x - cs_indneut(x, one)` (cross-sectional mean = shadow return);
+   `on = ts_sum(p, 60) > 0` (or `1 - (ts_sum(p, 10) < 0)*(ts_sum(p, 5) < 0)`); `alpha = at_zero2nan(at_nan2zero(s)*on)`.
+   Queued Oct 6: G_VWAPT_mom60, G_RIG_mom60, G_ACCR_mom20, G_ACCR_stop10. The `cs_indneut(x, one)` trick is unproven
+   on the portal; check these runs first.
+3. Per-day scaling has no effect on the portal (each day is re-scaled to $1M), so a gate can only be on/off
+   (NaN = no positions), not a size dial.
+4. Never gate on calendar dates or known crisis periods: that is look-ahead and will fail out of sample (2022+).
+
+## Portal facts that break repairs
+- Slow lookback maximum is 300 days ("Lookback cannot exceed 300").
+- `bool - bool` crashes the simulation at the loading stage: cast flags with `1.0*(...)` before subtracting.
+
 ## Guardrails (multiple-testing discipline)
 - Each repair keeps the parent's `# Thesis:` and `# Source:` lines and adds `# Repair: <technique> (<source>). Parent <tag> IR .., TVR .., corr .. to #...`.
 - At most 2 techniques stacked per variant, and at most 4 variants per parent per cycle. A parent that fails 8 repairs is retired.
 - Prefer repairs that also keep OOS1 (2017-21) >= half of the IS IR, and recency IR >= .04.
 - Check self-correlation with our submissions (`PX.own(tag)` after the run; `PX.blend` before queueing a blend).
 - Log every outcome in `knowledge/repairs.md`, so the next cycle picks techniques by measured success.
-- Slow lookback must cover the longest window + delay (+ ~70 days for ts_fill). Set `lb` and `wlb` (<= 330).
+- Slow lookback must cover the longest window + delay (+ ~70 days for ts_fill). Set `lb` and `wlb` (<= 300).

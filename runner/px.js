@@ -60,5 +60,19 @@
       return [j.tag, 'ir' + s.ir, 'tvr' + s.tvr, 'irtvr' + s.irtvr, 'corr' + s.corr + '@' + s.corrId, 'bar' + bar, fix].join(' ');
     });
   };
+  // Gate replay: apply a stop/momentum rule to a finished job's REAL daily PnL using only past days, and report
+  // IR (full, first half, second half), share of days on, and max correlation with our submissions (last 500 days).
+  // rules: 'mom20', 'mom60', 'mom120', 'stop10re5'. Use it before queueing a gated alpha (keep a rule only if BOTH halves improve).
+  PX.gate = function (tag, rule) {
+    const m = series(tag); if (!m) return 'missing PnL';
+    const ts = Object.keys(m).map(Number).sort((a, b) => a - b), a = ts.map((t) => (isFinite(m[t]) ? m[t] : 0));
+    const sum = (i, k) => { let s = 0; for (let j = Math.max(0, i - k); j < i; j++) s += a[j]; return s; };
+    const f = { mom20: (i) => sum(i, 20) > 0, mom60: (i) => sum(i, 60) > 0, mom120: (i) => sum(i, 120) > 0, stop10re5: (i) => !(sum(i, 10) < 0 && sum(i, 5) < 0) }[rule];
+    if (!f) return 'unknown rule';
+    const g = a.map((v, i) => (i < 120 || f(i) ? v : 0)), h = Math.floor(a.length / 2), ir = (x) => +(mean(x) / sd(x)).toFixed(3);
+    const t5 = ts.slice(-500), own = {};
+    PX.submitted().forEach((s2) => { if (s2 === tag) return; const S = series(s2); own[s2] = +cor(t5.map((t) => g[ts.indexOf(t)]), t5.map((t) => S[t] || 0)).toFixed(2); });
+    return { base: [ir(a), ir(a.slice(0, h)), ir(a.slice(h))], gated: [ir(g), ir(g.slice(0, h)), ir(g.slice(h))], on: +(g.filter((v, i) => i >= 120 && f(i)).length / (a.length - 120)).toFixed(2), ownCorr: own };
+  };
 })();
 'PX ready';

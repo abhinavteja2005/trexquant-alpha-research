@@ -1,11 +1,11 @@
 # Alpha registry (every alpha, good or bad)
 
-Machine-readable copy: `alphas/registry.csv` (one row per alpha; regenerate from the runner each cycle with `tools/ledger_sync.py`).
-Expressions: the `expr_file` column points to `alphas/drafts/*.json`; older ones live in the runner (`localStorage.R3_jobs`) and `ideas/backlog.md`.
+Machine-readable copy: `alphas/registry.csv`. Regenerate from the runner each cycle (`tools/ledger_sync.py`).
+Expressions: `expr_file` points to `alphas/drafts/*.json`; others live in the runner (`localStorage.R3_jobs`) and `ideas/backlog.md`.
 
-Status counts (Oct 6, 11:30 IST): FAST ONLY (not Slow-tested): 49, QUEUED (Fast screen): 25, REJECTED: IR below .072: 19, REJECTED: correlation (IR ok): 14, QUEUED (Slow): 14, SKIPPED (look-ahead variable dropped): 12, QUEUED: 6, FAILED (Fast timeout): 3, SUBMITTED: 3, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, RUNNING: 1
+Status counts (Oct 6, 11:50 IST): FAST ONLY (not Slow-tested): 49, QUEUED (Fast screen): 25, REJECTED: IR below .072: 20, QUEUED (Slow): 19, REJECTED: correlation (IR ok): 14, SKIPPED (look-ahead variable dropped): 12, QUEUED: 4, FAILED (Fast timeout): 3, SUBMITTED: 3, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, FAILED (portal: lookback > 300): 1, FAILED (bool - bool crash): 1
 
-Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner, e.g. c_intra Fast IR .090 / corr .649, c3_rnd_earn Fast .094 -> Slow .082 / corr .688, c3_r3f2e Fast .084), summarised in `knowledge/lessons.md` and `alphas/ledger.md`.
+Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_intra Fast IR .090 / corr .649, c3_rnd_earn Fast .094 -> Slow .082 / corr .688), summarised in `knowledge/lessons.md` and `alphas/ledger.md`.
 
 | Tag | Family | Batch | Status | Slow IR | TVR | IR/sqrt(TVR) | Corr @ blocker | Bar | OOS1 | Fast IR / corr |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -111,9 +111,9 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner, e.g. c_
 | U_FMOM5 | FMOM | Oct 6 09:50 upgrades | EMPTY (lookback bug; rerun queued) | 0 | 0 | 0 | 0 |  |  |  |
 | U_PRICE2_w10 | MIX | Oct 6 09:50 upgrades | REJECTED: correlation (IR ok) | 0.08 | 0.848 | 0.087 | 0.61 @570310 | 0.119 | 0.112 |  |
 | U_PRICE2_s3 | MIX | Oct 6 09:50 upgrades | REJECTED: correlation (IR ok) | 0.072 | 0.545 | 0.097 | 0.703 @570310 | 0.119 | 0.108 |  |
-| U_FMOM5_d120 | FMOM | Oct 6 09:50 upgrades | RUNNING |  |  |  |  |  |  |  |
-| U_FMOM5_lb330 | FMOM | Oct 6 09:50 upgrades | QUEUED |  |  |  |  |  |  |  |
-| R_PRICE2_band | MIX | Oct 6 11:15 repair tests | QUEUED |  |  |  |  |  |  |  |
+| U_FMOM5_d120 | FMOM | Oct 6 09:50 upgrades | REJECTED: IR below .072 | 0.028 | 0.064 | 0.112 | 0.492 @595355 |  | 0.03 |  |
+| U_FMOM5_lb330 | FMOM | Oct 6 09:50 upgrades | FAILED (portal: lookback > 300) |  |  |  |  |  |  |  |
+| R_PRICE2_band | MIX | Oct 6 11:15 repair tests | FAILED (bool - bool crash) |  |  |  |  |  |  |  |
 | R_PRICE2_ewm | MIX | Oct 6 11:15 repair tests | QUEUED |  |  |  |  |  |  |  |
 | R_RIG_weekly | VWAPT | Oct 6 11:15 repair tests | QUEUED |  |  |  |  |  |  |  |
 | U_ILLIQ_rig_szvo | VWAPV | Oct 6 09:50 upgrades | QUEUED |  |  |  |  |  |  |  |
@@ -157,3 +157,8 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner, e.g. c_
 | A101_053 | A101 | Oct 6 101-alphas | QUEUED (Fast screen) |  |  |  |  |  |  |  |
 | A101_054 | A101 | Oct 6 101-alphas | QUEUED (Fast screen) |  |  |  |  |  |  |  |
 | A101_055 | A101 | Oct 6 101-alphas | QUEUED (Fast screen) |  |  |  |  |  |  |  |
+| R_PRICE2_band2 | MIX | Oct 6 11:45 repair tests | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_VWAPT_mom60 | VWAPT | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_RIG_mom60 | VWAPT | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_ACCR_mom20 | ACCR | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_ACCR_stop10 | ACCR | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |

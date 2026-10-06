@@ -64,7 +64,7 @@ Most of our IR is already found; it is blocked by correlation. Repairing near-mi
       (1.2 x the blocker's IR/sqrt(TVR)) and the turnover needed to clear it.
    b. Fast-only alphas with Fast IR >= .075 were never judged in Slow (e.g. c_intra .090): queue them in Slow.
    c. Slow alphas that used 250-day delays on filing data (issuance, asset growth) ran with a 140-day lookback,
-      so those parts were empty. Re-run the best ones with `wlb` 330: they are now different alphas.
+      so those parts were empty. Re-run the best ones with `wlb` 300: they are now different alphas.
    d. For each triaged parent choose the route by the numbers (`knowledge/repair-playbook.md`):
       - needTVR >= ~0.35 x TVR: Route A (cut turnover): slow-blend, banding, EWMA, weekly rebalance, longer windows.
       - TVR route hopeless: Route B (lower corr): horizon change, size/vol neutral, gating, an unrelated partner.
@@ -96,7 +96,7 @@ jobs a day.
         dimensionless, (iv) it is simple (drop drafts with > 6 code lines unless justified, as in AlphaAgent's
         complexity control). Return keep or drop with one line per draft.
 4. Filter: `check_alpha.py` -> `originality.py` -> drop duplicates. Expect ~15 survivors.
-5. Queue: `make_queue.py SLOW:<file>` -> `R.add`, then set `squeued`, explicit `lb` AND `wlb` (the live tab honours `wlb` via a patched R.lookback; keep it <= 330, and 260 is proven), then `R.save()`. Slow mode only sees `lookback` days, so lookback must cover the longest window + delay (+ ~70 days for ts_fill). At most 5 per
+5. Queue: `make_queue.py SLOW:<file>` -> `R.add`, then set `squeued`, explicit `lb` AND `wlb` (the live tab honours `wlb` via a patched R.lookback; keep it <= 300 (portal maximum), and 260 is proven), then `R.save()`. Slow mode only sees `lookback` days, so lookback must cover the longest window + delay (+ ~70 days for ts_fill). At most 5 per
    family. Never Fast for correlation questions.
 6. Log: regenerate `alphas/registry.csv` + `alphas/registry.md` from the runner (EVERY alpha, good or bad, with its status); append a dated Changelog entry to `reports/RESEARCH_REPORT.md` (what ran, results, how alphas were modified, lessons, next); update `knowledge/repairs.md`, the ledger, lessons and `reports/status.md`; commit and push. Report to Abhinav in 5 lines.
 

@@ -12,3 +12,8 @@
 | Oct 6 | U_PRICE2_w10 | U_PRICE2_szvo | 5 -> 10-day windows | .093 / .998 / .704 | .080 / .848 / .610@570310 | .087 vs .119 | no |
 | Oct 6 | U_VWAPT_rig_szvo | S_VWAPT_rnd_iss_gpa | size+vol factorneut | .096 / .741 / .739@605850 | .099 / .742 / .701@605850 | .115 vs .203 | no |
 | pending | U_PRICE2_s3, R_PRICE2_band, R_PRICE2_ewm, R_RIG_weekly | see playbook | 3-day mean, banding, EWMA, weekly rebalance | | | | |
+| Oct 6 | U_PRICE2_s3 | U_PRICE2_szvo | ts_mean 3 smoothing | .093 / .998 / .704@570310 | .072 / .545 / .703@570310 | .097 vs .119 | no |
+| Oct 6 | U_FMOM5_d120 | U_FMOM5 (empty) | 120-day changes, lb 260 | empty | .028 / .064 / .492@595355 | IR too low | no |
+| Oct 6 | R_PRICE2_band | U_PRICE2_szvo | banding | | CRASHED (bool - bool) -> rerun R_PRICE2_band2 | | no |
+| Oct 6 | U_FMOM5_lb330 | U_FMOM5 | lookback 330 | | REJECTED by portal: max lookback 300 | | no |
+| pending | G_VWAPT_mom60, G_RIG_mom60, G_ACCR_mom20, G_ACCR_stop10 | P_VWAPT, S_VWAPT_rnd_iss_gpa, Q_ACCR_AG | self-learned regime gate (replay-screened) | | | | |

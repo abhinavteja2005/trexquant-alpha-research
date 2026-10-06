@@ -92,3 +92,11 @@ trading). Links: `knowledge/autoresearch-survey.md`, `knowledge/repair-playbook.
 - **Oct 6 11:30:** 3 submitted. 148 alphas logged (49 Fast-only, 33 rejected in Slow, 12 skipped, 4 failed, 1 empty,
   46 queued/running). Repair tests queued: banding, EWMA, weekly rebalance, 3-day mean, fundamental-change composite
   (fixed lookback). Next: hand the runner to the local Claude Desktop, audit near-misses, repair first.
+- **Oct 6 11:50: self-learned regime gates.** Rejected the "don't trade before 2010" idea as hindsight (hard-coded
+  dates = look-ahead). Built Abhinav's better version instead: the alpha computes its own shadow return every day and
+  stands aside after a bad stretch. Theory (Kaminski & Lo 2014) says this only helps if returns are streaky. We tested
+  that first by replaying each rule on real PnL (`PX.gate`): reversal alphas are barely streaky (block autocorr
+  .03-.08), so stop-losses hurt them. A 60-day strategy-momentum switch improved P_VWAPT (.083 -> .093) and the best
+  reversal+fundamental blend (.096 -> .101), and stop-loss / 20-day momentum improved accruals (.067 -> .074 / .076),
+  all in both halves of the sample. 4 gated alphas queued. Also learned: portal lookback max is 300; `bool - bool`
+  crashes a sim; fundamental-change composite (120-day) IR .028 but corr .49.
