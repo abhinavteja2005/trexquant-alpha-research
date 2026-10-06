@@ -16,7 +16,7 @@
 | Oct 6 | U_FMOM5_d120 | U_FMOM5 (empty) | 120-day changes, lb 260 | empty | .028 / .064 / .492@595355 | IR too low | no |
 | Oct 6 | R_PRICE2_band | U_PRICE2_szvo | banding | | CRASHED (bool - bool) -> rerun R_PRICE2_band2 | | no |
 | Oct 6 | U_FMOM5_lb330 | U_FMOM5 | lookback 330 | | REJECTED by portal: max lookback 300 | | no |
-| pending | G_VWAPT_mom60, G_RIG_mom60, G_ACCR_mom20, G_ACCR_stop10 | P_VWAPT, S_VWAPT_rnd_iss_gpa, Q_ACCR_AG | self-learned regime gate (replay-screened) | | | | |
+| Oct 6 | G_VWAPT_mom60, G_RIG_mom60, G_ACCR_mom20, G_ACCR_stop10 | P_VWAPT, S_VWAPT_rnd_iss_gpa, Q_ACCR_AG | self-learned regime gate (replay-screened) | | FAILED: cs_indneut(x, close/close) needs integer group; fix: industry*0. Gates also RETIRED: switching raises TVR .05->.48 | | no |
 | Oct 6 | R_PRICE2_ewm | U_PRICE2_szvo | EWMA (ts_mean_exp 10, 0.7) | .093 / .998 / .704@570310 | .085 / .778 / .726@570310 | .097 vs .119 | no |
 | Oct 6 | R_PRICE2_band2 | U_PRICE2_szvo | banding with 0/1 flags | .093 / .998 / .704 | .018 / 1.932 / .111 | flags flip: turnover UP | no |
 | Oct 6 | U_ILLIQ_rig_szvo | S_ILLIQ_rnd_iss_gpa | size+vol factorneut | .092 / .645 / .701@605850 | .078 / .382 / .626@601796 | .126 vs .169 | no |
@@ -30,4 +30,5 @@
 | Oct 6 | X_PL_FM4_w1 | U_PRICE2_szvo + U_FMOM5_d120 | anti-correlated partner 1:1 | .093 / .998 / .704@570310 | .093 / .689 / .637@604930 | .112 vs .173 | no |
 | Oct 6 | X_PL_FM4_w05 | U_PRICE2_szvo + U_FMOM5_d120 | partner at 0.5 | .093 / .998 / .704 | .094 / .851 / .737@604930 | .102 vs .173 | no |
 | Oct 6 | X_VW_FM5_w1 | P_VWAPT + U_FMOM5_d120 | partner 1:1 | .083 / 1.047 / .782 | .086 / .677 / .799@695151 (own) | .105 vs .116 | no |
+| Oct 6 | VWAPV_fcf_iss_w2, RETL_fcf_iss_w2, OVN_fcf_iss_w2 | reversal + fcf + issuance | blend (2x slow weight) | | FAILED (Fast timeout): ts_delay(shsout, 252) — lag 252 not allowed; fix: 250 | | no |
 | pending | Y_PLsz_ACC_w07/_w12, Y_PLewm_ACC_w1, Y_VW_ACC_w1 | price reversal + accruals | anti-correlated partner (PnL corr -.215), replay IR .115-.124 | | | | |

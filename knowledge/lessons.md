@@ -61,3 +61,9 @@
 - X_PL_FM4_w1 (price blend + 4 half-year changes, 1:1): IR .093 (replay predicted .096), TVR .998 -> .689, corr .704 -> .637 but now to #604930 (bar .173). Anti-correlated partners cut turnover and correlation as predicted, not yet enough for this base.
 - Oct 6 16:40: the portal requires the 1.2x IR/sqrt(TVR) bar against EVERY pool alpha above .5 correlation, not just the top one (X_PL_FM4_w1 is .758 to our own #695151 AND .637 to #604930, whose bar is .173). Our 4th submission (#695151) now blocks further fundamental-change blends (X_VW_FM5_w1 .799; PX own-corr .62-.68 for FMOM partners).
 - New partner scan (PX.pair vs U_PRICE2_szvo over all finished alphas): accruals (Q_ACCR_AG) corr -.215; replay U_PRICE2_szvo + accruals: w.5 IR .122, w1 .123, w1.5 .115, own-corr <= .47. Queued Y_ blends (10 variables).
+
+## Oct 6 (cloud session): crash forensics
+- 12 crashes diagnosed. Three new checker rules added: (A) ts_delay lag must be in {1,2,3,4,5,10,20,40,60,120,250}; (B) cs_indneut group must use industry/subindustry/sector; (C) warn if min lookback > 300.
+- ts_delay(shsout, 252) caused 3 Fast timeouts (VWAPV/RETL/OVN_fcf_iss_w2). Lag 252 is not 250 — always use allowed windows.
+- Gate template `cs_indneut(x, close/close)` crashed all 4 G_ alphas: float32 is not an integer group code. Fix: `cs_indneut(x, industry*0)`. The repair-playbook gate template has been updated.
+- Regime gates RETIRED as a technique: on/off switching raises TVR from .05 to .48, destroying the IR/sqrt(TVR) route (G_ACCR_mom20b). In-code gates also underperform replay predictions (G_VWAPT_mom60b: predicted .093, real .071).

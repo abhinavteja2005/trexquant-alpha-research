@@ -1,6 +1,8 @@
 # Status
-Runner owner: HANDOVER IN PROGRESS (cloud chat -> Desktop). The Desktop session sets localStorage.R3_owner and updates this line.
-Last update: Oct 6, 10:45 IST.
-- Submitted: 4 (T_LATE_w3, T_LATE_accr_w2, T_COMP7 via the IR/sqrt(TVR) route; U_VWAPT_FMOM_w1 via corr .466, submitted manually Oct 6 15:30).
-- Queue: U_ upgrade batch (Slow), then 14 cycle-1 Slow jobs, then 25 A101 Fast screens.
-- Next: the Desktop session builds B0-B4 from handoff/AUTORESEARCHER.md and runs cycles.
+Runner owner: PENDING — cloud session ready, waiting for Abhinav to say "the tab is yours".
+Last update: Oct 6, cloud session startup.
+- Submitted: 4 (T_LATE_w3, T_LATE_accr_w2, T_COMP7 via IR/sqrt(TVR); U_VWAPT_FMOM_w1 via corr .466).
+- Crash Analyst: DONE. 12 crashes diagnosed, 3 new checker rules (ts_delay lag, cs_indneut group, lookback warning), 20/20 tests pass. Code review in progress.
+- Best lead: Y_ accrual-partner blends (replay IR .115-.124, own-corr <= .47). Results pending in runner.
+- Blocked on: Chrome access for runner takeover, ledger sync, and queueing.
+- Next: reviewer feedback -> fix defects -> push -> Chrome takeover -> ledger sync -> cycle 1.
