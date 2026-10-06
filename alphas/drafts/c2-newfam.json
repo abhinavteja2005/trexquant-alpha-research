@@ -1,0 +1,66 @@
+[
+ {
+  "tag": "MM1_TOXREV",
+  "base": "TOXREV",
+  "family": "MM",
+  "expr": "# Thesis: market makers lose to informed (toxic) flow and earn from uninformed flow. A last-hour move that was smooth and one-directional (high |information ratio| within the hour) looks informed and tends to continue; a choppy move looks like noise or liquidity demand and reverts.\n# Source: Easley, Lopez de Prado & O'Hara, \"Flow Toxicity and Liquidity in a High-Frequency World\" (Review of Financial Studies 2012), https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1695596\nr = cs_zscore(ts_mean(return_last_hour, 5))  # 5-day average last-hour return, cross-sectional z-score\nsmooth = cs_rank(ts_mean(abs(information_ratio_last_hour), 5))  # how one-directional (informed-looking) the last hour was, rank 1..2\nalpha = -r * (1.5 - smooth)  # fade choppy moves (+0.5 weight), follow the smoothest ones (-0.5 weight)",
+  "source_url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1695596",
+  "lb": 60
+ },
+ {
+  "tag": "MM2_SIZEREV",
+  "base": "SIZEREV",
+  "family": "MM",
+  "expr": "# Thesis: late-day moves made by small (retail-sized) trades revert; moves made by large (institutional) trades carry information and continue.\n# Source: Barber, Odean & Zhu, \"Do Retail Trades Move Markets?\" (Review of Financial Studies 2009), https://ideas.repec.org/a/oup/rfinst/v22y2009i1p151-186.html; Hvidkjaer, \"Small Trades and the Cross-Section of Stock Returns\" (Review of Financial Studies 2008), https://econpapers.repec.org/article/ouprfinst/v_3a21_3ay_3a2008_3ai_3a3_3ap_3a1123-1151.htm\n# Caveat: Barber, Odean & Zhu find small-trade imbalance continues for about a week before reversing over a year, so the sim decides whether the small-trade leg reverts at this 5-day horizon.\nr = cs_zscore(ts_mean(return_last_hour, 5))  # 5-day average last-hour return, cross-sectional z-score\nsize = cs_rank(ts_mean(volume_last_hour/number_of_trades_last_hour, 20) / ts_mean(volume_first_hour/number_of_trades_first_hour, 20))  # close-hour vs open-hour average trade size (dimensionless), rank 1..2\nalpha = -r * (1.5 - size)  # fade moves made by small trades, follow moves made by large trades",
+  "source_url": "https://ideas.repec.org/a/oup/rfinst/v22y2009i1p151-186.html",
+  "lb": 60
+ },
+ {
+  "tag": "MM3_CLOSEPRESS",
+  "base": "CLOSEPRESS",
+  "family": "MM",
+  "expr": "# Thesis: when an unusually large share of the day's volume prints in the last hour (index rebalancing, fund flows), the close is pushed away from fair value and reverts.\n# Source: Bogousslavsky & Muravyev, \"Who Trades at the Close? Implications for Price Discovery and Liquidity\" (Journal of Financial Markets 2023), https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html\nshare = volume_last_hour/volume  # fraction of the day's volume traded in the last hour\nspike = cs_rank(ts_mean(share, 5) / ts_mean(share, 60)) > 1.5  # last-hour share recently above its own 3-month norm (top half)\nalpha = at_zero2nan(-cs_rank(ts_mean(return_last_hour, 5)) * spike)  # fade the 5-day last-hour return only on close-pressure stocks; others get no position",
+  "source_url": "https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html",
+  "lb": 80
+ },
+ {
+  "tag": "MR1_RESREV",
+  "base": "RESREV",
+  "family": "MR",
+  "expr": "# Thesis: reversal of the stock-specific (residual) part of the return is cleaner and less exposed to momentum crashes than raw reversal.\n# Source: Blitz, Huij, Lansdorp & Verbeek, \"Short-Term Residual Reversal\" (Journal of Financial Markets 2013), https://www.ssrn.com/abstract=1911449\n# Note: lb raised from the card's 140 to 200: in Slow mode the 60-day residual std needs 120 (beta) + 60 = 180 days of history, so lb 140 leaves it empty or partial.\nbeta = ts_corr_binary(ret1, ret1_spx, 120) * ts_std(ret1, 120) / (ts_std(ret1_spx, 120) + 0.0001)  # 6-month market beta = corr * vol ratio\nres = ret1 - beta*ret1_spx  # daily residual (stock-specific) return\nalpha = -cs_rank(ts_sum(res, 5) / (ts_std(res, 60) + 0.0001))  # short last week's residual winners, long losers, scaled by residual volatility",
+  "source_url": "https://www.ssrn.com/abstract=1911449",
+  "lb": 200
+ },
+ {
+  "tag": "MR2_MORNANCH",
+  "base": "MORNANCH",
+  "family": "MR",
+  "expr": "# Thesis: the first-hour VWAP is the day's consensus price after overnight news is absorbed; closes far from it, without an information-like (smooth) last hour, revert.\n# Source: Bogousslavsky & Muravyev, \"Who Trades at the Close? Implications for Price Discovery and Liquidity\" (Journal of Financial Markets 2023), https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html; Gao, Han, Li & Zhou, \"Market Intraday Momentum\" (Journal of Financial Economics 2018), https://doi.org/10.1016/j.jfineco.2018.05.009\ndev = ts_mean((close - vwap_first_hour)/vwap_first_hour, 5)  # 5-day average gap of the close above the first-hour VWAP, in %\nsmooth = cs_rank(ts_mean(abs(information_ratio_last_hour), 5))  # how one-directional (informed-looking) the last hour was, rank 1..2\nalpha = -cs_zscore(dev) * (1.5 - smooth)  # fade the gap to the morning anchor when the close was choppy, follow it when smooth",
+  "source_url": "https://ideas.repec.org/a/eee/finmar/v66y2023ics1386418123000502.html",
+  "lb": 60
+ },
+ {
+  "tag": "MO1_RESMOM",
+  "base": "RESMOM",
+  "family": "MO",
+  "expr": "# Thesis: momentum in the stock-specific return, scaled by its volatility, has about half the risk of plain momentum and avoids momentum crashes.\n# Source: Blitz, Huij & Martens, \"Residual Momentum\" (Journal of Empirical Finance 2011), https://www.econbiz.de/Record/residual-momentum-blitz-david/10009194616; Huij & Lansdorp, \"Residual Momentum and Reversal Strategies Revisited\" (2017), https://www.ssrn.com/abstract=2929306\n# Note: the card's rolling 120-day beta feeding 250-day residual sums needs 120 + 250 = 370 days, over the Slow max of 300 (empty alpha). Fixed as in Blitz et al.: one beta over the 250-day formation window applied to the 12-1 month sums, with residual std = std(ret1)*sqrt(1 - corr^2) (exact for that beta). Same quantity, 250 days of history.\nrho = ts_corr_binary(ret1, ret1_spx, 250)  # 1-year correlation with the S&P 500\nbeta = rho * ts_std(ret1, 250) / (ts_std(ret1_spx, 250) + 0.0001)  # 1-year market beta = corr * vol ratio\nres = (ts_sum(ret1, 250) - ts_sum(ret1, 20)) - beta*(ts_sum(ret1_spx, 250) - ts_sum(ret1_spx, 20))  # 12-1 month residual return (market part removed)\nsres = ts_std(ret1, 250) * at_signsqrt(1 - rho*rho)  # 1-year daily residual volatility\nalpha = cs_rank(res / (sres + 0.0001))  # long high, short low volatility-scaled residual momentum",
+  "source_url": "https://www.econbiz.de/Record/residual-momentum-blitz-david/10009194616",
+  "lb": 300
+ },
+ {
+  "tag": "MO2_FROG2",
+  "base": "FROG",
+  "family": "MO",
+  "expr": "# Thesis: momentum built from many small steady moves (\"frog in the pan\") is under-noticed and persists; momentum from a few big jumps gets priced fast.\n# Source: Da, Gurun & Warachka, \"Frog in the Pan: Continuous Information and Momentum\" (Review of Financial Studies 2014), https://doi.org/10.1093/rfs/hhu003\n# Note: dtype-fixed rerun of Q_FROG, which crashed because a true/false flag went into ts_mean; flags are now cast to float32 with one*(...).\none = close/close  # float32 matrix of ones (NaN where no price), used to cast flags\npret = close/ts_delay(close, 250) - 1  # past 12-month return\npos = ts_mean(one*(ret1 > 0), 250)  # share of up days over the year\nneg = ts_mean(one*(ret1 < 0), 250)  # share of down days over the year\nsgn = one*(pret > 0)*2 - 1  # +1 winners, -1 losers\nalpha = cs_rank(pret) * (2 - cs_rank(sgn*(neg - pos)))  # momentum, amplified where information arrived continuously (low information discreteness)",
+  "source_url": "https://doi.org/10.1093/rfs/hhu003",
+  "lb": 300
+ },
+ {
+  "tag": "MO3_VOLMOM",
+  "base": "VOLMOM",
+  "family": "MO",
+  "expr": "# Thesis: past winners with LOW turnover keep winning (under-followed), while high-turnover winners are crowded and fade. Momentum is best where attention is low.\n# Source: Lee & Swaminathan, \"Price Momentum and Trading Volume\" (Journal of Finance 2000), https://ideas.repec.org/a/bla/jfinan/v55y2000i5p2017-2069.html\nmom = close/ts_delay(close, 250) - close/ts_delay(close, 20)  # 12-1 month price momentum (12-month minus 1-month return)\nturn = cs_rank(ts_mean(volume/shsout, 120))  # 6-month average daily turnover, rank 1..2\nalpha = cs_rank(mom) * (2.5 - turn)  # momentum rank, weighted up for low-turnover (low-attention) stocks",
+  "source_url": "https://ideas.repec.org/a/bla/jfinan/v55y2000i5p2017-2069.html",
+  "lb": 300
+ }
+]
