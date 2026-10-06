@@ -35,3 +35,5 @@
 | pending | R_RIGwk_k15, R_RIGwk_k2, R_RIGwk_w10, R_RIGwk_w10k15 | R_RIG_weekly2 (#703370) | slow 1.5x / 2x, 10-day reversal, both | .075 / .259 / .584@601796 (irtvr .147, bar .169) | | need TVR <= .197 or corr < .5 | |
 | Oct 6 | R_RIGwk_k15 (#704754) | R_RIG_weekly2 | slow part 1.5x | .075 / .259 / .584@601796 | .068 / .200 / .633@601796 | irtvr .153 vs .169; IR < .07 (more slow weight: TVR -23%, IR -9%, corr UP) | no |
 | pending | R_RIAwk, R_RIAwk_w10 | R_RIG_weekly2 | swap gross profit for accruals partner (+10-day reversal) | .075 / .259 / .584@601796 | | | |
+| Oct 7 | R_RIAwk (#705948, inferred) | R_RIG_weekly2 | gross profit -> accruals | .075 / .259 / .584@601796 | .080 / .248 / .573@601796 | irtvr .161 vs .169 (needs TVR .224) | no |
+| pending | R_RIAwk_w10, R_RIAwk_a15, R_RIAwk_r07, R_IAwk_szvo | R_RIAwk | 10-day reversal; accruals 1.5x; reversal 0.7x; drop R&D + vol neutral | .080 / .248 / .573 | | | |
