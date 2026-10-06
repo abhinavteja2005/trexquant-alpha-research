@@ -22,3 +22,7 @@
 | Oct 6 | U_ILLIQ_rig_szvo | S_ILLIQ_rnd_iss_gpa | size+vol factorneut | .092 / .645 / .701@605850 | .078 / .382 / .626@601796 | .126 vs .169 | no |
 | Oct 6 | U_VWAPT_FMOM_w2 | VWAPT + fundamental change | 1:2 blend | | .055 / .341 / .436@595355 (corr < .5!) | IR too low | no -> w1 queued |
 | Oct 6 | G_* (4), R_RIG_weekly | see above | gates / weekly | | FAILED: dtype (integer group codes; float32 flags) -> reruns queued | | no |
+| Oct 6 | G_VWAPT_mom60b | P_VWAPT | in-code 60-day strategy-momentum gate | .083 / 1.047 / .782@570310 | .071 / 1.135 / .658@604930 | replay predicted .093; real .071 | no |
+| Oct 6 | G_ACCR_mom20b | Q_ACCR_AG | in-code 20-day gate | .067 / .051 / .879@567998 | .073 / .481 / .673@673102 | IR up, but TVR .05 -> .48 (switching) | no |
+| Oct 6 | G_VWAPT_mom60ind | P_VWAPT | per-industry gate | .083 / 1.047 / .782 | .065 / 1.092 / .682@570310 | worse | no |
+| pending | X_PL_FM4_w1/_w05, X_VW_FM5_w1/_w05 | U_PRICE2_szvo / P_VWAPT + U_FMOM5_d120 | anti-correlated blend (PnL corr -.37 / -.18), predicted IR .082-.106 | | | | |

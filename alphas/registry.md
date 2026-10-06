@@ -3,7 +3,7 @@
 Machine-readable copy: `alphas/registry.csv`. Regenerate from the runner each cycle (`tools/ledger_sync.py`).
 Expressions: `expr_file` points to `alphas/drafts/*.json`; others live in the runner (`localStorage.R3_jobs`) and `ideas/backlog.md`.
 
-Status counts (Oct 6, 14:00 IST): FAST ONLY (not Slow-tested): 49, REJECTED: IR below .072: 26, QUEUED (Fast screen): 25, REJECTED: correlation (IR ok): 16, QUEUED (Slow): 16, SKIPPED (look-ahead variable dropped): 12, FAILED (cs_indneut needs integer group): 4, FAILED (Fast timeout): 3, SUBMITTED: 3, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, FAILED (portal: lookback > 300): 1, FAILED (bool - bool crash): 1, FAILED (bool to ts_delay: needs float32): 1, RUNNING: 1
+Status counts (Oct 6, 14:50 IST): FAST ONLY (not Slow-tested): 49, REJECTED: IR below .072: 29, QUEUED (Fast screen): 25, REJECTED: correlation (IR ok): 17, QUEUED (Slow): 16, SKIPPED (look-ahead variable dropped): 12, FAILED (cs_indneut needs integer group): 4, FAILED (Fast timeout): 3, SUBMITTED: 3, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, FAILED (portal: lookback > 300): 1, FAILED (bool - bool crash): 1, FAILED (bool to ts_delay: needs float32): 1, RUNNING: 1
 
 Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_intra Fast IR .090 / corr .649, c3_rnd_earn Fast .094 -> Slow .082 / corr .688), summarised in `knowledge/lessons.md` and `alphas/ledger.md`.
 
@@ -122,7 +122,7 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_
 | VP_VOV_INTRA | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | 0.017 | 0.151 | 0.044 | 0.242 @664006 |  | 0.006 |  |
 | VP_COSK_60 | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | 0.023 | 0.17 | 0.055 | 0.445 @642093 |  | 0.018 |  |
 | VP_COSK_RESID120 | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | 0.004 | 0.123 | 0.01 | 0.503 @579357 |  | 0.012 |  |
-| VP_RESREV_VIX | VP | Oct 6 local cycle 1 | RUNNING |  |  |  |  |  |  |  |
+| VP_RESREV_VIX | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | 0.02 | 0.851 | 0.022 | 0.833 @574490 |  | 0.002 |  |
 | REG_VR_FLIP | REG | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
 | REG_VR_SMOOTH | REG | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
 | REG_PKCC_REV | REG | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
@@ -162,10 +162,14 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_
 | G_RIG_mom60 | VWAPT | Oct 6 11:45 regime gates | FAILED (cs_indneut needs integer group) |  |  |  |  |  |  |  |
 | G_ACCR_mom20 | ACCR | Oct 6 11:45 regime gates | FAILED (cs_indneut needs integer group) |  |  |  |  |  |  |  |
 | G_ACCR_stop10 | ACCR | Oct 6 11:45 regime gates | FAILED (cs_indneut needs integer group) |  |  |  |  |  |  |  |
-| G_VWAPT_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
-| G_ACCR_mom20b | ACCR | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
-| G_VWAPT_mom60ind | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
-| U_VWAPT_FMOM_w1 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_VWAPT_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | REJECTED: IR below .072 | 0.071 | 1.135 | 0.066 | 0.658 @604930 | 0.173 | 0.073 |  |
+| G_ACCR_mom20b | ACCR | Oct 6 14:00 reruns (dtype fixes) | REJECTED: correlation (IR ok) | 0.073 | 0.481 | 0.105 | 0.673 @673102 | 0.409 | 0.109 |  |
+| G_VWAPT_mom60ind | VWAPT | Oct 6 14:00 reruns (dtype fixes) | REJECTED: IR below .072 | 0.065 | 1.092 | 0.062 | 0.682 @570310 | 0.119 | 0.056 |  |
+| U_VWAPT_FMOM_w1 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | RUNNING |  |  |  |  |  |  |  |
 | G_ACCR_stop10b | ACCR | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
 | G_RIG_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
 | R_RIG_weekly2 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| X_PL_FM4_w1 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
+| X_PL_FM4_w05 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
+| X_VW_FM5_w1 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
+| X_VW_FM5_w05 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |

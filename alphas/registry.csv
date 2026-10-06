@@ -112,7 +112,7 @@ VP_VOV_D60,VP,Oct 6 local cycle 1,REJECTED: IR below .072,-0.01,0.073,-0.038,0.1
 VP_VOV_INTRA,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.017,0.151,0.044,0.242,664006,,0.006,,,,,,,,c1.json
 VP_COSK_60,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.023,0.17,0.055,0.445,642093,,0.018,,,,,,,,c1.json
 VP_COSK_RESID120,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.004,0.123,0.01,0.503,579357,,0.012,,,,,,,,c1.json
-VP_RESREV_VIX,VP,Oct 6 local cycle 1,RUNNING,,,,,,,,,,,,,,,c1.json
+VP_RESREV_VIX,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.02,0.851,0.022,0.833,574490,,0.002,,,,,,,,c1.json
 REG_VR_FLIP,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
 REG_VR_SMOOTH,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
 REG_PKCC_REV,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
@@ -152,10 +152,14 @@ G_VWAPT_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer gr
 G_RIG_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
 G_ACCR_mom20,ACCR,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
 G_ACCR_stop10,ACCR,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
-G_VWAPT_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-G_ACCR_mom20b,ACCR,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-G_VWAPT_mom60ind,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-U_VWAPT_FMOM_w1,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+G_VWAPT_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),REJECTED: IR below .072,0.071,1.135,0.066,0.658,604930,0.173,0.073,,,,,,,,runner R3_jobs
+G_ACCR_mom20b,ACCR,Oct 6 14:00 reruns (dtype fixes),REJECTED: correlation (IR ok),0.073,0.481,0.105,0.673,673102,0.409,0.109,,,,,,,,runner R3_jobs
+G_VWAPT_mom60ind,VWAPT,Oct 6 14:00 reruns (dtype fixes),REJECTED: IR below .072,0.065,1.092,0.062,0.682,570310,0.119,0.056,,,,,,,,runner R3_jobs
+U_VWAPT_FMOM_w1,VWAPT,Oct 6 14:00 reruns (dtype fixes),RUNNING,,,,,,,,,,,,,,,runner R3_jobs
 G_ACCR_stop10b,ACCR,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
 G_RIG_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
 R_RIG_weekly2,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+X_PL_FM4_w1,MIXF,Oct 6 14:45 anti-correlated blends,QUEUED (Slow),,,,,,,,,,,,,260,,runner R3_jobs
+X_PL_FM4_w05,MIXF,Oct 6 14:45 anti-correlated blends,QUEUED (Slow),,,,,,,,,,,,,260,,runner R3_jobs
+X_VW_FM5_w1,MIXF,Oct 6 14:45 anti-correlated blends,QUEUED (Slow),,,,,,,,,,,,,260,,runner R3_jobs
+X_VW_FM5_w05,MIXF,Oct 6 14:45 anti-correlated blends,QUEUED (Slow),,,,,,,,,,,,,260,,runner R3_jobs
