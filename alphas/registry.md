@@ -3,7 +3,7 @@
 Machine-readable copy: `alphas/registry.csv`. Regenerate from the runner each cycle (`tools/ledger_sync.py`).
 Expressions: `expr_file` points to `alphas/drafts/*.json`; others live in the runner (`localStorage.R3_jobs`) and `ideas/backlog.md`.
 
-Status counts (Oct 6, 11:50 IST): FAST ONLY (not Slow-tested): 49, QUEUED (Fast screen): 25, REJECTED: IR below .072: 20, QUEUED (Slow): 19, REJECTED: correlation (IR ok): 14, SKIPPED (look-ahead variable dropped): 12, QUEUED: 4, FAILED (Fast timeout): 3, SUBMITTED: 3, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, FAILED (portal: lookback > 300): 1, FAILED (bool - bool crash): 1
+Status counts (Oct 6, 14:00 IST): FAST ONLY (not Slow-tested): 49, REJECTED: IR below .072: 26, QUEUED (Fast screen): 25, REJECTED: correlation (IR ok): 16, QUEUED (Slow): 16, SKIPPED (look-ahead variable dropped): 12, FAILED (cs_indneut needs integer group): 4, FAILED (Fast timeout): 3, SUBMITTED: 3, FAILED (portal error): 1, EMPTY (lookback bug; rerun queued): 1, FAILED (portal: lookback > 300): 1, FAILED (bool - bool crash): 1, FAILED (bool to ts_delay: needs float32): 1, RUNNING: 1
 
 Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_intra Fast IR .090 / corr .649, c3_rnd_earn Fast .094 -> Slow .082 / corr .688), summarised in `knowledge/lessons.md` and `alphas/ledger.md`.
 
@@ -114,15 +114,15 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_
 | U_FMOM5_d120 | FMOM | Oct 6 09:50 upgrades | REJECTED: IR below .072 | 0.028 | 0.064 | 0.112 | 0.492 @595355 |  | 0.03 |  |
 | U_FMOM5_lb330 | FMOM | Oct 6 09:50 upgrades | FAILED (portal: lookback > 300) |  |  |  |  |  |  |  |
 | R_PRICE2_band | MIX | Oct 6 11:15 repair tests | FAILED (bool - bool crash) |  |  |  |  |  |  |  |
-| R_PRICE2_ewm | MIX | Oct 6 11:15 repair tests | QUEUED |  |  |  |  |  |  |  |
-| R_RIG_weekly | VWAPT | Oct 6 11:15 repair tests | QUEUED |  |  |  |  |  |  |  |
-| U_ILLIQ_rig_szvo | VWAPV | Oct 6 09:50 upgrades | QUEUED |  |  |  |  |  |  |  |
-| U_VWAPT_FMOM_w2 | VWAPT | Oct 6 09:50 upgrades | QUEUED |  |  |  |  |  |  |  |
-| VP_VOV_D60 | VP | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
-| VP_VOV_INTRA | VP | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
-| VP_COSK_60 | VP | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
-| VP_COSK_RESID120 | VP | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
-| VP_RESREV_VIX | VP | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
+| R_PRICE2_ewm | MIX | Oct 6 11:15 repair tests | REJECTED: correlation (IR ok) | 0.085 | 0.778 | 0.097 | 0.726 @570310 | 0.119 | 0.105 |  |
+| R_RIG_weekly | VWAPT | Oct 6 11:15 repair tests | FAILED (bool to ts_delay: needs float32) |  |  |  |  |  |  |  |
+| U_ILLIQ_rig_szvo | VWAPV | Oct 6 09:50 upgrades | REJECTED: correlation (IR ok) | 0.078 | 0.382 | 0.126 | 0.626 @601796 | 0.169 | 0.08 |  |
+| U_VWAPT_FMOM_w2 | VWAPT | Oct 6 09:50 upgrades | REJECTED: IR below .072 | 0.055 | 0.341 | 0.095 | 0.436 @595355 |  | 0.035 |  |
+| VP_VOV_D60 | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | -0.01 | 0.073 | -0.038 | 0.17 @686926 |  | 0.012 |  |
+| VP_VOV_INTRA | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | 0.017 | 0.151 | 0.044 | 0.242 @664006 |  | 0.006 |  |
+| VP_COSK_60 | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | 0.023 | 0.17 | 0.055 | 0.445 @642093 |  | 0.018 |  |
+| VP_COSK_RESID120 | VP | Oct 6 local cycle 1 | REJECTED: IR below .072 | 0.004 | 0.123 | 0.01 | 0.503 @579357 |  | 0.012 |  |
+| VP_RESREV_VIX | VP | Oct 6 local cycle 1 | RUNNING |  |  |  |  |  |  |  |
 | REG_VR_FLIP | REG | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
 | REG_VR_SMOOTH | REG | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
 | REG_PKCC_REV | REG | Oct 6 local cycle 1 | QUEUED (Slow) |  |  |  |  |  |  |  |
@@ -157,8 +157,15 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_
 | A101_053 | A101 | Oct 6 101-alphas | QUEUED (Fast screen) |  |  |  |  |  |  |  |
 | A101_054 | A101 | Oct 6 101-alphas | QUEUED (Fast screen) |  |  |  |  |  |  |  |
 | A101_055 | A101 | Oct 6 101-alphas | QUEUED (Fast screen) |  |  |  |  |  |  |  |
-| R_PRICE2_band2 | MIX | Oct 6 11:45 repair tests | QUEUED (Slow) |  |  |  |  |  |  |  |
-| G_VWAPT_mom60 | VWAPT | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |
-| G_RIG_mom60 | VWAPT | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |
-| G_ACCR_mom20 | ACCR | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |
-| G_ACCR_stop10 | ACCR | Oct 6 11:45 regime gates | QUEUED (Slow) |  |  |  |  |  |  |  |
+| R_PRICE2_band2 | MIX | Oct 6 11:45 repair tests | REJECTED: IR below .072 | 0.018 | 1.932 | 0.013 | 0.111 @690060 |  | 0.008 |  |
+| G_VWAPT_mom60 | VWAPT | Oct 6 11:45 regime gates | FAILED (cs_indneut needs integer group) |  |  |  |  |  |  |  |
+| G_RIG_mom60 | VWAPT | Oct 6 11:45 regime gates | FAILED (cs_indneut needs integer group) |  |  |  |  |  |  |  |
+| G_ACCR_mom20 | ACCR | Oct 6 11:45 regime gates | FAILED (cs_indneut needs integer group) |  |  |  |  |  |  |  |
+| G_ACCR_stop10 | ACCR | Oct 6 11:45 regime gates | FAILED (cs_indneut needs integer group) |  |  |  |  |  |  |  |
+| G_VWAPT_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_ACCR_mom20b | ACCR | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_VWAPT_mom60ind | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| U_VWAPT_FMOM_w1 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_ACCR_stop10b | ACCR | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_RIG_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| R_RIG_weekly2 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |

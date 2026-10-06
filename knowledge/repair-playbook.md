@@ -55,7 +55,10 @@ so most rules HURT them; test before queueing.
 
 ## Portal facts that break repairs
 - Slow lookback maximum is 300 days ("Lookback cannot exceed 300").
-- `bool - bool` crashes the simulation at the loading stage: cast flags with `1.0*(...)` before subtracting.
+- `bool - bool` crashes the simulation at the loading stage: cast flags before subtracting.
+- Built-in operators (ts_*, cs_*) require float32 matrices: a true/false flag fed to ts_delay fails ("Unsupported data type: bool"). Cast with `(close/close)*(flag)` (float32), not `1.0*flag` (float64).
+- cs_indneut group codes must be integers: `close/close` as a group fails ("No matching signature found"); use `industry*0` for a single all-stock group.
+- Banding with equal-weight on/off flags (R_PRICE2_band2) RAISED turnover to 1.93 and killed IR (.018): flags flip too often. Banding needs a weighted book, not 0/1 flags.
 
 ## Guardrails (multiple-testing discipline)
 - Each repair keeps the parent's `# Thesis:` and `# Source:` lines and adds `# Repair: <technique> (<source>). Parent <tag> IR .., TVR .., corr .. to #...`.

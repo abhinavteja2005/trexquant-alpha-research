@@ -104,15 +104,15 @@ U_PRICE2_s3,MIX,Oct 6 09:50 upgrades,REJECTED: correlation (IR ok),0.072,0.545,0
 U_FMOM5_d120,FMOM,Oct 6 09:50 upgrades,REJECTED: IR below .072,0.028,0.064,0.112,0.492,595355,,0.03,,,,,,260,,
 U_FMOM5_lb330,FMOM,Oct 6 09:50 upgrades,FAILED (portal: lookback > 300),,,,,,,,,,,,,,,
 R_PRICE2_band,MIX,Oct 6 11:15 repair tests,FAILED (bool - bool crash),,,,,,,,,,,,,,,
-R_PRICE2_ewm,MIX,Oct 6 11:15 repair tests,QUEUED,,,,,,,,,,,,,,,
-R_RIG_weekly,VWAPT,Oct 6 11:15 repair tests,QUEUED,,,,,,,,,,,,,,,
-U_ILLIQ_rig_szvo,VWAPV,Oct 6 09:50 upgrades,QUEUED,,,,,,,,,,,,,,,oct6-upgrades.json
-U_VWAPT_FMOM_w2,VWAPT,Oct 6 09:50 upgrades,QUEUED,,,,,,,,,,,,,,,oct6-upgrades.json
-VP_VOV_D60,VP,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
-VP_VOV_INTRA,VP,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
-VP_COSK_60,VP,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
-VP_COSK_RESID120,VP,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
-VP_RESREV_VIX,VP,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
+R_PRICE2_ewm,MIX,Oct 6 11:15 repair tests,REJECTED: correlation (IR ok),0.085,0.778,0.097,0.726,570310,0.119,0.105,,,,,,,,
+R_RIG_weekly,VWAPT,Oct 6 11:15 repair tests,FAILED (bool to ts_delay: needs float32),,,,,,,,,,,,,,,
+U_ILLIQ_rig_szvo,VWAPV,Oct 6 09:50 upgrades,REJECTED: correlation (IR ok),0.078,0.382,0.126,0.626,601796,0.169,0.08,,,,,,,,oct6-upgrades.json
+U_VWAPT_FMOM_w2,VWAPT,Oct 6 09:50 upgrades,REJECTED: IR below .072,0.055,0.341,0.095,0.436,595355,,0.035,,,,,,,,oct6-upgrades.json
+VP_VOV_D60,VP,Oct 6 local cycle 1,REJECTED: IR below .072,-0.01,0.073,-0.038,0.17,686926,,0.012,,,,,,,,c1.json
+VP_VOV_INTRA,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.017,0.151,0.044,0.242,664006,,0.006,,,,,,,,c1.json
+VP_COSK_60,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.023,0.17,0.055,0.445,642093,,0.018,,,,,,,,c1.json
+VP_COSK_RESID120,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.004,0.123,0.01,0.503,579357,,0.012,,,,,,,,c1.json
+VP_RESREV_VIX,VP,Oct 6 local cycle 1,RUNNING,,,,,,,,,,,,,,,c1.json
 REG_VR_FLIP,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
 REG_VR_SMOOTH,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
 REG_PKCC_REV,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
@@ -147,8 +147,15 @@ A101_050,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
 A101_053,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
 A101_054,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
 A101_055,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
-R_PRICE2_band2,MIX,Oct 6 11:45 repair tests,QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-G_VWAPT_mom60,VWAPT,Oct 6 11:45 regime gates,QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-G_RIG_mom60,VWAPT,Oct 6 11:45 regime gates,QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-G_ACCR_mom20,ACCR,Oct 6 11:45 regime gates,QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-G_ACCR_stop10,ACCR,Oct 6 11:45 regime gates,QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+R_PRICE2_band2,MIX,Oct 6 11:45 repair tests,REJECTED: IR below .072,0.018,1.932,0.013,0.111,690060,,0.008,,,,,,,,runner R3_jobs
+G_VWAPT_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
+G_RIG_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
+G_ACCR_mom20,ACCR,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
+G_ACCR_stop10,ACCR,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
+G_VWAPT_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+G_ACCR_mom20b,ACCR,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+G_VWAPT_mom60ind,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+U_VWAPT_FMOM_w1,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+G_ACCR_stop10b,ACCR,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+G_RIG_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
+R_RIG_weekly2,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs

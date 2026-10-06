@@ -17,3 +17,8 @@
 | Oct 6 | R_PRICE2_band | U_PRICE2_szvo | banding | | CRASHED (bool - bool) -> rerun R_PRICE2_band2 | | no |
 | Oct 6 | U_FMOM5_lb330 | U_FMOM5 | lookback 330 | | REJECTED by portal: max lookback 300 | | no |
 | pending | G_VWAPT_mom60, G_RIG_mom60, G_ACCR_mom20, G_ACCR_stop10 | P_VWAPT, S_VWAPT_rnd_iss_gpa, Q_ACCR_AG | self-learned regime gate (replay-screened) | | | | |
+| Oct 6 | R_PRICE2_ewm | U_PRICE2_szvo | EWMA (ts_mean_exp 10, 0.7) | .093 / .998 / .704@570310 | .085 / .778 / .726@570310 | .097 vs .119 | no |
+| Oct 6 | R_PRICE2_band2 | U_PRICE2_szvo | banding with 0/1 flags | .093 / .998 / .704 | .018 / 1.932 / .111 | flags flip: turnover UP | no |
+| Oct 6 | U_ILLIQ_rig_szvo | S_ILLIQ_rnd_iss_gpa | size+vol factorneut | .092 / .645 / .701@605850 | .078 / .382 / .626@601796 | .126 vs .169 | no |
+| Oct 6 | U_VWAPT_FMOM_w2 | VWAPT + fundamental change | 1:2 blend | | .055 / .341 / .436@595355 (corr < .5!) | IR too low | no -> w1 queued |
+| Oct 6 | G_* (4), R_RIG_weekly | see above | gates / weekly | | FAILED: dtype (integer group codes; float32 flags) -> reruns queued | | no |
