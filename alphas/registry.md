@@ -166,8 +166,8 @@ Not in the table: ~60 Fast-only alphas from Oct 5 afternoon (pre-runner; e.g. c_
 | G_ACCR_mom20b | ACCR | Oct 6 14:00 reruns (dtype fixes) | REJECTED: correlation (IR ok) | 0.073 | 0.481 | 0.105 | 0.673 @673102 | 0.409 | 0.109 |  |
 | G_VWAPT_mom60ind | VWAPT | Oct 6 14:00 reruns (dtype fixes) | REJECTED: IR below .072 | 0.065 | 1.092 | 0.062 | 0.682 @570310 | 0.119 | 0.056 |  |
 | U_VWAPT_FMOM_w1 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | RUNNING |  |  |  |  |  |  |  |
-| G_ACCR_stop10b | ACCR | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
-| G_RIG_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
+| G_ACCR_stop10b | ACCR | Oct 6 14:00 reruns (dtype fixes) | SKIPPED (gates retired: switching raises turnover) |  |  |  |  |  |  |  |
+| G_RIG_mom60b | VWAPT | Oct 6 14:00 reruns (dtype fixes) | SKIPPED (gates retired: switching raises turnover) |  |  |  |  |  |  |  |
 | R_RIG_weekly2 | VWAPT | Oct 6 14:00 reruns (dtype fixes) | QUEUED (Slow) |  |  |  |  |  |  |  |
 | X_PL_FM4_w1 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
 | X_PL_FM4_w05 | MIXF | Oct 6 14:45 anti-correlated blends | QUEUED (Slow) |  |  |  |  |  |  |  |
