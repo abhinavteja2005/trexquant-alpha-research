@@ -1,0 +1,18 @@
+[
+ {
+  "tag": "Y_PLsz_ACC_w16",
+  "base": "Y_PLsz_ACC_w12",
+  "family": "Y_ACC",
+  "expr": "# Thesis: fade late-day price pressure (VWAP gap on busy closes plus heavy-volume last-hour moves), size/vol neutral, blended with LOW ACCRUALS. Accrual returns move against short-term reversal returns, so the blend keeps reversal IR with less turnover and less overlap with crowded reversal alphas.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290)\n# Repair: accrual weight 1.2 -> 1.6 to cut turnover. Parent Y_PLsz_ACC_w12 IR .116, TVR .711, irtvr .138, corr .979 to our #698181 (bar .144; needs TVR <= .649).\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\np1 = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\na1 = cs_rank(ts_mean(return_last_hour, 5))  # 5-day avg last-hour return rank\nhot = cs_rank(volume/ts_mean(volume, 20)) > 1.3  # unusually heavy volume\np2 = cs_zscore(at_zero2nan(-(a1 + cs_rank(g)) * hot))  # fade late-day moves on heavy volume\nsz = cs_rank(at_signlog(mktcap))  # size rank\nvo = cs_rank(ts_std(ret1, 20))  # 1-month volatility rank\nrev = cs_zscore(cs_factorneut(at_zero2nan(at_nan2zero(p1) + at_nan2zero(p2)), [sz, vo]))  # size/vol-neutral reversal\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nalpha = at_zero2nan(at_nan2zero(rev) + 1.6*at_nan2zero(k))  # reversal + 1.6x accruals",
+  "lb": 140,
+  "parent": "Y_PLsz_ACC_w12"
+ },
+ {
+  "tag": "Y_PLsz_ACC_w20",
+  "base": "Y_PLsz_ACC_w12",
+  "family": "Y_ACC",
+  "expr": "# Thesis: fade late-day price pressure (VWAP gap on busy closes plus heavy-volume last-hour moves), size/vol neutral, blended with LOW ACCRUALS. Accrual returns move against short-term reversal returns, so the blend keeps reversal IR with less turnover and less overlap with crowded reversal alphas.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290)\n# Repair: accrual weight 1.2 -> 2.0 to cut turnover. Parent Y_PLsz_ACC_w12 IR .116, TVR .711, irtvr .138, corr .979 to our #698181 (bar .144; needs TVR <= .649).\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\np1 = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\na1 = cs_rank(ts_mean(return_last_hour, 5))  # 5-day avg last-hour return rank\nhot = cs_rank(volume/ts_mean(volume, 20)) > 1.3  # unusually heavy volume\np2 = cs_zscore(at_zero2nan(-(a1 + cs_rank(g)) * hot))  # fade late-day moves on heavy volume\nsz = cs_rank(at_signlog(mktcap))  # size rank\nvo = cs_rank(ts_std(ret1, 20))  # 1-month volatility rank\nrev = cs_zscore(cs_factorneut(at_zero2nan(at_nan2zero(p1) + at_nan2zero(p2)), [sz, vo]))  # size/vol-neutral reversal\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nalpha = at_zero2nan(at_nan2zero(rev) + 2.0*at_nan2zero(k))  # reversal + 2.0x accruals",
+  "lb": 140,
+  "parent": "Y_PLsz_ACC_w12"
+ }
+]

@@ -6,7 +6,7 @@ OVN_rnd_earn_w2,OVN,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested)
 D3_rnd_earn_w2,D3,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.063,0.673,4,,,runner R3_jobs / ideas/backlog.md
 RANGE_rnd_earn_w2,RANGE,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.067,0.619,7,,,runner R3_jobs / ideas/backlog.md
 INTRA_rnd_sbc_w3,INTRA,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.082,0.565,9,,,runner R3_jobs / ideas/backlog.md
-VWAPV_rnd_sbc_w2,VWAPV,Oct 5 21:00 runner v3 blend grid,REJECTED: IR below .072,0.052,0.583,0.068,0.6,631112,0.145,0.056,0.062,0.17,0.078,0.476,6,140,670687,runner R3_jobs / ideas/backlog.md
+VWAPV_rnd_sbc_w2,VWAPV,Oct 5 21:00 runner v3 blend grid,REJECTED: IR,0.052,0.583,0.068,0.6,#631112,0.121,0.0557,0.0624,0.17,0.078,0.476,6,140,670687,runner R3_jobs / ideas/backlog.md
 RETL_rnd_sbc_w2,RETL,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.071,0.508,4,,,runner R3_jobs / ideas/backlog.md
 OVN_rnd_sbc_w2,OVN,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.046,0.509,5,,,runner R3_jobs / ideas/backlog.md
 D3_rnd_sbc_w2,D3,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.055,0.7,4,,,runner R3_jobs / ideas/backlog.md
@@ -30,9 +30,9 @@ OVN_gpa_iss_w2,OVN,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),
 D3_gpa_iss_w2,D3,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.067,0.646,4,,,runner R3_jobs / ideas/backlog.md
 RANGE_gpa_iss_w2,RANGE,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.065,0.697,7,,,runner R3_jobs / ideas/backlog.md
 INTRA_fcf_iss_w3,INTRA,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.053,0.71,9,,,runner R3_jobs / ideas/backlog.md
-VWAPV_fcf_iss_w2,VWAPV,Oct 5 21:00 runner v3 blend grid,FAILED (Fast timeout),,,,,,,,,,,,6,,,runner R3_jobs / ideas/backlog.md
-RETL_fcf_iss_w2,RETL,Oct 5 21:00 runner v3 blend grid,FAILED (Fast timeout),,,,,,,,,,,,4,,,runner R3_jobs / ideas/backlog.md
-OVN_fcf_iss_w2,OVN,Oct 5 21:00 runner v3 blend grid,FAILED (Fast timeout),,,,,,,,,,,,5,,,runner R3_jobs / ideas/backlog.md
+VWAPV_fcf_iss_w2,VWAPV,Oct 5 21:00 runner v3 blend grid,FAILED,,,,,,,,,,,,6,,,runner R3_jobs / ideas/backlog.md
+RETL_fcf_iss_w2,RETL,Oct 5 21:00 runner v3 blend grid,FAILED,,,,,,,,,,,,4,,,runner R3_jobs / ideas/backlog.md
+OVN_fcf_iss_w2,OVN,Oct 5 21:00 runner v3 blend grid,FAILED,,,,,,,,,,,,5,,,runner R3_jobs / ideas/backlog.md
 D3_fcf_iss_w2,D3,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.058,0.721,4,,,runner R3_jobs / ideas/backlog.md
 RANGE_fcf_iss_w2,RANGE,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.051,0.715,7,,,runner R3_jobs / ideas/backlog.md
 INTRA_rnd_fcf_w3,INTRA,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.084,0.556,9,,,runner R3_jobs / ideas/backlog.md
@@ -45,10 +45,10 @@ P_CI_s3,CI,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,0.054
 P_CI_volcond,CI,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,0.091,0.612,7,,,runner R3_jobs / ideas/backlog.md
 P_CI_lowvol,CI,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,0.07,0.443,7,,,runner R3_jobs / ideas/backlog.md
 P_VWAPV_s3,VWAPV,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,0.058,0.379,3,,,runner R3_jobs / ideas/backlog.md
-P_VWAPT,VWAPT,Oct 5 22:00 price/intraday,REJECTED: correlation (IR ok),0.083,1.047,0.081,0.782,570310,0.119,0.085,0.092,0.19,0.098,0.48,3,55,673000,runner R3_jobs / ideas/backlog.md
+P_VWAPT,VWAPT,Oct 5 22:00 price/intraday,REJECTED: correlation,0.083,1.047,0.081,0.782,#570310,0.099,0.0854,0.0919,0.19,0.098,0.48,3,55,673000,runner R3_jobs / ideas/backlog.md
 P_RETL_small,RETLS,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,0.049,0.441,3,,,runner R3_jobs / ideas/backlog.md
-P_VWAPV_sub,VWAPV,Oct 5 22:00 price/intraday,REJECTED: IR below .072,0.065,1.007,0.065,0.839,570310,0.119,0.078,0.089,0.25,0.09,0.478,4,55,673181,runner R3_jobs / ideas/backlog.md
-P_VWAPV_illiq,VWAPV,Oct 5 22:00 price/intraday,REJECTED: IR below .072,0.069,1.032,0.068,0.701,604930,0.173,0.088,0.093,0.22,0.083,0.461,4,55,673323,runner R3_jobs / ideas/backlog.md
+P_VWAPV_sub,VWAPV,Oct 5 22:00 price/intraday,REJECTED: IR,0.065,1.007,0.065,0.839,#570310,0.099,0.0776,0.0893,0.25,0.09,0.478,4,55,673181,runner R3_jobs / ideas/backlog.md
+P_VWAPV_illiq,VWAPV,Oct 5 22:00 price/intraday,REJECTED: IR,0.069,1.032,0.068,0.701,#604930,0.144,0.088,0.0931,0.22,0.083,0.461,4,55,673323,runner R3_jobs / ideas/backlog.md
 P_RANGE_volcond,RANGEV,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,0.067,0.719,5,,,runner R3_jobs / ideas/backlog.md
 P_A101,A101,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,-0.051,0.844,4,,,runner R3_jobs / ideas/backlog.md
 P_FIRST_LAST,FL,Oct 5 22:00 price/intraday,FAST ONLY (not Slow-tested),,,,,,,,,,0.046,0.424,2,,,runner R3_jobs / ideas/backlog.md
@@ -67,54 +67,54 @@ FUND5,FUND,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,
 TUGOFWAR,TOW,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0.007,0.568,2,,,runner R3_jobs / ideas/backlog.md
 PEAD,PEAD,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,-0.003,0.461,2,,,runner R3_jobs / ideas/backlog.md
 SUBIND_MOM,SUBMOM,Oct 5 21:00 runner v3 blend grid,FAST ONLY (not Slow-tested),,,,,,,,,,0,0.655,2,,,runner R3_jobs / ideas/backlog.md
-S_VWAPT_rnd_sbc_gpa,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.09,0.655,0.111,0.72,605850,0.203,0.099,0.101,0.17,,,8,140,674095,oct5-slowblends.json
-S_ALLPOS_price,MIX,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.092,0.951,0.095,0.753,604930,0.173,0.078,0.086,0.14,,,10,55,674938,runner R3_jobs / ideas/backlog.md
-S_VWAPT_rnd_iss_gpa,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.096,0.741,0.112,0.739,605850,0.203,0.114,0.113,0.2,,,8,140,675877,oct5-slowblends.json
-S_ILLIQ_rnd_iss_gpa,VWAPV,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.092,0.645,0.114,0.701,605850,0.203,0.117,0.113,0.21,,,9,140,,oct5-slowblends.json
-S_VWAPT_rnd_sbc_gpa_w2,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.085,0.463,0.125,0.695,605850,0.203,0.087,0.089,0.16,,,8,140,677276,runner R3_jobs / ideas/backlog.md
-S_VWAPT_sbc_iss_fcf_w2,VWAPT,Oct 5 23:00 Slow blends,REJECTED: IR below .072,0.067,0.545,0.09,0.682,605850,0.203,0.054,0.07,0.25,,,7,140,677439,runner R3_jobs / ideas/backlog.md
-S_COMP5_slow,COMP,Oct 5 23:00 Slow blends,REJECTED: IR below .072,0.05,0.049,0.226,0.571,605850,0.203,0.05,0.057,0.32,,,7,140,677618,runner R3_jobs / ideas/backlog.md
-S_CI_sbc_iss_fcf_w2,CI,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.078,0.512,0.109,0.646,605850,0.203,0.052,0.067,0.21,,,10,140,677723,runner R3_jobs / ideas/backlog.md
-S_BL1_subind,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.088,0.695,0.106,0.715,605850,0.203,0.079,0.087,0.17,,,9,140,678014,runner R3_jobs / ideas/backlog.md
-S_VWAPT_vol_iss,VWAPT,Oct 5 23:00 Slow blends,REJECTED: IR below .072,0.053,0.406,0.084,0.772,669233,0.233,0.035,0.049,0.23,,,6,260,678417,runner R3_jobs / ideas/backlog.md
-S_LATEVOL_sbc_iss_fcf_w2,LVREV,Oct 5 23:00 Slow blends,REJECTED: correlation (IR ok),0.075,0.54,0.102,0.527,570604,0.119,0.034,0.053,0.25,,,7,140,678911,runner R3_jobs / ideas/backlog.md
-Q_52WH,52WH,Oct 6 00:55 new families,REJECTED: IR below .072,-0.02,0.168,-0.049,0.662,579357,0.198,-0.002,-0.002,,,,2,260,679150,oct6-night.json
-Q_FROG,FROG,Oct 6 00:55 new families,FAILED (portal error),,,,,,,,,,,,2,260,684332,oct6-night.json
-Q_TUGOFWAR,OVN,Oct 6 00:55 new families,REJECTED: IR below .072,0.027,0.3,0.049,0.594,579357,0.198,0.018,0.015,0.23,,,2,55,679508,oct6-night.json
-Q_HVRP,HVRP,Oct 6 00:55 new families,REJECTED: IR below .072,-0.012,0.899,-0.012,0.34,577441,,0.042,0.022,,,,2,135,679671,oct6-night.json
-Q_VALxQUAL,QV,Oct 6 00:55 new families,REJECTED: IR below .072,-0.003,0.041,-0.014,0.657,576233,0.164,-0.025,-0.008,,,,2,140,679766,oct6-night.json
-Q_ACCR_AG,ACCR,Oct 6 00:55 new families,REJECTED: IR below .072,0.067,0.051,0.298,0.879,567998,0.328,0.095,0.08,0.33,,,3,140,679831,oct6-night.json
-Q_BAB,BAB,Oct 6 00:55 new families,REJECTED: IR below .072,-0.018,0.06,-0.072,0.681,628834,0.192,-0.022,-0.021,,,,2,260,679872,oct6-night.json
-Q_MAX_RETAIL,MAX,Oct 6 00:55 new families,REJECTED: IR below .072,0.002,0.259,0.004,0.611,628834,0.192,-0.015,-0.004,4.05,,,3,55,680024,oct6-night.json
-Q_LEADLAG,LL,Oct 6 00:55 new families,REJECTED: IR below .072,-0.03,0.682,-0.036,0.613,642093,0.148,-0.04,-0.037,,,,3,30,680161,oct6-night.json
-Q_EPSMOM,EMOM,Oct 6 00:55 new families,REJECTED: IR below .072,-0.021,0.086,-0.071,0.387,667066,,-0.016,-0.021,,,,2,140,680203,oct6-night.json
-T_LATE_w3,LVREV,Oct 6 07:00 near-miss variants,SUBMITTED,0.073,0.486,0.105,0.506,665632,0.094,0.031,0.05,0.25,,,7,140,684336,oct6-am.json
-T_LATE_s3_w2,LVREV,Oct 6 07:00 near-miss variants,REJECTED: IR below .072,0.061,0.439,0.092,0.959,684336,0.126,0.034,0.05,0.24,,,7,140,684734,oct6-am.json
-T_LATE_accr_w2,LVREV,Oct 6 07:00 near-miss variants,SUBMITTED,0.092,0.328,0.161,0.824,684336,0.126,0.062,0.075,0.23,,,10,140,685104,oct6-am.json
-T_LATE_sub_w2,LVREV,Oct 6 07:00 near-miss variants,REJECTED: correlation (IR ok),0.079,0.571,0.105,0.895,684336,0.126,0.032,0.051,0.24,,,8,140,,oct6-am.json
-T_COMP7,COMP,Oct 6 07:00 near-miss variants,SUBMITTED,0.083,0.051,0.366,0.786,685104,0.193,0.076,0.079,0.25,,,9,140,685741,oct6-am.json
-T_COMP5b,COMP,Oct 6 07:00 near-miss variants,REJECTED: IR below .072,0.069,0.053,0.301,0.888,685741,0.439,0.058,0.067,0.3,,,7,140,,oct6-am.json
-T_COMP7_sub,COMP,Oct 6 07:00 near-miss variants,REJECTED: IR below .072,0.057,0.053,0.248,0.865,685741,0.439,0.068,0.068,0.3,,,10,140,,oct6-am.json
-U_VWAPT_szvo,VWAPT,Oct 6 09:50 upgrades,REJECTED: IR below .072,0.051,1.01,0.051,0.612,570310,0.119,0.086,0.076,0.33,,,5,55,688280,oct6-upgrades.json
-U_PRICE2_szvo,MIX,Oct 6 09:50 upgrades,REJECTED: correlation (IR ok),0.093,0.998,0.093,0.704,570310,0.119,0.1,0.104,0.16,,,10,55,688412,oct6-upgrades.json
-U_VWAPT_rig_szvo,VWAPT,Oct 6 09:50 upgrades,REJECTED: correlation (IR ok),0.099,0.742,0.115,0.701,605850,0.203,0.127,0.122,0.21,,,9,140,688771,oct6-upgrades.json
-U_FMOM5,FMOM,Oct 6 09:50 upgrades,EMPTY (lookback bug; rerun queued),0,0,0,0,,,,,,,,7,140,689226,oct6-upgrades.json
-U_PRICE2_w10,MIX,Oct 6 09:50 upgrades,REJECTED: correlation (IR ok),0.08,0.848,0.087,0.61,570310,0.119,0.112,0.11,0.23,,,10,55,689318,runner R3_jobs / ideas/backlog.md
-U_PRICE2_s3,MIX,Oct 6 09:50 upgrades,REJECTED: correlation (IR ok),0.072,0.545,0.097,0.703,570310,0.119,0.108,0.105,0.18,,,10,60,689807,runner R3_jobs / ideas/backlog.md
-U_FMOM5_d120,FMOM,Oct 6 09:50 upgrades,REJECTED: IR below .072,0.028,0.064,0.112,0.492,595355,,0.03,,,,,,260,,
-U_FMOM5_lb330,FMOM,Oct 6 09:50 upgrades,FAILED (portal: lookback > 300),,,,,,,,,,,,,,,
-R_PRICE2_band,MIX,Oct 6 11:15 repair tests,FAILED (bool - bool crash),,,,,,,,,,,,,,,
-R_PRICE2_ewm,MIX,Oct 6 11:15 repair tests,REJECTED: correlation (IR ok),0.085,0.778,0.097,0.726,570310,0.119,0.105,,,,,,,,
-R_RIG_weekly,VWAPT,Oct 6 11:15 repair tests,FAILED (bool to ts_delay: needs float32),,,,,,,,,,,,,,,
-U_ILLIQ_rig_szvo,VWAPV,Oct 6 09:50 upgrades,REJECTED: correlation (IR ok),0.078,0.382,0.126,0.626,601796,0.169,0.08,,,,,,,,oct6-upgrades.json
-U_VWAPT_FMOM_w2,VWAPT,Oct 6 09:50 upgrades,REJECTED: IR below .072,0.055,0.341,0.095,0.436,595355,,0.035,,,,,,,,oct6-upgrades.json
-VP_VOV_D60,VP,Oct 6 local cycle 1,REJECTED: IR below .072,-0.01,0.073,-0.038,0.17,686926,,0.012,,,,,,,,c1.json
-VP_VOV_INTRA,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.017,0.151,0.044,0.242,664006,,0.006,,,,,,,,c1.json
-VP_COSK_60,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.023,0.17,0.055,0.445,642093,,0.018,,,,,,,,c1.json
-VP_COSK_RESID120,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.004,0.123,0.01,0.503,579357,,0.012,,,,,,,,c1.json
-VP_RESREV_VIX,VP,Oct 6 local cycle 1,REJECTED: IR below .072,0.02,0.851,0.022,0.833,574490,,0.002,,,,,,,,c1.json
-REG_VR_FLIP,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
-REG_VR_SMOOTH,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
+S_VWAPT_rnd_sbc_gpa,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation,0.09,0.655,0.111,0.72,#605850,0.169,0.0988,0.1013,0.17,,,8,140,674095,alphas/drafts/oct5-slowblends.json
+S_ALLPOS_price,MIX,Oct 5 23:00 Slow blends,REJECTED: correlation,0.092,0.951,0.095,0.753,#604930,0.144,0.0776,0.0857,0.14,,,10,55,674938,runner R3_jobs / ideas/backlog.md
+S_VWAPT_rnd_iss_gpa,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation,0.096,0.741,0.112,0.739,#605850,0.169,0.1139,0.1134,0.2,,,8,140,675877,alphas/drafts/oct5-slowblends.json
+S_ILLIQ_rnd_iss_gpa,VWAPV,Oct 5 23:00 Slow blends,REJECTED: correlation,0.092,0.645,0.114,0.701,#605850,0.169,0.1165,0.1129,0.21,,,9,140,,alphas/drafts/oct5-slowblends.json
+S_VWAPT_rnd_sbc_gpa_w2,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation,0.085,0.463,0.125,0.695,#605850,0.169,0.0872,0.0894,0.16,,,8,140,677276,runner R3_jobs / ideas/backlog.md
+S_VWAPT_sbc_iss_fcf_w2,VWAPT,Oct 5 23:00 Slow blends,REJECTED: IR,0.067,0.545,0.09,0.682,#605850,0.169,0.0537,0.0695,0.25,,,7,140,677439,runner R3_jobs / ideas/backlog.md
+S_COMP5_slow,COMP,Oct 5 23:00 Slow blends,REJECTED: IR,0.05,0.049,0.226,0.571,#605850,0.169,0.05,0.0572,0.32,,,7,140,677618,runner R3_jobs / ideas/backlog.md
+S_CI_sbc_iss_fcf_w2,CI,Oct 5 23:00 Slow blends,REJECTED: correlation,0.078,0.512,0.109,0.646,#605850,0.169,0.0516,0.0668,0.21,,,10,140,677723,runner R3_jobs / ideas/backlog.md
+S_BL1_subind,VWAPT,Oct 5 23:00 Slow blends,REJECTED: correlation,0.088,0.695,0.106,0.715,#605850,0.169,0.0791,0.0869,0.17,,,9,140,678014,runner R3_jobs / ideas/backlog.md
+S_VWAPT_vol_iss,VWAPT,Oct 5 23:00 Slow blends,REJECTED: IR,0.053,0.406,0.084,0.772,#669233,0.194,0.0355,0.0488,0.23,,,6,260,678417,runner R3_jobs / ideas/backlog.md
+S_LATEVOL_sbc_iss_fcf_w2,LVREV,Oct 5 23:00 Slow blends,REJECTED: correlation,0.075,0.54,0.102,0.527,#570604,0.099,0.0343,0.0532,0.25,,,7,140,678911,runner R3_jobs / ideas/backlog.md
+Q_52WH,52WH,Oct 6 00:55 new families,REJECTED: IR,-0.02,0.168,-0.049,0.662,#579357,0.165,-0.0017,-0.0024,,,,2,260,679150,alphas/drafts/oct6-night.json
+Q_FROG,FROG,Oct 6 00:55 new families,FAILED,,,,,,,,,,,,2,260,684332,alphas/drafts/oct6-night.json
+Q_TUGOFWAR,OVN,Oct 6 00:55 new families,REJECTED: IR,0.027,0.3,0.049,0.594,#579357,0.165,0.0184,0.0153,0.23,,,2,55,679508,alphas/drafts/oct6-night.json
+Q_HVRP,HVRP,Oct 6 00:55 new families,REJECTED: IR,-0.012,0.899,-0.012,0.34,#577441,,0.0417,0.0216,,,,2,135,679671,alphas/drafts/oct6-night.json
+Q_VALxQUAL,QV,Oct 6 00:55 new families,REJECTED: IR,-0.003,0.041,-0.014,0.657,#576233,0.137,-0.0247,-0.0079,,,,2,140,679766,alphas/drafts/oct6-night.json
+Q_ACCR_AG,ACCR,Oct 6 00:55 new families,REJECTED: IR,0.067,0.051,0.298,0.879,#567998,0.273,0.095,0.0796,0.33,,,3,140,679831,alphas/drafts/oct6-night.json
+Q_BAB,BAB,Oct 6 00:55 new families,REJECTED: IR,-0.018,0.06,-0.072,0.681,#628834,0.16,-0.0223,-0.0213,,,,2,260,679872,alphas/drafts/oct6-night.json
+Q_MAX_RETAIL,MAX,Oct 6 00:55 new families,REJECTED: IR,0.002,0.259,0.004,0.611,#628834,0.16,-0.015,-0.004,4.05,,,3,55,680024,alphas/drafts/oct6-night.json
+Q_LEADLAG,LL,Oct 6 00:55 new families,REJECTED: IR,-0.03,0.682,-0.036,0.613,#642093,0.123,-0.0401,-0.0366,,,,3,30,680161,alphas/drafts/oct6-night.json
+Q_EPSMOM,EMOM,Oct 6 00:55 new families,REJECTED: IR,-0.021,0.086,-0.071,0.387,#667066,,-0.0162,-0.0207,,,,2,140,680203,alphas/drafts/oct6-night.json
+T_LATE_w3,LVREV,Oct 6 07:00 near-miss variants,SUBMITTED,0.073,0.486,0.105,0.506,#665632,0.078,0.031,0.0498,0.25,,,7,140,684336,alphas/drafts/oct6-am.json
+T_LATE_s3_w2,LVREV,Oct 6 07:00 near-miss variants,REJECTED: IR,0.061,0.439,0.092,0.959,#684336,0.105,0.034,0.0502,0.24,,,7,140,684734,alphas/drafts/oct6-am.json
+T_LATE_accr_w2,LVREV,Oct 6 07:00 near-miss variants,SUBMITTED,0.092,0.328,0.161,0.824,#684336,0.105,0.0623,0.0751,0.23,,,10,140,685104,alphas/drafts/oct6-am.json
+T_LATE_sub_w2,LVREV,Oct 6 07:00 near-miss variants,REJECTED: correlation,0.079,0.571,0.105,0.895,#684336,0.105,0.0322,0.0513,0.24,,,8,140,,alphas/drafts/oct6-am.json
+T_COMP7,COMP,Oct 6 07:00 near-miss variants,SUBMITTED,0.083,0.051,0.366,0.786,#685104,0.161,0.0755,0.0794,0.25,,,9,140,685741,alphas/drafts/oct6-am.json
+T_COMP5b,COMP,Oct 6 07:00 near-miss variants,REJECTED: IR,0.069,0.053,0.301,0.888,#685741,0.366,0.0576,0.0665,0.3,,,7,140,,alphas/drafts/oct6-am.json
+T_COMP7_sub,COMP,Oct 6 07:00 near-miss variants,REJECTED: IR,0.057,0.053,0.248,0.865,#685741,0.366,0.0682,0.0675,0.3,,,10,140,,alphas/drafts/oct6-am.json
+U_VWAPT_szvo,VWAPT,Oct 6 09:50 upgrades,REJECTED: IR,0.051,1.01,0.051,0.612,#570310,0.099,0.0864,0.0763,0.33,,,5,55,688280,alphas/drafts/oct6-upgrades.json
+U_PRICE2_szvo,MIX,Oct 6 09:50 upgrades,REJECTED: correlation,0.093,0.998,0.093,0.704,#570310,0.099,0.1,0.1044,0.16,,,10,55,688412,alphas/drafts/oct6-upgrades.json
+U_VWAPT_rig_szvo,VWAPT,Oct 6 09:50 upgrades,REJECTED: correlation,0.099,0.742,0.115,0.701,#605850,0.169,0.1269,0.1225,0.21,,,9,140,688771,alphas/drafts/oct6-upgrades.json
+U_FMOM5,FMOM,Oct 6 09:50 upgrades,EMPTY,0,0,0,0,,,,,,,,7,140,689226,alphas/drafts/oct6-upgrades.json
+U_PRICE2_w10,MIX,Oct 6 09:50 upgrades,REJECTED: correlation,0.08,0.848,0.087,0.61,#570310,0.099,0.1121,0.1102,0.23,,,10,55,689318,runner R3_jobs / ideas/backlog.md
+U_PRICE2_s3,MIX,Oct 6 09:50 upgrades,REJECTED: correlation,0.072,0.545,0.097,0.703,#570310,0.099,0.1084,0.105,0.18,,,10,60,689807,runner R3_jobs / ideas/backlog.md
+U_FMOM5_d120,FMOM,Oct 6 09:50 upgrades,REJECTED: IR,0.028,0.064,0.112,0.492,#595355,,0.0298,0.0213,0.34,,,,260,,runner R3_jobs (not in repo)
+U_FMOM5_lb330,FMOM,Oct 6 09:50 upgrades,FAILED,,,,,,,,,,,,,330,,runner R3_jobs (not in repo)
+R_PRICE2_band,MIX,Oct 6 11:15 repair tests,FAILED,,,,,,,,,,,,,60,,runner R3_jobs (not in repo)
+R_PRICE2_ewm,MIX,Oct 6 11:15 repair tests,REJECTED: correlation,0.085,0.778,0.097,0.726,#570310,0.099,0.1048,0.1044,0.16,,,,60,,runner R3_jobs (not in repo)
+R_RIG_weekly,VWAPT,Oct 6 11:15 repair tests,FAILED,,,,,,,,,,,,,300,,runner R3_jobs (not in repo)
+U_ILLIQ_rig_szvo,VWAPV,Oct 6 09:50 upgrades,REJECTED: correlation,0.078,0.382,0.126,0.626,#601796,0.141,0.08,0.0902,0.31,,,,300,,alphas/drafts/oct6-upgrades.json
+U_VWAPT_FMOM_w2,VWAPT,Oct 6 09:50 upgrades,REJECTED: IR,0.055,0.341,0.095,0.436,#595355,,0.0349,0.039,0.17,,,,300,,alphas/drafts/oct6-upgrades.json
+VP_VOV_D60,VP,Oct 6 local cycle 1,REJECTED: IR,-0.01,0.073,-0.038,0.17,#686926,,0.0123,0.0079,,,,,140,,alphas/drafts/c1.json
+VP_VOV_INTRA,VP,Oct 6 local cycle 1,REJECTED: IR,0.017,0.151,0.044,0.242,#664006,,0.0058,0.0104,0.37,,,,60,,alphas/drafts/c1.json
+VP_COSK_60,VP,Oct 6 local cycle 1,REJECTED: IR,0.023,0.17,0.055,0.445,#642093,,0.0182,0.0268,0.52,,,,140,,alphas/drafts/c1.json
+VP_COSK_RESID120,VP,Oct 6 local cycle 1,REJECTED: IR,0.004,0.123,0.01,0.503,#579357,0.165,0.0117,0.0161,2.18,,,,260,,alphas/drafts/c1.json
+VP_RESREV_VIX,VP,Oct 6 local cycle 1,REJECTED: IR,0.02,0.851,0.022,0.833,#574490,0.136,0.0016,-0.001,0.66,,,,300,,alphas/drafts/c1.json
+REG_VR_FLIP,REG,Oct 6 local cycle 1,REJECTED: IR,0.003,0.943,0.003,0.306,#642093,,-0.0164,-0.0175,5.01,,,,260,,alphas/drafts/c1.json
+REG_VR_SMOOTH,REG,Oct 6 local cycle 1,REJECTED: IR,-0.004,0.482,-0.006,0.221,#673420,,-0.0068,-0.0111,,,,,300,,alphas/drafts/c1.json
 REG_PKCC_REV,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
 REG_DNBETA_ASYM,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
 REG_DNBETA_250,REG,Oct 6 local cycle 1,QUEUED (Slow),,,,,,,,,,,,,,,c1.json
@@ -147,23 +147,85 @@ A101_050,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
 A101_053,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
 A101_054,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
 A101_055,A101,Oct 6 101-alphas,QUEUED (Fast screen),,,,,,,,,,,,,,,a101.json
-R_PRICE2_band2,MIX,Oct 6 11:45 repair tests,REJECTED: IR below .072,0.018,1.932,0.013,0.111,690060,,0.008,,,,,,,,runner R3_jobs
-G_VWAPT_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
-G_RIG_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
-G_ACCR_mom20,ACCR,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
-G_ACCR_stop10,ACCR,Oct 6 11:45 regime gates,FAILED (cs_indneut needs integer group),,,,,,,,,,,,,,,runner R3_jobs
-G_VWAPT_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),REJECTED: IR below .072,0.071,1.135,0.066,0.658,604930,0.173,0.073,,,,,,,,runner R3_jobs
-G_ACCR_mom20b,ACCR,Oct 6 14:00 reruns (dtype fixes),REJECTED: correlation (IR ok),0.073,0.481,0.105,0.673,673102,0.409,0.109,,,,,,,,runner R3_jobs
-G_VWAPT_mom60ind,VWAPT,Oct 6 14:00 reruns (dtype fixes),REJECTED: IR below .072,0.065,1.092,0.062,0.682,570310,0.119,0.056,,,,,,,,runner R3_jobs
-U_VWAPT_FMOM_w1,VWAPT,Oct 6 14:00 reruns (dtype fixes),"SUBMITTED (manual, Abhinav)",0.070,0.525,0.097,0.466,659499,,0.057,0.062,0.18,,,,300,695151,runner R3_jobs
+R_PRICE2_band2,MIX,Oct 6 11:45 repair tests,REJECTED: IR,0.018,1.932,0.013,0.111,#690060,,0.0077,0.0053,0.23,,,,60,,runner R3_jobs
+G_VWAPT_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED,,,,,,,,,,,,,140,,runner R3_jobs
+G_RIG_mom60,VWAPT,Oct 6 11:45 regime gates,FAILED,,,,,,,,,,,,,140,,runner R3_jobs
+G_ACCR_mom20,ACCR,Oct 6 11:45 regime gates,FAILED,,,,,,,,,,,,,140,,runner R3_jobs
+G_ACCR_stop10,ACCR,Oct 6 11:45 regime gates,FAILED,,,,,,,,,,,,,140,,runner R3_jobs
+G_VWAPT_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),REJECTED: correlation,0.071,1.135,0.066,0.658,#604930,0.144,0.0729,0.0775,0.22,,,,140,,runner R3_jobs
+G_ACCR_mom20b,ACCR,Oct 6 14:00 reruns (dtype fixes),REJECTED: correlation,0.073,0.481,0.105,0.673,#673102,0.341,0.1089,0.0972,0.34,,,,140,,runner R3_jobs
+G_VWAPT_mom60ind,VWAPT,Oct 6 14:00 reruns (dtype fixes),REJECTED: IR,0.065,1.092,0.062,0.682,#570310,0.099,0.0555,0.076,0.23,,,,140,,runner R3_jobs
+U_VWAPT_FMOM_w1,VWAPT,Oct 6 14:00 reruns (dtype fixes),SUBMITTED,0.07,0.525,0.097,0.466,#659499,,0.0569,0.0621,0.18,,,,300,695151,runner R3_jobs
 G_ACCR_stop10b,ACCR,Oct 6 14:00 reruns (dtype fixes),SKIPPED (gates retired: switching raises turnover),,,,,,,,,,,,,,,runner R3_jobs
 G_RIG_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),SKIPPED (gates retired: switching raises turnover),,,,,,,,,,,,,,,runner R3_jobs
-R_RIG_weekly2,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-X_PL_FM4_w1,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation (IR ok),0.093,0.689,0.112,0.637 (now .758 to own #695151),604930,0.173,0.097,0.097,0.2,,,,260,695585,runner R3_jobs
-X_PL_FM4_w05,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation (IR ok),0.094,0.851,0.102,0.737,604930,0.173,0.098,0.1,0.18,,,,260,696186,runner R3_jobs
-X_VW_FM5_w1,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation (IR ok),0.086,0.677,0.105,0.799,695151 (own),0.116,0.094,0.093,0.21,,,,260,696887,runner R3_jobs
-X_VW_FM5_w05,MIXF,Oct 6 14:45 anti-correlated blends,RUNNING,,,,,,,,,,,,,260,,runner R3_jobs
-Y_PLsz_ACC_w07,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs
-Y_PLsz_ACC_w12,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs
-Y_PLewm_ACC_w1,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs
-Y_VW_ACC_w1,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs
+R_RIG_weekly2,VWAPT,Oct 6 14:00 reruns (dtype fixes),REJECTED: correlation,0.075,0.259,0.147,0.584,#601796,0.141,0.0712,0.0801,0.27,,,,300,,runner R3_jobs
+X_PL_FM4_w1,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation,0.093,0.689,0.112,0.637,#604930,0.144,0.0968,0.0973,0.2,,,,260,695585,runner R3_jobs
+X_PL_FM4_w05,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation,0.094,0.851,0.102,0.737,#604930,0.144,0.0981,0.1001,0.18,,,,260,696186,runner R3_jobs
+X_VW_FM5_w1,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation,0.086,0.677,0.105,0.799,#695151,0.097,0.0938,0.0929,0.21,,,,260,696887,runner R3_jobs
+X_VW_FM5_w05,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation,0.088,0.833,0.096,0.73,#695151,0.097,0.0952,0.0971,0.2,,,,260,,runner R3_jobs
+Y_PLsz_ACC_w07,MIXA,Oct 6 16:35 accrual-partner blends,SUBMITTED,0.109,0.838,0.12,1,#698181,0.12,0.1321,0.1295,0.19,,,,140,,runner R3_jobs
+Y_PLsz_ACC_w12,MIXA,Oct 6 16:35 accrual-partner blends,REJECTED: correlation,0.116,0.711,0.138,0.979,#698181,0.12,0.1422,0.1367,0.2,,,,140,,runner R3_jobs
+Y_PLewm_ACC_w1,MIXA,Oct 6 16:35 accrual-partner blends,REJECTED: correlation,0.101,0.704,0.121,0.974,#698181,0.12,0.1343,0.1291,0.19,,,,140,,runner R3_jobs
+Y_VW_ACC_w1,MIXA,Oct 6 16:35 accrual-partner blends,REJECTED: correlation,0.091,0.84,0.1,0.854,#698181,0.12,0.1056,0.1074,0.21,,,,140,,runner R3_jobs
+MM1_TOXREV,MM,snapshot 20261006-1912,REJECTED: IR,0.059,0.969,0.06,0.628,#640672,0.099,0.0675,0.0695,0.27,,,,60,,alphas/drafts/c2-newfam.json
+MM2_SIZEREV,MM,snapshot 20261006-1942,REJECTED: IR,0.042,1.032,0.041,0.123,#657905,,0.0352,0.0356,0.24,,,,80,,alphas/drafts/c2-newfam.json
+MM3_CLOSEPRESS,MM,snapshot 20261006-1942,REJECTED: IR,0.053,1.058,0.051,0.821,#569727,0.082,0.0474,0.047,0.37,,,,80,,alphas/drafts/c2-newfam.json
+MO1_RESMOM,MO,snapshot 20261006-2011,REJECTED: IR,0.008,0.1,0.026,0.622,#595355,0.357,0.0205,0.0122,1.04,,,,300,,alphas/drafts/c2-newfam.json
+MO2_FROG2,MO,snapshot 20261006-2011,REJECTED: IR,0.008,0.118,0.023,0.573,#595355,0.357,0.0127,0.0058,0.95,,,,300,,alphas/drafts/c2-newfam.json
+MO3_VOLMOM,MO,snapshot 20261006-2011,REJECTED: IR,0.007,0.101,0.023,0.553,#595355,0.357,0.0101,0.003,0.82,,,,300,,alphas/drafts/c2-newfam.json
+LIQ_TURNCV,LIQ,snapshot 20261006-2011,REJECTED: IR,0.021,0.06,0.085,0.473,#634793,,0.0076,0.0264,0.5,,,,270,,alphas/drafts/c3-scrape.json
+LIQ_ILLIQSHOCK,LIQ,snapshot 20261006-2041,REJECTED: IR,0.003,0.247,0.007,0.5,#575475,,0.0239,0.0171,1.89,,,,270,,alphas/drafts/c3-scrape.json
+MOMX_STMOM_HITURN,MOMX,snapshot 20261006-2041,REJECTED: IR,-0.012,0.326,-0.021,0.51,#579357,0.165,-0.0075,-0.0092,,,,,60,,alphas/drafts/c3-scrape.json
+MOMX_SEASON_1Y,MOMX,snapshot 20261006-2041,REJECTED: IR,0.026,0.305,0.047,0.392,#607689,,-0.0425,-0.0121,0.41,,,,280,,alphas/drafts/c3-scrape.json
+HR_HKS_PERIOD,HR,snapshot 20261006-2112,REJECTED: IR,0.002,0.236,0.005,0.285,#570604,,-0.0197,-0.0178,2.18,,,,65,,alphas/drafts/c3-scrape.json
+FUND_ORGCAP,FUND,snapshot 20261006-2112,REJECTED: IR,0.013,0.046,0.059,0.242,#697353,,0.0298,0.0157,0.74,,,,250,,alphas/drafts/c3-scrape.json
+FUND_TAXMOM,FUND,snapshot 20261006-2112,REJECTED: IR,0.025,0.052,0.108,0.405,#574700,,-0.0004,0.0112,0.42,,,,150,,alphas/drafts/c3-scrape.json
+PV_CORD,PV,snapshot 20261006-2112,REJECTED: IR,0.035,0.151,0.091,0.392,#575403,,0.034,0.0402,0.29,,,,81,,alphas/drafts/c3-scrape.json
+R_RIGwk_k15,R_RIG,snapshot 20261006-2318,REJECTED: IR,0.068,0.2,0.153,0.633,#601796,0.141,0.063,0.0737,0.3,,,,300,,alphas/drafts/r-rigweekly.json
+R_RIGwk_k2,R_RIG,snapshot 20261006-2342,REJECTED: IR,0.063,0.164,0.156,0.647,#601796,0.141,0.0577,0.0693,0.32,,,,300,,alphas/drafts/r-rigweekly.json
+R_RIAwk,R_RIA,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/r-riaweekly.json
+R_RIAwk_w10,R_RIA,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/r-riaweekly.json
+Y_PLsz_ACC_w16,Y_ACC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/y-acc-repair.json
+Y_PLsz_ACC_w20,Y_ACC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/y-acc-repair.json
+R_RIGwk_w10,R_RIG,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/r-rigweekly.json
+R_RIGwk_w10k15,R_RIG,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/r-rigweekly.json
+SW_L_AOCI49,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_AOIA31,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CPOLTD33,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_DTALT70,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_DA60,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_EOERCO55,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_LTD22,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_STI78,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_TOE60,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_ANR30,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_AP44,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_AREN21,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_AD4,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_APIC78,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_TSA62,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_BSCNCI28,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CS49,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CAR57,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CL89,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_DTL94,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_G89,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_I42,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_LTB28,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_MSAOST52,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_OCA32,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_OLTL53,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_OSTL84,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_PRE5,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_REAOE16,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_STB59,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_TEPC45,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_TL60,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_TOPAE77,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_APAA29,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CEPA20,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CFFA50,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CFIA92,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_CII91,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_DIT73,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json
+SW_L_DP8,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-1.json

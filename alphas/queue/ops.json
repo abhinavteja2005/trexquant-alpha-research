@@ -8,7 +8,8 @@
  "front": [
   "R_RIAwk",
   "R_RIAwk_w10",
-  "R_RIGwk_k2",
+  "Y_PLsz_ACC_w16",
+  "Y_PLsz_ACC_w20",
   "R_RIGwk_w10",
   "R_RIGwk_w10k15",
   "SW_L_AOCI49",
@@ -52,7 +53,5 @@
   "SW_L_DIT73",
   "SW_L_DP8"
  ],
- "px": [
-  "['Y_PLsz_ACC_w12','Y_PLewm_ACC_w1','Y_VW_ACC_w1','Y_PLsz_ACC_w07'].map(t=>{const j=R.jobs.find(x=>x.tag===t); return [t,'lb'+(j.lb||''),...j.expr.split('\\n').filter(l=>!l.trim().startsWith('#')).map(l=>l.split('#')[0].trim())].join(' ;; ')})"
- ]
+ "px": []
 }
