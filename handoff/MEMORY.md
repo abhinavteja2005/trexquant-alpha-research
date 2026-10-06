@@ -50,6 +50,7 @@ Read this first, then `handoff/AUTORESEARCHER.md` (the build-and-loop program, i
 3. Desktop cycle-1 families (vol-of-vol, coskew, downside beta, trade size, MAX): if any has Slow IR > .03 with low pool corr, use it as a blend partner.
 4. Before queueing a blend, paste `runner/px.js` and use `PX.blend` / `PX.own` (reads ~.04-.08 above the portal's number, so it is conservative). Otherwise estimate its corr with our 3 submissions from daily PnL (fetch `/trexsim/pysim/alpha/<id>/?format=json`, `simresdata`); skip anything > .5 unless its irtvr will clear 1.2x.
 
+NO DELETIONS: never delete or withdraw any alpha or submission on the portal; report deletion ideas to Abhinav, who acts manually.
 ## Rules
 - One runner, one tab. Only `window.R` starts simulations. Never reload or navigate the runner tab; use another tab to browse. If `window.R` is missing, rebuild from `localStorage.R3_code` or `runner/runner.js` (state survives in `localStorage.R3_jobs`).
 - Add jobs with `R.add([{tag, base, expr}])`, then set `state:'squeued'` and an explicit `lb` (60 price-only, 300 with 250-day windows, 400 with ts_fill + 250-day delays), then `R.save()`.

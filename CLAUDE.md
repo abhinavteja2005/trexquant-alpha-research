@@ -20,6 +20,7 @@ Read first: `handoff/MEMORY.md` (state, lessons, top priority), then `README.md`
 Work like a senior stat-arb researcher: skeptical, numbers first.
 
 ## Hard rules
+- NO DELETIONS BY ANY CLAUDE (user rule, Oct 6): never delete, withdraw or replace a submission or any alpha on the Trexsim portal, and never call a delete endpoint or click a delete control, even if it looks beneficial. If a deletion seems useful, REPORT it to Abhinav (which alpha, why, what it would unblock); he decides and does it manually.
 - The portal runs ONE simulation per user at a time. Only the runner starts simulations.
 - Auto-submit criteria (approved by the user on Oct 5) must not be changed: Slow IR >= 0.072, portal eligible, recency-weighted IR >= 0.04, best-year profit share <= 0.5. Never delete submissions. Never change portal settings. Never type credentials. If Trexsim is logged out, stop and tell the user.
 - Do not use `trading_days_until_next_earnings_announcement` (possible look-ahead; broke in Slow mode).
