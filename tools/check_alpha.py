@@ -200,10 +200,50 @@ def check(expr):
         if ints and int(ints[-1]) not in allowed:
             errs.append(f"{m.group(1)} window {ints[-1]} not in {sorted(ALLOWED_WINDOWS)}")
     errs += list(dict.fromkeys(bool_errors(code_lines)))  # nested call args can repeat a finding
+    # Rule A: ts_delay lag must be in ALLOWED_WINDOWS | {1,2,3,4}
+    ALLOWED_LAGS = ALLOWED_WINDOWS | {1, 2, 3, 4}
     for m in re.finditer(r"ts_delay\s*\(", code):
         args = call_args(code, m.end() - 1)
         if len(args) > 1 and args[-1].lstrip().startswith("-"):
             errs.append("ts_delay with a negative lag (forward bias)")
+        if len(args) > 1 and re.fullmatch(r"\d+", args[-1].strip()):
+            lag = int(args[-1].strip())
+            if lag not in ALLOWED_LAGS:
+                errs.append(f"ts_delay lag {lag} not in {sorted(ALLOWED_LAGS)}")
+
+    # Rule B: cs_indneut group argument must involve a group variable
+    for m in re.finditer(r"cs_indneut\s*\(", code):
+        args = call_args(code, m.end() - 1)
+        if len(args) >= 2:
+            group_arg = args[1].strip()
+            # Resolve the group arg: if it's a local variable, look up its assignment
+            resolved = group_arg
+            if re.fullmatch(r"[A-Za-z_]\w*", group_arg):
+                assign = re.search(rf"^\s*{re.escape(group_arg)}\s*=(?!=)\s*(.+)", code, re.M)
+                if assign:
+                    resolved = assign.group(1).strip()
+            # Check if any group variable name appears in the resolved expression
+            if not any(g in resolved for g in GROUPS):
+                errs.append(f"cs_indneut group '{group_arg}' must use a group variable (industry/subindustry/sector); "
+                            f"use industry*0 for one all-stock group")
+
+    # Rule C: lookback warning — compute minimum lookback needed
+    max_lag, max_win = 0, 0
+    has_ts_fill = bool(re.search(r"\bts_fill\s*\(", code))
+    for m in re.finditer(r"ts_delay\s*\(", code):
+        args = call_args(code, m.end() - 1)
+        if len(args) > 1 and re.fullmatch(r"\d+", args[-1].strip()):
+            max_lag = max(max_lag, int(args[-1].strip()))
+    for m in re.finditer(r"([A-Za-z_]\w*)\s*\(", code):
+        if not WINDOWED.match(m.group(1)):
+            continue
+        args = call_args(code, m.end() - 1)
+        ints = [a for a in args[1:] if re.fullmatch(r"\d+", a)]
+        if ints:
+            max_win = max(max_win, int(ints[-1]))
+    min_lb = max(max_lag, max_win) + (70 if has_ts_fill else 0) + 20
+    if min_lb > 300:
+        warns.append(f"minimum lookback ~{min_lb} exceeds portal max 300; alpha may fail in Slow mode")
 
     return errs, warns, len(used - GROUPS), len(used)
 

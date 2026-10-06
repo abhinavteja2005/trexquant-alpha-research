@@ -44,8 +44,8 @@ so most rules HURT them; test before queueing.
      Q_ACCR_AG stop10re5 .067 -> .074 and mom20 .067 -> .076 (both up).
    - Hurt: stop10re5 on every reversal alpha (e.g. U_PRICE2_szvo .093 -> .072); mom20 on most reversal alphas.
 2. In-code implementation (adds only `ret1` and `close` as variables):
-   `s = <parent alpha>`; `z = at_nan2zero(cs_zscore(s))`; `one = close/close`;
-   `x = at_nan2zero(ts_delay(z, 1)*ret1)`; `p = x - cs_indneut(x, one)` (cross-sectional mean = shadow return);
+   `s = <parent alpha>`; `z = at_nan2zero(cs_zscore(s))`; `grp = industry*0`;
+   `x = at_nan2zero(ts_delay(z, 1)*ret1)`; `p = x - cs_indneut(x, grp)` (cross-sectional mean = shadow return);
    `on = ts_sum(p, 60) > 0` (or `1 - (ts_sum(p, 10) < 0)*(ts_sum(p, 5) < 0)`); `alpha = at_zero2nan(at_nan2zero(s)*on)`.
    Queued Oct 6: G_VWAPT_mom60, G_RIG_mom60, G_ACCR_mom20, G_ACCR_stop10. The `cs_indneut(x, one)` trick is unproven
    on the portal; check these runs first.

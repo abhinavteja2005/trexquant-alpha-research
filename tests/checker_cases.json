@@ -97,5 +97,37 @@
   "code": "tr = cs_zscore(ret5) > 0.5\nmr = cs_zscore(ret5) < -0.5\nalpha = at_zero2nan(tr*cs_zscore(ret5) - mr*cs_zscore(ret5))",
   "expect": "PASS",
   "origin": "c1 REG_VR_FLIP"
+ },
+ {
+  "name": "ts_delay lag 252 (not allowed)",
+  "code": "k = shsout/ts_delay(shsout, 252) - 1\nalpha = cs_rank(k)",
+  "expect": "FAIL",
+  "match": "ts_delay lag 252",
+  "origin": "VWAPV_fcf_iss_w2 / RETL / OVN Fast timeout (Oct 6)"
+ },
+ {
+  "name": "ts_delay lag 250 (allowed)",
+  "code": "k = shsout/ts_delay(shsout, 250) - 1\nalpha = cs_rank(k)",
+  "expect": "PASS",
+  "origin": "issuance signal (lag 250 is in ALLOWED_WINDOWS)"
+ },
+ {
+  "name": "ts_delay lag 1 (allowed)",
+  "code": "alpha = close/ts_delay(close, 1) - 1",
+  "expect": "PASS",
+  "origin": "1-day return (lag 1 common)"
+ },
+ {
+  "name": "cs_indneut with close/close group (not integer)",
+  "code": "one = close/close\nalpha = cs_rank(ret1) - cs_indneut(cs_rank(ret1), one)",
+  "expect": "FAIL",
+  "match": "cs_indneut group",
+  "origin": "G_VWAPT_mom60 / G_RIG_mom60 / G_ACCR_* (Oct 6)"
+ },
+ {
+  "name": "cs_indneut with industry*0 group (valid)",
+  "code": "alpha = cs_rank(ret1) - cs_indneut(cs_rank(ret1), industry*0)",
+  "expect": "PASS",
+  "origin": "fixed form for single all-stock group"
  }
 ]
