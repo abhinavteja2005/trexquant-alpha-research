@@ -1,0 +1,231 @@
+"""Turn a parent alpha draft into a documented repair variant (knowledge/repair-playbook.md).
+
+Usage:
+  python tools/repair.py <parent_tag> <technique> [<technique2>] [--out alphas/drafts/repairs.json] [--print] [--tag TAG]
+Techniques: band ewm weekly w10 szvo slow2x slow3x multihorizon winsor gate (at most 2, applied in order).
+The parent keeps its leading comment lines (Thesis/Source/...), gets a '# Repair:' line, and its final
+'alpha = X' line becomes 's = X' (except w10/slow2x/slow3x, which edit in place). The result is appended
+to --out (deduped by tag) with lb/wlb set from the longest window + delay, and checked with check_alpha.
+"""
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+from check_alpha import call_args, check, strip_comment
+from mutate import load_drafts
+
+ROOT = Path(__file__).resolve().parent.parent
+PB = "knowledge/repair-playbook.md"
+
+# technique -> (description, source)
+INFO = {
+    "band": ("banding / buy-hold spread: enter at the extremes, exit late", "Novy-Marx & Velikov, RFS 2016"),
+    "ewm": ("partial trading toward the target via exponential smoothing", "Garleanu & Pedersen, JF 2013"),
+    "weekly": ("trade one day a week, hold the signal in between", "weekly rebalance, " + PB),
+    "w10": ("longer 10-day windows instead of 5-day", "horizon change, " + PB),
+    "szvo": ("size and volatility neutral", "Isichenko 2021; " + PB),
+    "slow2x": ("2x weight on the slow terms so the fast base trades less", PB),
+    "slow3x": ("3x weight on the slow terms so the fast base trades less", PB),
+    "multihorizon": ("average of the 5-, 10- and 20-day versions of the signal", PB),
+    "winsor": ("winsorize the signal to damp outliers", PB),
+    "gate": ("trade only on volume-shock days, where the effect is stronger", PB),
+}
+
+# technique -> lines appended after 's = ...' (each ends in a comment)
+TEMPLATES = {
+    "band": [
+        "q = cs_rank(s)  # cross-sectional rank of the signal, in [1,2]",
+        "hl = (ts_max(q, 5) > 1.8)*(q > 1.6)  # long: was in the top tail within 5 days and still in the upper band",
+        "hs = (ts_min(q, 5) < 1.2)*(q < 1.4)  # short: was in the bottom tail within 5 days and still in the lower band",
+        "alpha = at_zero2nan(hl - hs)  # hold long/short until the rank leaves the band (buy-hold spread)",
+    ],
+    "ewm": ["alpha = ts_mean_exp(s, 10, 0.7)  # exponentially smoothed signal: trade partially toward the target"],
+    "weekly": [
+        "s0 = at_nan2zero(s)  # signal with NaN as 0 so the stale-signal blend is defined",
+        "f0 = day_of_the_week < ts_delay(day_of_the_week, 1)  # 1 on the first trading day of the week",
+        "f1 = ts_delay(f0, 1)  # 1 if the week started yesterday",
+        "f2 = ts_delay(f0, 2)  # 1 if the week started 2 days ago",
+        "f3 = ts_delay(f0, 3)  # 1 if the week started 3 days ago",
+        "alpha = at_zero2nan(f0*s0 + (1-f0)*(f1*ts_delay(s0, 1) + (1-f1)*(f2*ts_delay(s0, 2) + (1-f2)*(f3*ts_delay(s0, 3) + (1-f3)*ts_delay(s0, 4)))))  # use the signal from the week's first day all week",
+    ],
+    "szvo": [
+        "sz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)",
+        "vo = cs_rank(ts_std(ret1, 20))  # 1-month volatility rank",
+        "alpha = cs_factorneut(s, [sz, vo])  # remove size and volatility exposure",
+    ],
+    "winsor": ["alpha = cs_winsor(s, 0.05, False)  # clip the 5% tails of the signal"],
+    "gate": ["alpha = at_zero2nan(s * (cs_rank(volume/ts_mean(volume, 20)) > 1.5))  # keep only names in a volume shock"],
+}
+
+
+def die(msg):
+    sys.exit(f"repair.py: {msg}")
+
+
+def split_expr(expr):
+    lines = expr.splitlines()
+    i = 0
+    while i < len(lines) and (lines[i].strip().startswith("#") or not lines[i].strip()):
+        i += 1
+    return [l for l in lines[:i] if l.strip()], [l for l in lines[i:] if l.strip()]
+
+
+def last_alpha(code):
+    for i in range(len(code) - 1, -1, -1):
+        if re.match(r"\s*alpha\s*=", code[i]):
+            return i
+    die("parent has no 'alpha =' line")
+
+
+def parts(line):
+    """'name = expr  # comment' -> (name, expr, comment)."""
+    code, _, com = line.partition("#")
+    name, _, e = code.partition("=")
+    return name.strip(), e.strip(), com.strip()
+
+
+def swap_windows(line, old, new):
+    code, sep, com = line.partition("#")
+    return re.sub(rf"(,\s*){old}(\s*\))", rf"\g<1>{new}\g<2>", code) + sep + com
+
+
+def top_split_plus(e):
+    out, depth, cur = [], 0, ""
+    for ch in e:
+        depth += ch == "("
+        depth -= ch == ")"
+        if ch == "+" and depth == 0:
+            out.append(cur.strip())
+            cur = ""
+        else:
+            cur += ch
+    out.append(cur.strip())
+    return out
+
+
+def slow(code, k):
+    i = last_alpha(code)
+    _, e, com = parts(code[i])
+    m = re.fullmatch(r"at_zero2nan\((.*)\)", e)
+    inner = m.group(1) if m else e
+    terms = top_split_plus(inner)
+    if len(terms) < 2 or not all(re.fullmatch(r"at_nan2zero\(.*\)", t) for t in terms):
+        die("slow%dx needs a final line that is a sum of at_nan2zero(...) terms; parent's is not" % k)
+    new = " + ".join([terms[0]] + [f"{k}*{t}" for t in terms[1:]])
+    line = (f"alpha = at_zero2nan({new})" if m else f"alpha = {new}") + \
+           f"  # first term (assumed the fast base) at 1x, the other {len(terms) - 1} terms at {k}x"
+    return code[:i] + [line] + code[i + 1:]
+
+
+def multihorizon(code):
+    i = last_alpha(code)
+    body = [l for l in code[:i]]
+    _, e, com = parts(code[i])
+    base = [f"s_5 = {e}  # {com or 'parent signal'}"]
+    base_code = body + base
+    names = [parts(l)[0] for l in body if "=" in strip_comment(l)] + ["s"]
+    extra = []
+    for w in (10, 20):
+        for l in body + [f"s = {e}  # {com or 'parent signal'}"]:
+            c, sep, cm = l.partition("#")
+            c = re.sub(r"(,\s*)5(\s*\))", rf"\g<1>{w}\g<2>", c)
+            for n in names:
+                c = re.sub(rf"(?<![\w.]){n}(?![\w(])", f"{n}_{w}", c)
+            extra.append(c + sep + cm)
+    # parent body (5-day) stays as written; s_5 is the 5-day signal
+    final = "alpha = (cs_rank(s_5) + cs_rank(s_10) + cs_rank(s_20))/3  # average rank across 5/10/20-day horizons"
+    return base_code + extra + [final]
+
+
+def apply(tech, code):
+    if tech == "w10":
+        return [swap_windows(l, 5, 10) for l in code]
+    if tech in ("slow2x", "slow3x"):
+        return slow(code, int(tech[4]))
+    if tech == "multihorizon":
+        return multihorizon(code)
+    i = last_alpha(code)
+    _, e, com = parts(code[i])
+    out = code[:i] + [f"s = {e}  # {com or 'parent signal'}"]
+    if com and com != "parent signal":
+        out[-1] = f"s = {e}  # {com}"
+    return out + TEMPLATES[tech]
+
+
+def lookback(code_lines):
+    code = "\n".join(strip_comment(l) for l in code_lines)
+    win, dly = 0, 0
+    for m in re.finditer(r"\b(ts_\w+|decay_linear|delta)\s*\(", code):
+        args = call_args(code, m.end() - 1)
+        ints = [int(a) for a in args[1:] if re.fullmatch(r"\d+", a)]
+        if not ints:
+            continue
+        if m.group(1) == "ts_delay":
+            dly = max(dly, max(ints))
+        else:
+            win = max(win, max(ints))
+    lb = win + dly + (70 if "ts_fill" in code else 0) + 20
+    return min(max(lb, 60), 330)
+
+
+def ledger_metrics(tag):
+    p = ROOT / "alphas" / "ledger.md"
+    if not p.exists():
+        return None, None
+    for l in p.read_text(encoding="utf-8").splitlines():
+        c = [x.strip() for x in l.strip().strip("|").split("|")]
+        if len(c) == 13 and c[1] == tag:
+            ir = re.match(r"-?\.?\d+\.?\d*", c[8])
+            co = re.match(r"-?\.?\d+\.?\d*", c[9])
+            if ir or co:
+                return (ir.group() if ir else None), (co.group() if co else None)
+    return None, None
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("parent")
+    ap.add_argument("techniques", nargs="+")
+    ap.add_argument("--out", default=str(ROOT / "alphas" / "drafts" / "repairs.json"))
+    ap.add_argument("--print", action="store_true")
+    ap.add_argument("--tag")
+    a = ap.parse_args()
+    if len(a.techniques) > 2:
+        die("at most 2 techniques stacked")
+    bad = [t for t in a.techniques if t not in INFO]
+    if bad:
+        die(f"unknown technique {bad}; choose from {', '.join(INFO)}")
+    drafts = load_drafts()
+    if a.parent not in drafts:
+        die(f"parent tag {a.parent} not in alphas/drafts/*.json")
+    par = drafts[a.parent]
+    head, code = split_expr(par["expr"])
+    for t in a.techniques:
+        code = apply(t, code)
+    ir, co = ledger_metrics(a.parent)
+    met = ", ".join(x for x in ([f"IR {ir}"] if ir else []) + ([f"corr {co}"] if co else []))
+    desc = " + ".join(INFO[t][0] for t in a.techniques)
+    src = "; ".join(dict.fromkeys(INFO[t][1] for t in a.techniques))
+    rep = f"# Repair: {desc} ({src}). Parent {a.parent}" + (f" {met}." if met else ".")
+    expr = "\n".join(head + [rep] + code)
+    tag = a.tag or "R_" + re.sub(r"^[A-Za-z]_", "", a.parent) + "_" + "_".join(a.techniques)
+    lb = lookback(code)
+    item = {"tag": tag, "base": par.get("base"), "family": par.get("family") or par.get("base"),
+            "parent": a.parent, "technique": "+".join(a.techniques), "expr": expr,
+            "lb": lb, "wlb": lb, "state": "squeued"}
+    out = Path(a.out)
+    items = json.loads(out.read_text(encoding="utf-8")) if out.exists() else []
+    items = [x for x in items if x["tag"] != tag] + [item]
+    out.write_text(json.dumps(items, indent=1), encoding="utf-8")
+    errs, warns, _, nv = check(expr)
+    if a.print:
+        print(expr)
+    print(f"{'FAIL' if errs else 'PASS'} {tag} (vars={nv}, lb={lb}) -> {out}"
+          + "".join(f"\n  - {e}" for e in errs) + "".join(f"\n  ~ {w}" for w in warns))
+    return 1 if errs else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
