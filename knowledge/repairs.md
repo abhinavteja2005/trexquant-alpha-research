@@ -33,3 +33,5 @@
 | Oct 6 | VWAPV_fcf_iss_w2, RETL_fcf_iss_w2, OVN_fcf_iss_w2 | reversal + fcf + issuance | blend (2x slow weight) | | FAILED (Fast timeout): ts_delay(shsout, 252) — lag 252 not allowed; fix: 250 | | no |
 | pending | Y_PLsz_ACC_w07/_w12, Y_PLewm_ACC_w1, Y_VW_ACC_w1 | price reversal + accruals | anti-correlated partner (PnL corr -.215), replay IR .115-.124 | | | | |
 | pending | R_RIGwk_k15, R_RIGwk_k2, R_RIGwk_w10, R_RIGwk_w10k15 | R_RIG_weekly2 (#703370) | slow 1.5x / 2x, 10-day reversal, both | .075 / .259 / .584@601796 (irtvr .147, bar .169) | | need TVR <= .197 or corr < .5 | |
+| Oct 6 | R_RIGwk_k15 (#704754) | R_RIG_weekly2 | slow part 1.5x | .075 / .259 / .584@601796 | .068 / .200 / .633@601796 | irtvr .153 vs .169; IR < .07 (more slow weight: TVR -23%, IR -9%, corr UP) | no |
+| pending | R_RIAwk, R_RIAwk_w10 | R_RIG_weekly2 | swap gross profit for accruals partner (+10-day reversal) | .075 / .259 / .584@601796 | | | |
