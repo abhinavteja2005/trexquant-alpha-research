@@ -159,7 +159,11 @@ U_VWAPT_FMOM_w1,VWAPT,Oct 6 14:00 reruns (dtype fixes),"SUBMITTED (manual, Abhin
 G_ACCR_stop10b,ACCR,Oct 6 14:00 reruns (dtype fixes),SKIPPED (gates retired: switching raises turnover),,,,,,,,,,,,,,,runner R3_jobs
 G_RIG_mom60b,VWAPT,Oct 6 14:00 reruns (dtype fixes),SKIPPED (gates retired: switching raises turnover),,,,,,,,,,,,,,,runner R3_jobs
 R_RIG_weekly2,VWAPT,Oct 6 14:00 reruns (dtype fixes),QUEUED (Slow),,,,,,,,,,,,,,,runner R3_jobs
-X_PL_FM4_w1,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation (IR ok),0.093,0.689,0.112,0.637,604930,0.173,0.097,0.097,0.2,,,,260,695585,runner R3_jobs
-X_PL_FM4_w05,MIXF,Oct 6 14:45 anti-correlated blends,RUNNING,,,,,,,,,,,,,260,,runner R3_jobs
-X_VW_FM5_w1,MIXF,Oct 6 14:45 anti-correlated blends,QUEUED (Slow),,,,,,,,,,,,,260,,runner R3_jobs
-X_VW_FM5_w05,MIXF,Oct 6 14:45 anti-correlated blends,QUEUED (Slow),,,,,,,,,,,,,260,,runner R3_jobs
+X_PL_FM4_w1,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation (IR ok),0.093,0.689,0.112,0.637 (now .758 to own #695151),604930,0.173,0.097,0.097,0.2,,,,260,695585,runner R3_jobs
+X_PL_FM4_w05,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation (IR ok),0.094,0.851,0.102,0.737,604930,0.173,0.098,0.1,0.18,,,,260,696186,runner R3_jobs
+X_VW_FM5_w1,MIXF,Oct 6 14:45 anti-correlated blends,REJECTED: correlation (IR ok),0.086,0.677,0.105,0.799,695151 (own),0.116,0.094,0.093,0.21,,,,260,696887,runner R3_jobs
+X_VW_FM5_w05,MIXF,Oct 6 14:45 anti-correlated blends,RUNNING,,,,,,,,,,,,,260,,runner R3_jobs
+Y_PLsz_ACC_w07,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs
+Y_PLsz_ACC_w12,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs
+Y_PLewm_ACC_w1,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs
+Y_VW_ACC_w1,MIXA,Oct 6 16:35 accrual-partner blends,QUEUED (Slow),,,,,,,,,,,,,140,,runner R3_jobs

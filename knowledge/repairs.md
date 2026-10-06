@@ -28,3 +28,6 @@
 | pending | X_PL_FM4_w1/_w05, X_VW_FM5_w1/_w05 | U_PRICE2_szvo / P_VWAPT + U_FMOM5_d120 | anti-correlated blend (PnL corr -.37 / -.18), predicted IR .082-.106 | | | | |
 | Oct 6 | U_VWAPT_FMOM_w1 | U_VWAPT_FMOM_w2 | more reversal weight (1:1 instead of 1:2) | .055 / .341 / .436@595355 | .070 / .525 / .466@659499 | eligible (corr < .5) | YES (manual) |
 | Oct 6 | X_PL_FM4_w1 | U_PRICE2_szvo + U_FMOM5_d120 | anti-correlated partner 1:1 | .093 / .998 / .704@570310 | .093 / .689 / .637@604930 | .112 vs .173 | no |
+| Oct 6 | X_PL_FM4_w05 | U_PRICE2_szvo + U_FMOM5_d120 | partner at 0.5 | .093 / .998 / .704 | .094 / .851 / .737@604930 | .102 vs .173 | no |
+| Oct 6 | X_VW_FM5_w1 | P_VWAPT + U_FMOM5_d120 | partner 1:1 | .083 / 1.047 / .782 | .086 / .677 / .799@695151 (own) | .105 vs .116 | no |
+| pending | Y_PLsz_ACC_w07/_w12, Y_PLewm_ACC_w1, Y_VW_ACC_w1 | price reversal + accruals | anti-correlated partner (PnL corr -.215), replay IR .115-.124 | | | | |
