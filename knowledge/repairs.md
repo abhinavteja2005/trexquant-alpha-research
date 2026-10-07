@@ -37,3 +37,6 @@
 | pending | R_RIAwk, R_RIAwk_w10 | R_RIG_weekly2 | swap gross profit for accruals partner (+10-day reversal) | .075 / .259 / .584@601796 | | | |
 | Oct 7 | R_RIAwk (#705948, inferred) | R_RIG_weekly2 | gross profit -> accruals | .075 / .259 / .584@601796 | .080 / .248 / .573@601796 | irtvr .161 vs .169 (needs TVR .224) | no |
 | pending | R_RIAwk_w10, R_RIAwk_a15, R_RIAwk_r07, R_IAwk_szvo | R_RIAwk | 10-day reversal; accruals 1.5x; reversal 0.7x; drop R&D + vol neutral | .080 / .248 / .573 | | | |
+| Oct 7 | SWC_BS9 / BS5 / BS9_dl | sweep batch 1 legs | equal-weight composite of sign-consistent balance-sheet items | legs IR .02-.05, TVR .03 | .063 / .029 / .477@578688 (OOS1 .108); .055; .059 | corr < .5: only IR short of .07 | no |
+| Oct 7 | A101_054_S / A101_044_S | Fast screens | Slow re-run | Fast .111 / .076 | .112 / 1.381 / .995@629528; .067 / .786 / .602@592314 | 054 hopeless (in pool); 044 repair | no |
+| pending | SWC_BS5_acc, SWC_BS7, SWC_BS7_acc, A101_044_acc | SWC_BS9, A101_044_S | + accruals leg; 7 legs; accrual partner 1.5x | | | | |

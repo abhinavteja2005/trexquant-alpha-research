@@ -235,9 +235,9 @@ R_IAwk_szvo,R_RIA,queued,REJECTED: correlation,0.079,0.259,0.156,0.915,#707365,0
 A101_009b,A101_TREND,snapshot 20261007-0642,FAST ONLY (not Slow-tested),,,,,,,,,,-0.004,0.567,,,,alphas/drafts/a101.json
 A101_012b,A101_VOLPX,snapshot 20261007-0642,FAST ONLY (not Slow-tested),,,,,,,,,,-0.001,0.387,,,,alphas/drafts/a101.json
 A101_030b,A101_TREND,snapshot 20261007-0642,FAST ONLY (not Slow-tested),,,,,,,,,,0.062,0.674,,,,alphas/drafts/a101.json
-SWC_BS9,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-1.json
-SWC_BS5,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-1.json
-SWC_BS9_dl,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-1.json
+SWC_BS9,SWC,queued,REJECTED: IR,0.063,0.029,0.367,0.477,#578688,,0.1084,0.0897,0.2,,,,120,,alphas/drafts/swc-1.json
+SWC_BS5,SWC,queued,REJECTED: IR,0.055,0.029,0.323,0.392,#650299,,0.1207,0.1026,0.32,,,,120,,alphas/drafts/swc-1.json
+SWC_BS9_dl,SWC,queued,REJECTED: IR,0.059,0.029,0.347,0.439,#650299,,0.1091,0.0908,0.21,,,,120,,alphas/drafts/swc-1.json
 SW_L_NCICC44,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_CFNI877,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_IAOACF3,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
@@ -278,10 +278,14 @@ SW_L_CFOTTD478,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_CATTARFEA,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_DTMCF2E,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_EM16F,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
-A101_054_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
-A101_044_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_054_S,A101,queued,REJECTED: correlation,0.112,1.381,0.095,0.995,#629528,0.092,0.0151,0.0364,0.34,,,,60,,alphas/drafts/a101-slow.json
+A101_044_S,A101,queued,REJECTED: IR,0.067,0.786,0.075,0.602,#592314,0.076,0.013,0.0314,0.24,,,,60,,alphas/drafts/a101-slow.json
 A101_050_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
 A101_053_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
 A101_054_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
 A101_054_s5,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
 A101_054_s5acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+SWC_BS5_acc,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
+SWC_BS7,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
+SWC_BS7_acc,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
+A101_044_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
