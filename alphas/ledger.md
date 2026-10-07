@@ -271,3 +271,12 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 13:12 | N_GLDHEDGE | MACRO |  |  |  |  |  | .005 | .265@618945 | no | sdone | no |
 | Oct 7 13:12 | N_OILRESP | MACRO |  |  |  |  |  |  |  |  | sfail | no |
 | Oct 7 13:12 | N_GDPBETA | MACRO |  |  |  |  |  |  |  |  | sfail | no |
+| Oct 7 13:42 | N_CLOSESHR | MICRO |  |  |  |  |  | .004 | .520@658624 (irtvr .012 vs bar .131) | no | sdone | no |
+| Oct 7 13:42 | N_TOMSEAS | CALENDAR |  |  |  |  |  | -.013 | .110@581259 | no | sdone | no |
+| Oct 7 13:42 | N_OPEXSEAS | CALENDAR |  |  |  |  |  | -.011 | .198@626921 | no | sdone | no |
+| Oct 7 13:42 | N_COVCHG | FUND |  |  |  |  |  | .045 | .331@620204 | no | sdone | no |
+| Oct 7 13:42 | SW_D_CSFFF | SW_DOLLAR |  |  |  |  |  | -.010 | .253@697353 | no | sdone | no |
+| Oct 7 13:42 | SW_D_DTL4EB | SW_DOLLAR |  |  |  |  |  | .020 | .181@577441 | no | sdone | no |
+| Oct 7 13:42 | SW_D_LTB947 | SW_DOLLAR |  |  |  |  |  | -.032 | .441@700241 | no | sdone | no |
+| Oct 7 13:42 | SW_D_MSAOSTB7A | SW_DOLLAR |  |  |  |  |  | -.012 | .122@596206 | no | sdone | no |
+| Oct 7 13:42 | SW_D_OLTLDEF | SW_DOLLAR |  |  |  |  |  | -.003 | .129@685741 own | no | sdone | no |
