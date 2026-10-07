@@ -53,7 +53,7 @@ def main(mode):
         except ValueError:
             continue
         own = max(res.get("ownCorr", {}).values() or [0])
-        ok = res.get("ir", 0) >= .055 and own <= .7
+        ok = res.get("ir", 0) >= .055 and own <= .45  # PX understated G_A54_CL_w15 own-corr (.52 predicted, .84 real): be strict
         store[t] = {"ir": res.get("ir"), "ownMax": own, "pass": ok}
         if ok:
             ops["front"] = [t] + [x for x in ops.get("front", []) if x != t]

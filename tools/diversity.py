@@ -2,7 +2,7 @@
 
 Usage: python tools/diversity.py            # report + write the skip list into alphas/queue/ops.json
        python tools/diversity.py --dry      # report only
-Legs are detected from each alpha's code (data + pattern fingerprints). A leg used in >= SAT submissions is
+Legs are detected from each alpha's code (data + pattern fingerprints). A slow leg used in >= SAT submissions, or a fast pattern leg used in ANY submission, is
 saturated. A queued job is skipped if (a) a saturated leg carries most of its risk (weight >= 1 on a slow leg, or
 it is the base), or (b) its leg set overlaps a submitted alpha's leg set with Jaccard >= .6.
 Rule from Abhinav (Oct 7): diversity first; do not keep submitting variations of what we already have.
@@ -70,7 +70,9 @@ def main(dry):
     for t, L in sub_legs.items():
         for l in L:
             use[l] = use.get(l, 0) + 1
-    sat = {l for l, n in use.items() if n >= SAT}
+    # Fast (price/volume pattern) legs dominate a blend's daily PnL, so ONE submission saturates them
+    # (Oct 7: G_A54_CL_w15 reused Alpha #54 and came out .84 correlated with A101_054_acc). Slow legs saturate at SAT.
+    sat = {l for l, n in use.items() if n >= SAT or (l not in SLOW and n >= 1)}
     print(f"Submissions: {len(subs)}")
     for t in subs:
         print(f"  {t:18} {'+'.join(sorted(sub_legs[t])) or '?'}")

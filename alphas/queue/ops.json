@@ -28,14 +28,18 @@
   "G_A50_ACC_BS_w15_sz",
   "G_A50_BS_ISS_w15",
   "G_A50_BS_ISS_w15_sz",
+  "G_A50_BS_w15",
+  "G_A50_CL_w15",
   "G_A53_ACC_BS_w15",
   "G_A53_BS_ISS_w15",
   "G_A53_BS_ISS_w15_sz",
   "G_A53_CL_ISS_w15",
   "G_A54_BS_ISS_w10",
   "G_A54_BS_ISS_w15",
+  "G_A54_BS_w15",
   "G_A54_CL_ISS_w15",
   "G_A54_CL_ISS_w15_sz",
+  "G_A54_CL_w15",
   "G_VW_BS_ISS_w15",
   "G_VW_BS_ISS_w15_sz",
   "G_VW_CL_ISS_w15",
@@ -75,8 +79,8 @@
   "SW_L_WCCFE1"
  ],
  "front": [
-  "WSE_SOLV5",
   "WSE_SOLV7",
+  "WSE_SOLV5",
   "N_OILRESP",
   "N_GDPBETA",
   "G_A54_BS_w15",
@@ -95,16 +99,10 @@
   "G_A50_BS_w15_sz",
   "G_A50_CL_w15"
  ],
- "px": [
-  "'G_A54_BS_w15=>'+JSON.stringify(PX.blend([[\"A101_054_S\", 1], [\"SWC_BS5\", 1.5]]))",
-  "'G_A54_CL_w15=>'+JSON.stringify(PX.blend([[\"A101_054_S\", 1], [\"SW_L_CL89\", 1.5]]))",
-  "'G_A50_BS_w15=>'+JSON.stringify(PX.blend([[\"A101_050_S\", 1], [\"SWC_BS5\", 1.5]]))",
-  "'G_A50_CL_w15=>'+JSON.stringify(PX.blend([[\"A101_050_S\", 1], [\"SW_L_CL89\", 1.5]]))",
-  "'WSE_SOLV5=>'+JSON.stringify(PX.blend([[\"N_COVCHG\", 1], [\"SW_D_BSCNCIBA8\", 1], [\"SW_D_DP08F\", 1], [\"SW_D_NCICC44\", 1]]))",
-  "'WSE_SOLV7=>'+JSON.stringify(PX.blend([[\"N_COVCHG\", 1], [\"SW_D_BSCNCIBA8\", 1], [\"SW_D_DP08F\", 1], [\"SW_D_NCICC44\", 1], [\"SW_L_OCA32\", 1], [\"SW_L_CPOLTD33\", 1]]))"
- ],
+ "px": [],
  "diversity": {
   "saturated_legs": [
+   "A54",
    "ACC",
    "FCF",
    "ISS",

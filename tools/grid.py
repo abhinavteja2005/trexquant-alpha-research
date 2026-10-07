@@ -159,7 +159,7 @@ def main():
     done = tried()
     ops = ROOT / "alphas" / "queue" / "ops.json"
     sat = set(json.loads(ops.read_text()).get("diversity", {}).get("saturated_legs", [])) if ops.exists() else set()
-    leg = {"ACC": "ACC", "ISS": "ISS", "BS": "BS", "CL": "BS", "VW": "VWGAP"}  # grid key -> diversity leg (tools/diversity.py)
+    leg = {"ACC": "ACC", "ISS": "ISS", "BS": "BS", "CL": "BS", "VW": "VWGAP", **{b: b for b in BASES if b.startswith("A")}}  # grid key -> diversity leg (tools/diversity.py)
     space = [build(b, p, w, n) for b in BASES for p in PARTNER_SETS for w in WEIGHTS for n in NEUT
              if not any((b, x) in SATURATED for x in p)
              and leg.get(b) not in sat and not any(leg.get(x) in sat for x in p)]  # diversity: no saturated legs
