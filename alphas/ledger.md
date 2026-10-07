@@ -200,3 +200,29 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 6:12 | ID_TSIZE_SHIFT | ID_TRADESIZE |  |  |  |  |  | .011 | .457@590728 | no | sdone | no |
 | Oct 7 6:12 | ID_TSIZE_FLOW | ID_TRADESIZE |  |  |  |  |  | .015 | .344@579357 | no | sdone | no |
 | Oct 7 6:12 | ANOM_MAX20 | ANOM_MAX |  |  |  |  |  | .001 | .638@655304 (irtvr .003 vs bar .144) | no | sdone | no |
+| Oct 7 6:42 | ANOM_MAX_VOLADJ | ANOM_MAX |  |  |  |  |  | .010 | .741@579357 (irtvr .024 vs bar .198) | no | sdone | no |
+| Oct 7 6:42 | A101_002 | A101_VOLPX | .071 | .668 | .087 | .636 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_003 | A101_VOLPX | .052 | .486 | .074 | .625 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_004 | A101_REV | .048 | .701 | .057 | .864 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_006 | A101_VOLPX | .063 | .496 | .089 | .841 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_014 | A101_VOLPX | .061 | .575 | .081 | .767 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_015 | A101_VOLPX | .073 | .670 | .089 | .546 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_018 | A101_REV | .032 | .440 | .048 | .275 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_020 | A101_GAP | .039 | 1.385 | .033 | .546 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_022 | A101_VOLPX | .055 | .831 | .061 | .406 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_026 | A101_VOLPX | .073 | .549 | .098 | .584 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_033 | A101_REV | .034 | 1.349 | .029 | .767 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_034 | A101_REV | .047 | 1.250 | .042 | .647 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_035 | A101_VOLPX | -.048 | 1.414 | -.040 | .633 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_038 | A101_REV | .052 | 1.079 | .050 | .799 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_040 | A101_VOLPX | .043 | .470 | .063 | .779 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_041 | A101_VWAP | .007 | 1.207 | .007 | .677 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_043 | A101_VOLPX | .042 | .965 | .043 | .657 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_044 | A101_VOLPX | .076 | .748 | .087 | .574 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_050 | A101_VWAP | .072 | .411 | .112 | .541 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_053 | A101_RANGE | .068 | 1.520 | .055 | .631 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_054 | A101_RANGE | .111 | 1.381 | .094 | .993 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_055 | A101_RANGE | .060 | .720 | .071 | .668 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_009b | A101_TREND | -.004 | 1.432 | -.003 | .567 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_012b | A101_VOLPX | -.001 | 1.407 | -.001 | .387 | no |  |  |  | fdone | no |
+| Oct 7 6:42 | A101_030b | A101_TREND | .062 | .882 | .066 | .674 | no |  |  |  | fdone | no |
