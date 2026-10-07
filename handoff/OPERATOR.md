@@ -41,6 +41,10 @@ starts `/loop 30m Operator visit: git pull, then follow handoff/OPERATOR.md "Eve
 Keep each visit cheap: after step 1, if `alphas/queue/next.json` and `ops.json` are unchanged since the last line of
 `loaded.log` AND no Slow job finished since the last snapshot (compare `R.counts()`), stop there (no commit, one-line reply).
 
+## Runner reload request
+If `alphas/queue/ops.json` has `reload_runner`, re-paste `runner/runner.js` from the repo, call `RUNNER()`, re-paste `runner/px.js` (the submit rule needs `window.PX`), and confirm `R.ownMax` exists. Jobs survive in localStorage. Then remove nothing; just note it in loaded.log.
+Held jobs: list `R.jobs.filter(j=>j.hold).map(j=>[j.tag,j.sid,j.ownMax].join(' '))` as `HELD <tag> <sid> <maxOwnCorr>` lines in the snapshot and your reply.
+
 ## Every visit (about 5 minutes)
 1. **Health.** In the runner tab: `[R.counts(), R.cur() && R.cur().tag, Math.round((Date.now()-R.lastTick)/1000), R.lastErr||'']`.
    If seconds since last tick > 90, run `R.tick()`. If `window.R` is missing, do the rebuild above (steps 3-4).

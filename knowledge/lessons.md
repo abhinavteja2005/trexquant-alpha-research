@@ -77,3 +77,4 @@
 - Repair levers that worked on R_RIG_weekly2: swap the leg shared with the blocker for accruals (+IR), then accruals 1.5x (-TVR, +IR): .075/.259/.147 -> .085/.226/.179 SUBMITTED. Lever that failed: more fundamental weight (IR down, corr up).
 - Y_PLsz_ACC: accrual weight 1.2 -> 1.6 cut TVR .711 -> .624 at the same IR (.116 -> .118): SUBMITTED. 2.0 is .993 to it.
 - Sweep "level of item / assets": |IR| <= .052, TVR ~.03. Use as composite legs, not alone.
+- Oct 7: DIVERSITY RULE (Abhinav). 7/9 submissions contain accruals. Before queueing, run tools/diversity.py; never queue alphas whose risk sits in a leg used by >= 3 submissions; the runner holds eligible alphas > .7 PnL-correlated with our own.

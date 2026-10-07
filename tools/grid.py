@@ -157,8 +157,12 @@ def main():
     a = ap.parse_args()
     state = json.loads(STATE.read_text()) if STATE.exists() else {"batches": 0, "trials": 0}
     done = tried()
+    ops = ROOT / "alphas" / "queue" / "ops.json"
+    sat = set(json.loads(ops.read_text()).get("diversity", {}).get("saturated_legs", [])) if ops.exists() else set()
+    leg = {"ACC": "ACC", "ISS": "ISS", "BS": "BS", "CL": "BS", "VW": "VWGAP"}  # grid key -> diversity leg (tools/diversity.py)
     space = [build(b, p, w, n) for b in BASES for p in PARTNER_SETS for w in WEIGHTS for n in NEUT
-             if not any((b, x) in SATURATED for x in p)]
+             if not any((b, x) in SATURATED for x in p)
+             and leg.get(b) not in sat and not any(leg.get(x) in sat for x in p)]  # diversity: no saturated legs
     ok = [c for c in space if c and c["tag"] not in done]
     if a.list:
         print(f"space {len(BASES) * len(PARTNER_SETS) * len(WEIGHTS) * len(NEUT)}; after saturation/var-cap/check "
