@@ -24,3 +24,4 @@
 20261007-0542 | next.json 7853b1e | added 0 | counts {"sdone":121,"submitted":7,"fdone":49,"skipped":17,"ftimeout":3,"sfail":9,"queued":25,"ssim":1,"squeued":4}
 20261007-0612 | next.json 7853b1e | added 0 | counts {"sdone":125,"submitted":7,"fdone":49,"skipped":17,"ftimeout":3,"sfail":9,"queued":25,"ssim":1} | Slow queue now empty (last Slow job running); next are the 25 Fast jobs
 20261007-0642 | next.json 7853b1e | added 0 | counts {"sdone":126,"submitted":7,"fdone":74,"skipped":17,"ftimeout":3,"sfail":9} | runner idle: all queues empty, awaiting next.json
+20261007-0743 | next.json 769056b | added 43 | counts {"ssim":1,"squeued":42,"sdone":126,"submitted":7,"fdone":74,"skipped":17,"ftimeout":3,"sfail":9} | 3 SWC composites + 40 SW_L batch 2; runner was idle ~1h
