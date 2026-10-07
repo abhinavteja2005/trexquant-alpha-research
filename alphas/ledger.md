@@ -196,3 +196,7 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 5:13 | SW_L_DP8 | SW_DOLLAR |  |  |  |  |  | .015 | .434@576233 | no | sdone | no |
 | Oct 7 5:13 | REG_PKCC_REV | REG_RANGECC |  |  |  |  |  |  |  |  | sfail | no |
 | Oct 7 5:42 | REG_DNBETA_ASYM | REG_DOWNBETA |  |  |  |  |  | -.003 | .559@700992 (irtvr -.011 vs bar .104) | no | sdone | no |
+| Oct 7 6:12 | REG_DNBETA_250 | REG_DOWNBETA |  |  |  |  |  | .016 | .621@628834 (irtvr .054 vs bar .192) | no | sdone | no |
+| Oct 7 6:12 | ID_TSIZE_SHIFT | ID_TRADESIZE |  |  |  |  |  | .011 | .457@590728 | no | sdone | no |
+| Oct 7 6:12 | ID_TSIZE_FLOW | ID_TRADESIZE |  |  |  |  |  | .015 | .344@579357 | no | sdone | no |
+| Oct 7 6:12 | ANOM_MAX20 | ANOM_MAX |  |  |  |  |  | .001 | .638@655304 (irtvr .003 vs bar .144) | no | sdone | no |
