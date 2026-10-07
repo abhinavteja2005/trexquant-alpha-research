@@ -280,12 +280,17 @@ SW_L_DTMCF2E,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_EM16F,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 A101_054_S,A101,queued,REJECTED: correlation,0.112,1.381,0.095,0.995,#629528,0.092,0.0151,0.0364,0.34,,,,60,,alphas/drafts/a101-slow.json
 A101_044_S,A101,queued,REJECTED: IR,0.067,0.786,0.075,0.602,#592314,0.076,0.013,0.0314,0.24,,,,60,,alphas/drafts/a101-slow.json
-A101_050_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
-A101_053_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
-A101_054_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
-A101_054_s5,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_050_S,A101,queued,REJECTED: IR,0.066,0.476,0.096,0.53,#574828,0.171,0.0254,0.039,0.16,,,,60,,alphas/drafts/a101-slow.json
+A101_053_S,A101,queued,REJECTED: correlation,0.074,1.517,0.06,0.654,#631586,0.118,0.0137,0.0245,0.42,,,,60,,alphas/drafts/a101-slow.json
+A101_054_acc,A101,queued,SUBMITTED,0.137,0.994,0.137,0.832,#629528,0.092,0.064,0.0761,0.32,,,,140,,alphas/drafts/a101-slow.json
+A101_054_s5,A101,queued,REJECTED: correlation,0.075,0.672,0.092,0.792,#560993,0.101,0.0328,0.0411,0.25,,,,140,,alphas/drafts/a101-slow.json
 A101_054_s5acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
 SWC_BS5_acc,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
 SWC_BS7,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
 SWC_BS7_acc,SWC,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
 A101_044_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/swc-2.json
+A101_050_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-acc.json
+A101_053_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-acc.json
+A101_002_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-acc.json
+A101_015_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-acc.json
+A101_026_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-acc.json

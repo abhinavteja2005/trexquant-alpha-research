@@ -1,0 +1,42 @@
+[
+ {
+  "tag": "A101_050_acc",
+  "base": "A101_050",
+  "family": "A101",
+  "lb": 140,
+  "parent": "A101_050",
+  "expr": "# Thesis: Persistent co-movement of volume and VWAP ranks marks crowded trades. (Alpha #50, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_050 Fast IR .072.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nr = cs_zscore(-ts_max(cs_rank(c), 5))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x"
+ },
+ {
+  "tag": "A101_053_acc",
+  "base": "A101_053",
+  "family": "A101",
+  "lb": 140,
+  "parent": "A101_053",
+  "expr": "# Thesis: A change in where the close sits within the day's range reverts. (Alpha #53, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_053 Fast IR .068.\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nr = cs_zscore(-delta(pos, 10))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x"
+ },
+ {
+  "tag": "A101_002_acc",
+  "base": "A101_002",
+  "family": "A101",
+  "lb": 140,
+  "parent": "A101_002",
+  "expr": "# Thesis: Days when volume growth and the open-to-close return move together tend to reverse. (Alpha #2, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_002 Fast IR .071.\ndv = delta(at_signlog(volume), 2)  # 2-day change in log volume\noc = (close - open)/open  # open-to-close return\nr = cs_zscore(-ts_corr_binary(cs_rank(dv), cs_rank(oc), 5))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x"
+ },
+ {
+  "tag": "A101_015_acc",
+  "base": "A101_015",
+  "family": "A101",
+  "lb": 140,
+  "parent": "A101_015",
+  "expr": "# Thesis: Persistent high-price/volume co-movement marks crowded moves that fade. (Alpha #15, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_015 Fast IR .073.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nr = cs_zscore(-ts_sum(cs_rank(c), 3))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x"
+ },
+ {
+  "tag": "A101_026_acc",
+  "base": "A101_026",
+  "family": "A101",
+  "lb": 140,
+  "parent": "A101_026",
+  "expr": "# Thesis: When volume and high-price both sit at local peaks together, the move is exhausted. (Alpha #26, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_026 Fast IR .073.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nr = cs_zscore(-ts_max(c, 3))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x"
+ }
+]
