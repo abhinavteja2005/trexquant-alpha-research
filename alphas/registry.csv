@@ -278,3 +278,10 @@ SW_L_CFOTTD478,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_CATTARFEA,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_DTMCF2E,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_EM16F,SW_RATIO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
+A101_054_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_044_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_050_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_053_S,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_054_acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_054_s5,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json
+A101_054_s5acc,A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/a101-slow.json

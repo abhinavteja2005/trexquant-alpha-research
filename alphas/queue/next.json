@@ -1,5 +1,54 @@
 [
  {
+  "tag": "A101_054_S",
+  "base": "A101",
+  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nalpha = -loc*(open/close)**5  # long closes near the low, scaled by the open-to-close drop",
+  "state": "squeued",
+  "lb": 60
+ },
+ {
+  "tag": "A101_044_S",
+  "base": "A101",
+  "expr": "# Thesis: High prices that coincide with high volume rank are exhausted. (Alpha #44, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = -ts_corr_binary(high, cs_rank(volume), 5)  # negative 5-day corr of high and volume rank",
+  "state": "squeued",
+  "lb": 60
+ },
+ {
+  "tag": "A101_050_S",
+  "base": "A101",
+  "expr": "# Thesis: Persistent co-movement of volume and VWAP ranks marks crowded trades. (Alpha #50, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nalpha = -ts_max(cs_rank(c), 5)  # short the most persistent co-movers",
+  "state": "squeued",
+  "lb": 60
+ },
+ {
+  "tag": "A101_053_S",
+  "base": "A101",
+  "expr": "# Thesis: A change in where the close sits within the day's range reverts. (Alpha #53, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nalpha = -delta(pos, 10)  # fade the 10-day change in close location",
+  "state": "squeued",
+  "lb": 60
+ },
+ {
+  "tag": "A101_054_acc",
+  "base": "A101",
+  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted) Blended with low accruals, whose returns move against short-term reversal, to cut turnover and pool correlation.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_054 Fast IR .111, TVR 1.38, Fast pool corr .993.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nr = cs_zscore(-loc*(open/close)**5)  # Alpha #54: long closes near the low after a drop\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996), the partner behind 3 of our submissions\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # reversal + accruals at 1.5x",
+  "state": "squeued",
+  "lb": 140
+ },
+ {
+  "tag": "A101_054_s5",
+  "base": "A101",
+  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted) Blended with low accruals, whose returns move against short-term reversal, to cut turnover and pool correlation.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: 5-day smoothing. Parent A101_054 Fast IR .111, TVR 1.38, Fast pool corr .993.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nr = cs_zscore(ts_mean(-loc*(open/close)**5, 5))  # 5-day average of the Alpha #54 signal (lower turnover)\nalpha = r  # smoothed contrarian signal",
+  "state": "squeued",
+  "lb": 140
+ },
+ {
+  "tag": "A101_054_s5acc",
+  "base": "A101",
+  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted) Blended with low accruals, whose returns move against short-term reversal, to cut turnover and pool correlation.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: 5-day smoothing + accrual partner 1.5x. Parent A101_054 Fast IR .111, TVR 1.38, Fast pool corr .993.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nr = cs_zscore(ts_mean(-loc*(open/close)**5, 5))  # 5-day average of the Alpha #54 signal\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996), the partner behind 3 of our submissions\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # smoothed reversal + accruals at 1.5x",
+  "state": "squeued",
+  "lb": 140
+ },
+ {
   "tag": "SWC_BS9",
   "base": "SWC",
   "expr": "# Thesis: balance-sheet COMPOSITION composite. Each item scaled by total assets is a weak, slow characteristic (daily IR .03-.05 alone, turnover ~.03) whose sign held in-sample and out-of-sample (2017-21); combining several weakly related characteristics diversifies their noise, so the composite should carry a higher IR at the same tiny turnover (the IR/sqrt(turnover) route that qualified T_COMP7). Long firms funded by short-term operating liabilities with receivables/inventory-heavy, older (depreciated) asset bases; short goodwill-heavy (acquisitive) and long-term-debt-heavy firms.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (RFS 2017), https://doi.org/10.1093/rfs/hhx019; acquisitive firms underperform: Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01370.x\n# Note: signs were chosen from the first sweep run (field sweep batch 1), so this is partly data-selected; each sign was checked to hold out of sample (OOS1) before inclusion.\n# Variant: all 9 sign-consistent legs\nta = ts_fill(total_assets)  # total assets, carried forward between reports\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities (supplier/customer financing) per dollar of assets, ranked and z-scored\ncp = cs_zscore(cs_rank(ts_fill(current_portion_of_long_term_debt)/ta))  # debt coming due within a year per dollar of assets, ranked and z-scored\nar = cs_zscore(cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta))  # receivables per dollar of assets, ranked and z-scored\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill from acquisitions (short) per dollar of assets, ranked and z-scored\nca = cs_zscore(cs_rank(ts_fill(current_assets_report)/ta))  # current assets per dollar of assets, ranked and z-scored\niv = cs_zscore(cs_rank(ts_fill(inventories)/ta))  # inventories per dollar of assets, ranked and z-scored\nad = cs_zscore(cs_rank(ts_fill(accumulated_depreciation)/ta))  # accumulated depreciation (older asset base) per dollar of assets, ranked and z-scored\nld = -cs_zscore(cs_rank(ts_fill(long_term_debt)/ta))  # long-term debt (short) per dollar of assets, ranked and z-scored\noc = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets, ranked and z-scored\nalpha = at_zero2nan(at_nan2zero(cl) + at_nan2zero(cp) + at_nan2zero(ar) + at_nan2zero(gw) + at_nan2zero(ca) + at_nan2zero(iv) + at_nan2zero(ad) + at_nan2zero(ld) + at_nan2zero(oc))  # equal-weight composite; missing legs count as 0",
