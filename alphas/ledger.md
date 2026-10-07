@@ -295,3 +295,11 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 14:12 | SW_D_DITE47 | SW_DOLLAR |  |  |  |  |  | -.006 | .273@697346 | no | sdone | no |
 | Oct 7 14:12 | SW_D_DP08F | SW_DOLLAR |  |  |  |  |  | .027 | .194@567998 | no | sdone | no |
 | Oct 7 14:12 | SW_D_NCICC44 | SW_DOLLAR |  |  |  |  |  | .020 | .302@679993 | no | sdone | no |
+| Oct 7 14:43 | SW_D_CFNI877 | SW_DOLLAR |  |  |  |  |  | .001 | .317@595355 | no | sdone | no |
+| Oct 7 14:43 | SW_D_IAOACF3 | SW_DOLLAR |  |  |  |  |  | -.016 | .126@620204 | no | sdone | no |
+| Oct 7 14:43 | SW_D_ANIARD21 | SW_DOLLAR |  |  |  |  |  | -.006 | .176@614645 | no | sdone | no |
+| Oct 7 14:43 | SW_D_COGSTFD21 | SW_RATIO |  |  |  |  |  | .010 | .303@667066 | no | sdone | no |
+| Oct 7 14:43 | SW_D_DED58 | SW_PERSHARE |  |  |  |  |  | .035 | .331@668442 | no | sdone | no |
+| Oct 7 14:43 | SW_D_DPSF20 | SW_PERSHARE |  |  |  |  |  | .006 | .433@579357 | no | sdone | no |
+| Oct 7 14:43 | SW_D_BED3D | SW_PERSHARE |  |  |  |  |  | .039 | .346@692138 | no | sdone | no |
+| Oct 7 14:43 | SW_D_GAAEB41 | SW_DOLLAR |  |  |  |  |  | .023 | .147@673102 | no | sdone | no |
