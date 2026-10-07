@@ -245,3 +245,7 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 10:42 | SW_L_ANIARD21 | SW_DOLLAR |  |  |  |  |  | -.020 | .325@695618 | no | sdone | no |
 | Oct 7 10:42 | SW_L_COGSTFD21 | SW_RATIO |  |  |  |  |  | .005 | .499@656049 | no | sdone | no |
 | Oct 7 10:42 | A101_050_acc | A101 |  |  |  |  |  | .102 | .644@619187 (irtvr .170 vs bar .330) | no | sdone | no |
+| Oct 7 11:12 | SW_L_DED58 | SW_PERSHARE |  |  |  |  |  | .023 | .625@595932 (irtvr .097 vs bar .180) | no | sdone | no |
+| Oct 7 11:12 | SW_L_DPSF20 | SW_PERSHARE |  |  |  |  |  | .014 | .402@589260 | no | sdone | no |
+| Oct 7 11:12 | SW_L_BED3D | SW_PERSHARE |  |  |  |  |  | .025 | .638@595932 (irtvr .106 vs bar .180) | no | sdone | no |
+| Oct 7 11:12 | SW_L_GAAEB41 | SW_DOLLAR |  |  |  |  |  | -.002 | .381@581701 | no | sdone | no |
