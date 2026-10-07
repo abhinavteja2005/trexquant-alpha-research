@@ -235,3 +235,6 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 9:13 | A101_053_S | A101 |  |  |  |  |  | .074 | .654@631586 (irtvr .060 vs bar .142) | no | sdone | no |
 | Oct 7 9:13 | A101_054_acc | A101 |  |  |  |  |  | .137 | .832@629528 (irtvr .137 vs bar .110) | yes | submitted | YES |
 | Oct 7 9:13 | A101_054_s5 | A101 |  |  |  |  |  | .075 | .792@560993 (irtvr .092 vs bar .121) | no | sdone | no |
+| Oct 7 9:43 | SWC_BS5_acc | SWC |  |  |  |  |  | .077 | .530@630201 (irtvr .407 vs bar .394) | yes | submitted | YES |
+| Oct 7 9:43 | SWC_BS7 | SWC |  |  |  |  |  | .057 | .814@716550 own (irtvr .335 vs bar .488) | no | sdone | no |
+| Oct 7 9:43 | A101_054_s5acc | A101 |  |  |  |  |  | .105 | .724@678835 (irtvr .151 vs bar .220) | no | sdone | no |
