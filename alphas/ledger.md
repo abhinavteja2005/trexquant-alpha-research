@@ -239,3 +239,9 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 9:43 | SWC_BS7 | SWC |  |  |  |  |  | .057 | .814@716550 own (irtvr .335 vs bar .488) | no | sdone | no |
 | Oct 7 9:43 | A101_054_s5acc | A101 |  |  |  |  |  | .105 | .724@678835 (irtvr .151 vs bar .220) | no | sdone | no |
 | Oct 7 10:15 | SWC_BS7_acc | SWC |  |  |  |  |  | .075 | .901@716550 own (irtvr .404 vs bar .488) | no | sdone | no |
+| Oct 7 10:42 | SW_L_NCICC44 | SW_DOLLAR |  |  |  |  |  | .004 | .471@672147 | no | sdone | no |
+| Oct 7 10:42 | SW_L_CFNI877 | SW_DOLLAR |  |  |  |  |  | .014 | .739@576233 (irtvr .066 vs bar .164) | no | sdone | no |
+| Oct 7 10:42 | SW_L_IAOACF3 | SW_DOLLAR |  |  |  |  |  | -.036 | .461@696794 | no | sdone | no |
+| Oct 7 10:42 | SW_L_ANIARD21 | SW_DOLLAR |  |  |  |  |  | -.020 | .325@695618 | no | sdone | no |
+| Oct 7 10:42 | SW_L_COGSTFD21 | SW_RATIO |  |  |  |  |  | .005 | .499@656049 | no | sdone | no |
+| Oct 7 10:42 | A101_050_acc | A101 |  |  |  |  |  | .102 | .644@619187 (irtvr .170 vs bar .330) | no | sdone | no |
