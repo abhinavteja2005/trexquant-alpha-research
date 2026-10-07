@@ -250,10 +250,10 @@ SW_L_GAAEB41,SW_DOLLAR,queued,REJECTED: IR,-0.002,0.031,-0.013,0.381,#581701,,0.
 SW_L_ITEDAF,SW_DOLLAR,queued,REJECTED: IR,0.033,0.037,0.171,0.542,#576233,0.137,0.0298,0.0298,0.31,,,,100,,alphas/drafts/sweep-2.json
 SW_L_IE6AD,SW_DOLLAR,queued,REJECTED: IR,-0.016,0.033,-0.089,0.475,#581701,,0.0024,0.0053,,,,,100,,alphas/drafts/sweep-2.json
 SW_L_OPDOB72,SW_DOLLAR,queued,REJECTED: IR,0.01,0.052,0.042,0.111,#672941,,0.0299,0.0155,0.66,,,,100,,alphas/drafts/sweep-2.json
-SW_L_PE397,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
-SW_L_MNCIC6EE,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
-SW_L_MNCIB9B,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
-SW_L_NIBMIAB2,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
+SW_L_PE397,SW_DOLLAR,queued,REJECTED: IR,0.013,0.052,0.056,0.232,#627389,,0.0309,0.0167,0.46,,,,100,,alphas/drafts/sweep-2.json
+SW_L_MNCIC6EE,SW_DOLLAR,queued,REJECTED: IR,0.01,0.04,0.052,0.121,#709310,,0.0334,0.0224,0.84,,,,100,,alphas/drafts/sweep-2.json
+SW_L_MNCIB9B,SW_DOLLAR,queued,REJECTED: IR,-0.009,0.029,-0.054,0.133,#699632,,-0.004,-0.0119,,,,,100,,alphas/drafts/sweep-2.json
+SW_L_NIBMIAB2,SW_DOLLAR,queued,REJECTED: IR,0.005,0.041,0.027,0.679,#576233,0.137,-0.0183,-0.0063,1.2,,,,100,,alphas/drafts/sweep-2.json
 SW_L_NCL6AA,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_OAA1A,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
 SW_L_PTI071,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-2.json
@@ -324,38 +324,38 @@ G_A53_BS_ISS_w15_sz,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-1.json
 G_A53_CL_ISS_w15,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-1.json
 G_A44_ACC_BS_w15,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-1.json
 G_A44_ACC_BS_w15_sz,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-1.json
-SW_D_AOCI603,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_AOIA8BA,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_DTALT3BF,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_DAE29,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_EOERCO6B3,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_STI1A3,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_TOE2EF,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_ANR53B,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_AP8F9,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_APICA4C,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_TSA107,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_BSCNCIBA8,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_CSFFF,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_DTL4EB,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_LTB947,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_MSAOSTB7A,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_OLTLDEF,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_OSTL420,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_PREE69,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_REAOE87D,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_STB404,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_TEPCBDB,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_TL4D4,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_TOPAE02E,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_APAA71D,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_CEPA1E0,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_CFFA61D,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_CFIA6F9,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_CII80A,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_DITE47,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_DP08F,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
-SW_D_NCICC44,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
+SW_D_AOCI603,SW_DOLLAR,queued,REJECTED: IR,-0.007,0.062,-0.029,0.15,#688740,,0.0082,0.0078,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_AOIA8BA,SW_DOLLAR,queued,REJECTED: IR,0.011,0.061,0.043,0.18,#640295,,-0.0024,0.0049,0.53,,,,220,,alphas/drafts/sweep-3.json
+SW_D_DTALT3BF,SW_DOLLAR,queued,REJECTED: IR,-0.003,0.072,-0.013,0.1,#711661,,-0.0279,-0.0177,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_DAE29,SW_DOLLAR,queued,REJECTED: IR,-0.019,0.058,-0.081,0.193,#684336,,-0.0188,-0.024,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_EOERCO6B3,SW_DOLLAR,queued,REJECTED: IR,0.013,0.067,0.051,0.152,#578055,,0.0221,0.0165,0.95,,,,220,,alphas/drafts/sweep-3.json
+SW_D_STI1A3,SW_DOLLAR,queued,REJECTED: IR,-0.007,0.058,-0.028,0.198,#579357,,-0.0173,-0.0165,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_TOE2EF,SW_DOLLAR,queued,REJECTED: IR,-0.002,0.062,-0.01,0.138,#668115,,-0.0109,-0.0085,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_ANR53B,SW_DOLLAR,queued,REJECTED: IR,-0.029,0.077,-0.105,0.133,#720184,,-0.0645,-0.0514,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_AP8F9,SW_DOLLAR,queued,REJECTED: IR,0.008,0.062,0.034,0.281,#709379,,0.0155,0.0128,1.08,,,,220,,alphas/drafts/sweep-3.json
+SW_D_APICA4C,SW_DOLLAR,queued,REJECTED: IR,-0.012,0.058,-0.051,0.287,#581701,,-0.0315,-0.0177,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_TSA107,SW_DOLLAR,queued,REJECTED: IR,0.007,0.065,0.026,0.209,#601796,,0.0048,0.002,1.32,,,,220,,alphas/drafts/sweep-3.json
+SW_D_BSCNCIBA8,SW_DOLLAR,queued,REJECTED: IR,0.049,0.058,0.203,0.558,#679993,0.233,0.0136,0.0363,0.25,,,,220,,alphas/drafts/sweep-3.json
+SW_D_CSFFF,SW_DOLLAR,queued,REJECTED: IR,-0.01,0.059,-0.04,0.253,#697353,,0.0053,-0.0011,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_DTL4EB,SW_DOLLAR,queued,REJECTED: IR,0.02,0.055,0.085,0.181,#577441,,0.0264,0.0294,0.43,,,,220,,alphas/drafts/sweep-3.json
+SW_D_LTB947,SW_DOLLAR,queued,REJECTED: IR,-0.032,0.056,-0.135,0.441,#700241,,-0.0217,-0.0262,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_MSAOSTB7A,SW_DOLLAR,queued,REJECTED: IR,-0.012,0.071,-0.046,0.122,#596206,,-0.0312,-0.0172,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_OLTLDEF,SW_DOLLAR,queued,REJECTED: IR,-0.003,0.057,-0.012,0.129,#685741,,-0.0008,-0.0131,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_OSTL420,SW_DOLLAR,queued,REJECTED: IR,0.009,0.058,0.038,0.091,#655788,,-0.0044,-0.0064,0.7,,,,220,,alphas/drafts/sweep-3.json
+SW_D_PREE69,SW_DOLLAR,queued,REJECTED: IR,-0.011,0.056,-0.047,0.287,#595355,,0.0022,-0.0047,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_REAOE87D,SW_DOLLAR,queued,REJECTED: IR,-0.011,0.056,-0.046,0.278,#595355,,0.0062,-0.0027,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_STB404,SW_DOLLAR,queued,REJECTED: IR,-0.023,0.064,-0.089,0.136,#601796,,-0.0485,-0.0319,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_TEPCBDB,SW_DOLLAR,queued,REJECTED: IR,0.012,0.059,0.05,0.199,#692138,,-0.021,-0.0093,1.21,,,,220,,alphas/drafts/sweep-3.json
+SW_D_TL4D4,SW_DOLLAR,queued,REJECTED: IR,0.02,0.058,0.082,0.249,#695151,,0.0407,0.0257,0.37,,,,220,,alphas/drafts/sweep-3.json
+SW_D_TOPAE02E,SW_DOLLAR,queued,REJECTED: IR,-0.041,0.055,-0.173,0.192,#595355,,-0.0088,-0.0089,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_APAA71D,SW_DOLLAR,queued,REJECTED: IR,-0.003,0.067,-0.01,0.189,#595355,,-0.0033,-0.0027,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_CEPA1E0,SW_DOLLAR,queued,REJECTED: IR,-0.005,0.066,-0.021,0.234,#567998,,0.0025,0.0145,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_CFFA61D,SW_DOLLAR,queued,REJECTED: IR,-0.013,0.061,-0.054,0.425,#676935,,-0.0048,-0.0049,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_CFIA6F9,SW_DOLLAR,queued,REJECTED: IR,0.014,0.063,0.054,0.256,#675326,,0.0273,0.0378,0.56,,,,220,,alphas/drafts/sweep-3.json
+SW_D_CII80A,SW_DOLLAR,queued,REJECTED: IR,0.007,0.063,0.028,0.224,#721743,,-0.0034,0.0066,0.74,,,,220,,alphas/drafts/sweep-3.json
+SW_D_DITE47,SW_DOLLAR,queued,REJECTED: IR,-0.006,0.063,-0.026,0.273,#697346,,-0.0171,-0.0193,,,,,220,,alphas/drafts/sweep-3.json
+SW_D_DP08F,SW_DOLLAR,queued,REJECTED: IR,0.027,0.065,0.105,0.194,#567998,,0.0108,0.0252,0.31,,,,220,,alphas/drafts/sweep-3.json
+SW_D_NCICC44,SW_DOLLAR,queued,REJECTED: IR,0.02,0.061,0.082,0.302,#679993,,0.0308,0.0358,0.51,,,,220,,alphas/drafts/sweep-3.json
 SW_D_CFNI877,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
 SW_D_IAOACF3,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
 SW_D_ANIARD21,SW_DOLLAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/sweep-3.json
@@ -379,10 +379,12 @@ G_A26_CL_w15_sz,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
 G_A50_BS_w15,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
 G_A50_BS_w15_sz,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
 G_A50_CL_w15,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
-N_OILRESP,MACRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
-N_GLDHEDGE,MACRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
-N_GDPBETA,MACRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
-N_CLOSESHR,MICRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
-N_TOMSEAS,CALENDAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
-N_OPEXSEAS,CALENDAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
-N_COVCHG,FUND,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
+N_OILRESP,MACRO,queued,FAILED,,,,,,,,,,,,,270,,alphas/drafts/c4-newdata.json
+N_GLDHEDGE,MACRO,queued,REJECTED: IR,0.005,0.138,0.012,0.265,#618945,,-0.0027,0.0043,1.25,,,,270,,alphas/drafts/c4-newdata.json
+N_GDPBETA,MACRO,queued,FAILED,,,,,,,,,,,,,270,,alphas/drafts/c4-newdata.json
+N_CLOSESHR,MICRO,queued,REJECTED: IR,0.004,0.134,0.012,0.52,#658624,0.109,-0.0161,0.0012,1.88,,,,270,,alphas/drafts/c4-newdata.json
+N_TOMSEAS,CALENDAR,queued,REJECTED: IR,-0.013,0.308,-0.024,0.11,#581259,,-0.0033,-0.0116,,,,,270,,alphas/drafts/c4-newdata.json
+N_OPEXSEAS,CALENDAR,queued,REJECTED: IR,-0.011,0.309,-0.019,0.198,#626921,,-0.0161,-0.0173,,,,,270,,alphas/drafts/c4-newdata.json
+N_COVCHG,FUND,queued,REJECTED: IR,0.045,0.064,0.179,0.331,#620204,,0.0545,0.0585,0.26,,,,300,,alphas/drafts/c4-newdata.json
+WSE_SOLV5,WSE,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/wse-1.json
+WSE_SOLV7,WSE,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/wse-1.json
