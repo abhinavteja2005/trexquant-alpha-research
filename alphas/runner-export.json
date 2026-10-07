@@ -5262,5 +5262,33 @@
   "err": "  status : failed   alpha_id : 711364   simulation_stage : e",
   "expr": "# Thesis: When Parkinson range variance exceeds close-to-close variance, intraday swings are noise that mean-reverts; fade the week only in those names.\n# Source: Lo & MacKinlay, \"Stock Market Prices Do Not Follow Random Walks\" (RFS 1988), https://www.nber.org/papers/w2168\nlr = at_signlog(high / low - 1)  # log(high/low), the daily range in log terms\npk = ts_mean(lr * lr, 20) / 2.7726  # Parkinson range variance (divided by 4 ln 2)\ncc = ts_std(ret1, 20) * ts_std(ret1, 20)  # close-to-close variance\ng = cs_zscore(pk / cc) > 0  # range vol high relative to close vol: noisy, mean-reverting names\nalpha = at_zero2nan(-g * cs_zscore(ret5))  # 5-day reversal only where noise dominates, NaN elsewhere",
   "family": "REG_RANGECC"
+ },
+ "REG_DNBETA_ASYM": {
+  "tag": "REG_DNBETA_ASYM",
+  "state": "sdone",
+  "lb": "260",
+  "wlb": "260",
+  "f_ir": "",
+  "f_tvr": "",
+  "f_irtvr": "",
+  "f_corr": "",
+  "f_elig": "",
+  "f_rw": "",
+  "f_best": "",
+  "s_ir": "-0.003",
+  "s_tvr": "0.075",
+  "s_irtvr": "-0.011",
+  "s_corr": "0.559",
+  "s_corrId": "700992",
+  "s_corrIrTvr": "0.087",
+  "s_corrOwn": "0",
+  "s_elig": "0",
+  "s_oos1": "-0.0048",
+  "s_rw": "-0.0003",
+  "s_best": "",
+  "s_vt": "ir_below_threshold",
+  "err": "",
+  "expr": "# Thesis: Stocks that comove with the market more on down days than on up days bear downside risk and earn a premium.\n# Source: Ang, Chen & Xing, \"Downside Risk\" (RFS 2006), https://www.nber.org/papers/w11824\ndn = ret1_spx * (ret1_spx < 0)  # market return on down days only\nup = ret1_spx * (ret1_spx > 0)  # market return on up days only\nasym = ts_corr_binary(ret1, dn, 120) - ts_corr_binary(ret1, up, 120)  # downside minus upside comovement\nalpha = cs_rank(ts_mean(asym, 5))  # long downside-exposed names (5-day smoothed)",
+  "family": "REG_DOWNBETA"
  }
 }

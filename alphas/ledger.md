@@ -195,3 +195,4 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 5:13 | SW_L_DIT73 | SW_DOLLAR |  |  |  |  |  | .024 | .459@668152 | no | sdone | no |
 | Oct 7 5:13 | SW_L_DP8 | SW_DOLLAR |  |  |  |  |  | .015 | .434@576233 | no | sdone | no |
 | Oct 7 5:13 | REG_PKCC_REV | REG_RANGECC |  |  |  |  |  |  |  |  | sfail | no |
+| Oct 7 5:42 | REG_DNBETA_ASYM | REG_DOWNBETA |  |  |  |  |  | -.003 | .559@700992 (irtvr -.011 vs bar .104) | no | sdone | no |
