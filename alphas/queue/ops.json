@@ -35,13 +35,24 @@
   "SW_L_WCCFE1"
  ],
  "front": [
+  "WSE_SOLV9",
+  "G_A54_BS_w10",
+  "G_A54_BS_w10_sz",
+  "G_A54_BS_w20",
+  "G_A54_BS_w20_sz",
+  "G_A50_CL_w15_sz",
+  "G_A02_BS_w15",
+  "G_A02_BS_w15_sz",
+  "G_A02_CL_w15",
+  "G_A02_CL_w15_sz",
+  "G_A15_BS_w10",
+  "G_A15_BS_w10_sz",
+  "G_A15_BS_w20",
   "WSE_SOLV7",
   "WSE_SOLV5",
   "N_OILRESP",
   "N_GDPBETA",
-  "G_A54_BS_w15",
   "G_A54_BS_w15_sz",
-  "G_A54_CL_w15",
   "G_A54_CL_w15_sz",
   "G_A15_BS_w15",
   "G_A15_BS_w15_sz",
@@ -51,9 +62,7 @@
   "G_A26_BS_w15_sz",
   "G_A26_CL_w15",
   "G_A26_CL_w15_sz",
-  "G_A50_BS_w15",
   "G_A50_BS_w15_sz",
-  "G_A50_CL_w15",
   "SW_L_NCL6AA",
   "SW_L_OAA1A",
   "SW_L_PTI071",
@@ -78,6 +87,10 @@
   "SW_L_CATTARFEA",
   "SW_L_DTMCF2E",
   "SW_L_EM16F",
+  "G_A54_BS_w15",
+  "G_A54_CL_w15",
+  "G_A50_BS_w15",
+  "G_A50_CL_w15",
   "A101_044_acc",
   "A101_053_acc",
   "A101_002_acc",
@@ -114,7 +127,9 @@
   "G_A44_ACC_BS_w15",
   "G_A44_ACC_BS_w15_sz"
  ],
- "px": [],
+ "px": [
+  "'WSE_SOLV9=>'+JSON.stringify(PX.blend([[\"N_COVCHG\", 1], [\"SW_D_BSCNCIBA8\", 1], [\"SW_D_DP08F\", 1], [\"SW_D_NCICC44\", 1], [\"SW_L_OCA32\", 1], [\"SW_L_CPOLTD33\", 1], [\"SW_L_CL89\", 1], [\"SW_L_G89\", -1]]))"
+ ],
  "diversity": {
   "saturated_legs": [
    "A54",

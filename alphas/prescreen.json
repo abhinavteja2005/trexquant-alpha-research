@@ -2,22 +2,22 @@
  "G_A54_BS_w15": {
   "ir": 0.106,
   "ownMax": 0.685,
-  "pass": false
+  "pass": true
  },
  "G_A54_CL_w15": {
   "ir": 0.107,
   "ownMax": 0.545,
-  "pass": false
+  "pass": true
  },
  "G_A50_BS_w15": {
   "ir": 0.085,
   "ownMax": 0.682,
-  "pass": false
+  "pass": true
  },
  "G_A50_CL_w15": {
   "ir": 0.081,
   "ownMax": 0.507,
-  "pass": false
+  "pass": true
  },
  "WSE_SOLV5": {
   "ir": 0.055,

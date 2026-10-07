@@ -1,0 +1,43 @@
+[
+ {
+  "tag": "WSE_SOLV9",
+  "base": "weak-signal ensemble",
+  "family": "WSE",
+  "lb": 220,
+  "expr": "# Thesis: weak-signal ensemble on solvency and cash-flow CHANGES. Each leg alone is weak (daily IR .02-.05) but has low pool correlation (.1-.3), positive out-of-sample IR and tiny turnover; summing several nearly independent legs raises IR roughly with the square root of their number while keeping turnover and pool correlation low (the logic that qualified SWC_BS5_acc and T_COMP7). Long firms whose interest coverage, cash ratio, cash holdings, dividends and net cash flow are improving.\n# Source: Campbell, Hilscher & Szilagyi, \"In Search of Distress Risk\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01416.x; Green, Hand & Zhang (RFS 2017), https://doi.org/10.1093/rfs/hhx019\n# Note: legs and signs come from our field sweep (batches 2-3) and N_COVCHG; each sign held out of sample (OOS1 > 0).\n# Repair: WSE_SOLV7 IR .057, TVR .060, corr .430 (OOS1 .048): two more nearly independent legs to lift IR past .07.\nta = ts_fill(total_assets)  # total assets, carried forward\ncov = ts_fill(at_signlog(times_interest_earned_ratio))  # interest coverage, sign-log compressed\ncr = ts_fill(at_signlog(cash_ratio))  # cash / current liabilities, sign-log compressed\nk1 = cs_zscore(cov - ts_delay(cov, 120))  # 6-month change in interest coverage\nk2 = cs_zscore(cr - ts_delay(cr, 120))  # 6-month change in cash ratio\nc = ts_fill(balance_sheet_cash_near_cash_items)/ta  # cash holdings per dollar of assets\nk3 = cs_zscore(cs_rank(c - ts_delay(c, 120)))  # 6-month change in cash holdings\nd = ts_fill(dividends_paid)/ta  # dividends paid per dollar of assets\nk4 = cs_zscore(cs_rank(d - ts_delay(d, 120)))  # 6-month change in payout\nnc = ts_fill(net_change_in_cash)/ta  # net cash flow per dollar of assets\nk5 = cs_zscore(cs_rank(nc - ts_delay(nc, 120)))  # 6-month change in net cash flow\noca = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets (sweep L, OOS1 .054)\ncpd = cs_zscore(cs_rank(ts_fill(current_portion_of_long_term_debt)/ta))  # debt due within a year per dollar of assets (sweep L, OOS1 .033)\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities per dollar of assets (sweep L, IR .052, OOS1 .086)\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill-heavy (acquisitive) firms underperform (sweep L, IR -.035, OOS1 -.073)\nalpha = at_zero2nan(at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3) + at_nan2zero(k4) + at_nan2zero(k5) + at_nan2zero(oca) + at_nan2zero(cpd) + at_nan2zero(cl) + at_nan2zero(gw))  # 9-leg equal-weight ensemble",
+  "parts": [
+   [
+    "N_COVCHG",
+    1
+   ],
+   [
+    "SW_D_BSCNCIBA8",
+    1
+   ],
+   [
+    "SW_D_DP08F",
+    1
+   ],
+   [
+    "SW_D_NCICC44",
+    1
+   ],
+   [
+    "SW_L_OCA32",
+    1
+   ],
+   [
+    "SW_L_CPOLTD33",
+    1
+   ],
+   [
+    "SW_L_CL89",
+    1
+   ],
+   [
+    "SW_L_G89",
+    -1
+   ]
+  ]
+ }
+]
