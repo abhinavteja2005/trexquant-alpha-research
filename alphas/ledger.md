@@ -267,3 +267,7 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 12:43 | SW_D_APICA4C | SW_DOLLAR |  |  |  |  |  | -.012 | .287@581701 | no | sdone | no |
 | Oct 7 12:43 | SW_D_TSA107 | SW_DOLLAR |  |  |  |  |  | .007 | .209@601796 | no | sdone | no |
 | Oct 7 12:43 | SW_L_NIBMIAB2 | SW_DOLLAR |  |  |  |  |  | .005 | .679@576233 (irtvr .027 vs bar .164) | no | sdone | no |
+| Oct 7 13:12 | SW_D_BSCNCIBA8 | SW_DOLLAR |  |  |  |  |  | .049 | .558@679993 (irtvr .203 vs bar .280) | no | sdone | no |
+| Oct 7 13:12 | N_GLDHEDGE | MACRO |  |  |  |  |  | .005 | .265@618945 | no | sdone | no |
+| Oct 7 13:12 | N_OILRESP | MACRO |  |  |  |  |  |  |  |  | sfail | no |
+| Oct 7 13:12 | N_GDPBETA | MACRO |  |  |  |  |  |  |  |  | sfail | no |
