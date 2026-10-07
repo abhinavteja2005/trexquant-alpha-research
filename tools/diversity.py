@@ -96,12 +96,14 @@ def main(dry):
                 why = why or f"same legs as {s}"
         (skip if why else keep).append(t)
         if why:
-            print(f"  skip {t:22} {'+'.join(sorted(L)):24} {why}")
-    print(f"Queued {len(queued)}: keep {len(keep)}, skip {len(skip)}")
+            print(f"  later {t:21} {'+'.join(sorted(L)):24} {why}")
+    print(f"Queued {len(queued)}: diverse first {len(keep)}, saturated later {len(skip)}")
     if not dry:
-        ops["skip"] = sorted(set(ops.get("skip", [])) | set(skip))
-        ops["front"] = [t for t in ops.get("front", []) if t not in skip]
-        ops["diversity"] = {"saturated_legs": sorted(sat), "rule": "skip queued jobs whose risk is a saturated leg or whose legs match a submission (Jaccard >= .6)"}
+        # Oct 7 evening (Abhinav): similarity never blocks; diverse jobs run first, saturated ones after.
+        front = [t for t in ops.get("front", []) if t not in skip] + [t for t in ops.get("front", []) if t in skip]
+        ops["front"] = front + [t for t in keep + skip if t not in front]
+        ops["diversity"] = {"saturated_legs": sorted(sat), "later": skip,
+                            "rule": "order only: jobs on new legs first, jobs on saturated legs later; nothing is skipped for similarity"}
         ops_p.write_text(json.dumps(ops, indent=1), encoding="utf-8")
 
 

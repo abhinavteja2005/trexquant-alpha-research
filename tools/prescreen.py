@@ -53,10 +53,12 @@ def main(mode):
         except ValueError:
             continue
         own = max(res.get("ownCorr", {}).values() or [0])
-        ok = res.get("ir", 0) >= .055 and own <= .45  # PX understated G_A54_CL_w15 own-corr (.52 predicted, .84 real): be strict
+        ok = res.get("ir", 0) >= .055  # own-corr only orders (similar alphas may be submitted); PX under-predicts it (.52 vs .84)
         store[t] = {"ir": res.get("ir"), "ownMax": own, "pass": ok}
-        if ok:
+        if ok and own <= .45:
             ops["front"] = [t] + [x for x in ops.get("front", []) if x != t]
+        elif ok:
+            ops["front"] = [x for x in ops.get("front", []) if x != t] + [t]
         else:
             ops["skip"] = sorted(set(ops.get("skip", [])) | {t})
         print(f"{t}: predicted IR {res.get('ir')} own-max {own} -> {'front' if ok else 'skip'}")

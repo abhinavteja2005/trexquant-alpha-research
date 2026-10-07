@@ -57,7 +57,8 @@ Held jobs: list `R.jobs.filter(j=>j.hold).map(j=>[j.tag,j.sid,j.ownMax].join(' '
    Then run `python tools/ledger_sync.py alphas/snapshots/<file>.txt`.
 4. **PX requests.** If `alphas/queue/ops.json` has a `px` list, run each call in the runner tab (paste px.js first if
    `window.PX` is missing) and save `call -> result` lines to `alphas/snapshots/<YYYYMMDD-HHMM>-px.txt`.
-5. **Skips.** For each tag in `ops.json` `skip`: if its state is `queued` or `squeued`, set `j.state='skipped'`; never
+5. **Unskips.** For each tag in `ops.json` `unskip` whose state is `skipped`, set `j.state='squeued'` (they go behind the front list). Then:
+   **Skips.** For each tag in `ops.json` `skip`: if its state is `queued` or `squeued`, set `j.state='skipped'`; never
    remove a job. Then `R.save()`.
 6. **Load the queue.** `alphas/queue/next.json` holds new jobs (already checked by the cloud master). Add them with
    `R.add([...])` in batches of <= 10, pasting the JSON objects unchanged (they carry `state` and `lb`). `R.add`

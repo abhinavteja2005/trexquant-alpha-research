@@ -137,6 +137,7 @@ def prior(c):
     s = BASES[g["base"]]["prior"]
     s += .01 * len(g["parts"]) + (.005 if "BS" in g["parts"] or "CL" in g["parts"] else 0)  # diversity bonus: new partner family
     s -= .004 * abs(g["w"] - 1.5)
+    s -= .03 * c.get("sat", 0)  # saturated legs run later
     return s
 
 
@@ -161,8 +162,11 @@ def main():
     sat = set(json.loads(ops.read_text()).get("diversity", {}).get("saturated_legs", [])) if ops.exists() else set()
     leg = {"ACC": "ACC", "ISS": "ISS", "BS": "BS", "CL": "BS", "VW": "VWGAP", **{b: b for b in BASES if b.startswith("A")}}  # grid key -> diversity leg (tools/diversity.py)
     space = [build(b, p, w, n) for b in BASES for p in PARTNER_SETS for w in WEIGHTS for n in NEUT
-             if not any((b, x) in SATURATED for x in p)
-             and leg.get(b) not in sat and not any(leg.get(x) in sat for x in p)]  # diversity: no saturated legs
+             if not any((b, x) in SATURATED for x in p)]
+    for c in space:  # diversity orders, never excludes (Abhinav, Oct 7 evening)
+        if c:
+            g = c["grid"]
+            c["sat"] = (leg.get(g["base"]) in sat) + sum(leg.get(x) in sat for x in g["parts"])
     ok = [c for c in space if c and c["tag"] not in done]
     if a.list:
         print(f"space {len(BASES) * len(PARTNER_SETS) * len(WEIGHTS) * len(NEUT)}; after saturation/var-cap/check "
