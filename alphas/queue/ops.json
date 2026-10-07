@@ -71,7 +71,14 @@
   "G_A50_BS_w15_sz",
   "G_A50_CL_w15"
  ],
- "px": [],
+ "px": [
+  "'G_A54_BS_w15=>'+JSON.stringify(PX.blend([[\"A101_054_S\", 1], [\"SWC_BS5\", 1.5]]))",
+  "'G_A54_CL_w15=>'+JSON.stringify(PX.blend([[\"A101_054_S\", 1], [\"SW_L_CL89\", 1.5]]))",
+  "'G_A50_BS_w15=>'+JSON.stringify(PX.blend([[\"A101_050_S\", 1], [\"SWC_BS5\", 1.5]]))",
+  "'G_A50_CL_w15=>'+JSON.stringify(PX.blend([[\"A101_050_S\", 1], [\"SW_L_CL89\", 1.5]]))",
+  "'WSE_SOLV5=>'+JSON.stringify(PX.blend([[\"N_COVCHG\", 1], [\"SW_D_BSCNCIBA8\", 1], [\"SW_D_DP08F\", 1], [\"SW_D_NCICC44\", 1]]))",
+  "'WSE_SOLV7=>'+JSON.stringify(PX.blend([[\"N_COVCHG\", 1], [\"SW_D_BSCNCIBA8\", 1], [\"SW_D_DP08F\", 1], [\"SW_D_NCICC44\", 1], [\"SW_L_OCA32\", 1], [\"SW_L_CPOLTD33\", 1]]))"
+ ],
  "diversity": {
   "saturated_legs": [
    "ACC",

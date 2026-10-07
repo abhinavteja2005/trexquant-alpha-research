@@ -1,0 +1,37 @@
+{
+ "slots": 30,
+ "allocation": {
+  "repair": 8,
+  "combine": 2,
+  "grid": 4,
+  "llm": 2,
+  "sweep": 2,
+  "translate": 12
+ },
+ "stats": {
+  "repair": {
+   "rewards": 36,
+   "runs": 39
+  },
+  "combine": {
+   "rewards": 3,
+   "runs": 6
+  },
+  "grid": {
+   "rewards": 1,
+   "runs": 1
+  },
+  "llm": {
+   "rewards": 0,
+   "runs": 19
+  },
+  "sweep": {
+   "rewards": 0,
+   "runs": 96
+  },
+  "translate": {
+   "rewards": 9,
+   "runs": 8
+  }
+ }
+}
