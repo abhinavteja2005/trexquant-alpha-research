@@ -1,0 +1,227 @@
+[
+ {
+  "tag": "G_A54_BS_w15",
+  "base": "A54",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A54, partners BS, partner weight 1.5, neutralisation none.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A54",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ },
+ {
+  "tag": "G_A54_BS_w15_sz",
+  "base": "A54",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A54, partners BS, partner weight 1.5, neutralisation size.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
+  "lb": 120,
+  "grid": {
+   "base": "A54",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "size"
+  }
+ },
+ {
+  "tag": "G_A54_CL_w15",
+  "base": "A54",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A54, partners CL, partner weight 1.5, neutralisation none.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A54",
+   "parts": [
+    "CL"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ },
+ {
+  "tag": "G_A54_CL_w15_sz",
+  "base": "A54",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A54, partners CL, partner weight 1.5, neutralisation size.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl))), [sz])  # base + 1.5x partners, size neutral",
+  "lb": 120,
+  "grid": {
+   "base": "A54",
+   "parts": [
+    "CL"
+   ],
+   "w": 1.5,
+   "neut": "size"
+  }
+ },
+ {
+  "tag": "G_A15_BS_w15",
+  "base": "A15",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A15, partners BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A15",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ },
+ {
+  "tag": "G_A15_BS_w15_sz",
+  "base": "A15",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A15, partners BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
+  "lb": 120,
+  "grid": {
+   "base": "A15",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "size"
+  }
+ },
+ {
+  "tag": "G_A15_CL_w15",
+  "base": "A15",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A15, partners CL, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A15",
+   "parts": [
+    "CL"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ },
+ {
+  "tag": "G_A15_CL_w15_sz",
+  "base": "A15",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A15, partners CL, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl))), [sz])  # base + 1.5x partners, size neutral",
+  "lb": 120,
+  "grid": {
+   "base": "A15",
+   "parts": [
+    "CL"
+   ],
+   "w": 1.5,
+   "neut": "size"
+  }
+ },
+ {
+  "tag": "G_A26_BS_w15",
+  "base": "A26",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A26, partners BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A26",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ },
+ {
+  "tag": "G_A26_BS_w15_sz",
+  "base": "A26",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A26, partners BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
+  "lb": 120,
+  "grid": {
+   "base": "A26",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "size"
+  }
+ },
+ {
+  "tag": "G_A26_CL_w15",
+  "base": "A26",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A26, partners CL, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A26",
+   "parts": [
+    "CL"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ },
+ {
+  "tag": "G_A26_CL_w15_sz",
+  "base": "A26",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A26, partners CL, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl))), [sz])  # base + 1.5x partners, size neutral",
+  "lb": 120,
+  "grid": {
+   "base": "A26",
+   "parts": [
+    "CL"
+   ],
+   "w": 1.5,
+   "neut": "size"
+  }
+ },
+ {
+  "tag": "G_A50_BS_w15",
+  "base": "A50",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A50, partners BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A50",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ },
+ {
+  "tag": "G_A50_BS_w15_sz",
+  "base": "A50",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A50, partners BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
+  "lb": 120,
+  "grid": {
+   "base": "A50",
+   "parts": [
+    "BS"
+   ],
+   "w": 1.5,
+   "neut": "size"
+  }
+ },
+ {
+  "tag": "G_A50_CL_w15",
+  "base": "A50",
+  "family": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A50, partners CL, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
+  "lb": 120,
+  "grid": {
+   "base": "A50",
+   "parts": [
+    "CL"
+   ],
+   "w": 1.5,
+   "neut": "none"
+  }
+ }
+]

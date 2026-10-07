@@ -1,0 +1,402 @@
+[
+ {
+  "tag": "SW_D_AOCI603",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "accumulated_other_comprehensive_income",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in accumulated_other_comprehensive_income carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accumulated_other_comprehensive_income)/ts_fill(total_assets)  # accumulated_other_comprehensive_income scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_AOIA8BA",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "amortization_of_intangible_assets",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in amortization_of_intangible_assets carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(amortization_of_intangible_assets)/ts_fill(total_assets)  # amortization_of_intangible_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DTALT3BF",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "deferred_tax_assets_long_term",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in deferred_tax_assets_long_term carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_tax_assets_long_term)/ts_fill(total_assets)  # deferred_tax_assets_long_term scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DAE29",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "depreciation_amortization",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in depreciation_amortization carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(depreciation_amortization)/ts_fill(total_assets)  # depreciation_amortization scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_EOERCO6B3",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "effect_of_exchange_rate_changes_on_cash",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in effect_of_exchange_rate_changes_on_cash carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(effect_of_exchange_rate_changes_on_cash)/ts_fill(total_assets)  # effect_of_exchange_rate_changes_on_cash scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_STI1A3",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "short_term_investments",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in short_term_investments carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(short_term_investments)/ts_fill(total_assets)  # short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TOE2EF",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "total_operating_expenses",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in total_operating_expenses carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_operating_expenses)/ts_fill(total_assets)  # total_operating_expenses scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_ANR53B",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "accounts_notes_receivable",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in accounts_notes_receivable carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_notes_receivable)/ts_fill(total_assets)  # accounts_notes_receivable scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_AP8F9",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "accounts_payable",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in accounts_payable carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_payable)/ts_fill(total_assets)  # accounts_payable scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_APICA4C",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "additional_paid_in_capital",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in additional_paid_in_capital carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(additional_paid_in_capital)/ts_fill(total_assets)  # additional_paid_in_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TSA107",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "treasury_stock_amount",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in treasury_stock_amount carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(treasury_stock_amount)/ts_fill(total_assets)  # treasury_stock_amount scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_BSCNCIBA8",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "balance_sheet_cash_near_cash_items",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in balance_sheet_cash_near_cash_items carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(balance_sheet_cash_near_cash_items)/ts_fill(total_assets)  # balance_sheet_cash_near_cash_items scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CSFFF",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "common_stocks",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in common_stocks carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(common_stocks)/ts_fill(total_assets)  # common_stocks scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DTL4EB",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "deferred_tax_liabilities",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in deferred_tax_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_tax_liabilities)/ts_fill(total_assets)  # deferred_tax_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_LTB947",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "long_term_borrowings",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in long_term_borrowings carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(long_term_borrowings)/ts_fill(total_assets)  # long_term_borrowings scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_MSAOSTB7A",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "marketable_securities_and_other_short_term_investments",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in marketable_securities_and_other_short_term_investments carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(marketable_securities_and_other_short_term_investments)/ts_fill(total_assets)  # marketable_securities_and_other_short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_OLTLDEF",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "other_long_term_liabilities",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in other_long_term_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_long_term_liabilities)/ts_fill(total_assets)  # other_long_term_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_OSTL420",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "other_short_term_liabilities",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in other_short_term_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_short_term_liabilities)/ts_fill(total_assets)  # other_short_term_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_PREE69",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "pure_retained_earnings",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in pure_retained_earnings carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(pure_retained_earnings)/ts_fill(total_assets)  # pure_retained_earnings scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_REAOE87D",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "retained_earnings_and_other_equity",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in retained_earnings_and_other_equity carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(retained_earnings_and_other_equity)/ts_fill(total_assets)  # retained_earnings_and_other_equity scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_STB404",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "short_term_borrowings",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in short_term_borrowings carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(short_term_borrowings)/ts_fill(total_assets)  # short_term_borrowings scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TEPCBDB",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "total_equity_partnership_capital",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in total_equity_partnership_capital carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_equity_partnership_capital)/ts_fill(total_assets)  # total_equity_partnership_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TL4D4",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "total_liabilities",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in total_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_liabilities)/ts_fill(total_assets)  # total_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TOPAE02E",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "total_other_property_and_equipment",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in total_other_property_and_equipment carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_other_property_and_equipment)/ts_fill(total_assets)  # total_other_property_and_equipment scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_APAA71D",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "accounts_payable_and_accruals",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in accounts_payable_and_accruals carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_payable_and_accruals)/ts_fill(total_assets)  # accounts_payable_and_accruals scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CEPA1E0",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "capital_expenditures_property_additions",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in capital_expenditures_property_additions carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(capital_expenditures_property_additions)/ts_fill(total_assets)  # capital_expenditures_property_additions scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CFFA61D",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "cash_from_financing_activities",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in cash_from_financing_activities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_financing_activities)/ts_fill(total_assets)  # cash_from_financing_activities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CFIA6F9",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "cash_from_investing_activities",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in cash_from_investing_activities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_investing_activities)/ts_fill(total_assets)  # cash_from_investing_activities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CII80A",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "change_in_inventories",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in change_in_inventories carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(change_in_inventories)/ts_fill(total_assets)  # change_in_inventories scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DITE47",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "deferred_income_taxes",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in deferred_income_taxes carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_income_taxes)/ts_fill(total_assets)  # deferred_income_taxes scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DP08F",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "dividends_paid",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in dividends_paid carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(dividends_paid)/ts_fill(total_assets)  # dividends_paid scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_NCICC44",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "net_change_in_cash",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in net_change_in_cash carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(net_change_in_cash)/ts_fill(total_assets)  # net_change_in_cash scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CFNI877",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "cash_flow_net_income",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in cash_flow_net_income carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_net_income)/ts_fill(total_assets)  # cash_flow_net_income scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_IAOACF3",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "intangible_and_other_assets",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in intangible_and_other_assets carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(intangible_and_other_assets)/ts_fill(total_assets)  # intangible_and_other_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_ANIARD21",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "adjusted_net_income_as_reported",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in adjusted_net_income_as_reported carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(adjusted_net_income_as_reported)/ts_fill(total_assets)  # adjusted_net_income_as_reported scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_COGSTFD21",
+  "base": "sweep D",
+  "family": "SW_RATIO",
+  "field": "cost_of_goods_sold_to_fixed_expenses_and_production_and_general",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in cost_of_goods_sold_to_fixed_expenses_and_production_and_general carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cost_of_goods_sold_to_fixed_expenses_and_production_and_general)  # cost_of_goods_sold_to_fixed_expenses_and_production_and_general: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DED58",
+  "base": "sweep D",
+  "family": "SW_PERSHARE",
+  "field": "diluted_eps",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in diluted_eps carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(diluted_eps)/close  # diluted_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DPSF20",
+  "base": "sweep D",
+  "family": "SW_PERSHARE",
+  "field": "dividend_per_share",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in dividend_per_share carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(dividend_per_share)/close  # dividend_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_BED3D",
+  "base": "sweep D",
+  "family": "SW_PERSHARE",
+  "field": "basic_eps",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in basic_eps carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(basic_eps)/close  # basic_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_GAAEB41",
+  "base": "sweep D",
+  "family": "SW_DOLLAR",
+  "field": "general_and_admin_expense",
+  "template": "D",
+  "sign": 1,
+  "expr": "# Thesis: the 6-month CHANGE in general_and_admin_expense carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(general_and_admin_expense)/ts_fill(total_assets)  # general_and_admin_expense scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "lb": 220
+ }
+]

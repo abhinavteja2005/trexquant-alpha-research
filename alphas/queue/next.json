@@ -1,604 +1,387 @@
 [
  {
-  "tag": "A101_050_acc",
-  "base": "A101",
-  "expr": "# Thesis: Persistent co-movement of volume and VWAP ranks marks crowded trades. (Alpha #50, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_050 Fast IR .072.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nr = cs_zscore(-ts_max(cs_rank(c), 5))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x",
+  "tag": "SW_D_AOCI603",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in accumulated_other_comprehensive_income carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accumulated_other_comprehensive_income)/ts_fill(total_assets)  # accumulated_other_comprehensive_income scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
   "state": "squeued",
-  "lb": 140
+  "lb": 220
  },
  {
-  "tag": "A101_053_acc",
-  "base": "A101",
-  "expr": "# Thesis: A change in where the close sits within the day's range reverts. (Alpha #53, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_053 Fast IR .068.\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nr = cs_zscore(-delta(pos, 10))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x",
+  "tag": "SW_D_AOIA8BA",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in amortization_of_intangible_assets carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(amortization_of_intangible_assets)/ts_fill(total_assets)  # amortization_of_intangible_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
   "state": "squeued",
-  "lb": 140
+  "lb": 220
  },
  {
-  "tag": "A101_002_acc",
-  "base": "A101",
-  "expr": "# Thesis: Days when volume growth and the open-to-close return move together tend to reverse. (Alpha #2, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_002 Fast IR .071.\ndv = delta(at_signlog(volume), 2)  # 2-day change in log volume\noc = (close - open)/open  # open-to-close return\nr = cs_zscore(-ts_corr_binary(cs_rank(dv), cs_rank(oc), 5))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x",
+  "tag": "SW_D_DTALT3BF",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in deferred_tax_assets_long_term carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_tax_assets_long_term)/ts_fill(total_assets)  # deferred_tax_assets_long_term scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
   "state": "squeued",
-  "lb": 140
+  "lb": 220
  },
  {
-  "tag": "A101_015_acc",
-  "base": "A101",
-  "expr": "# Thesis: Persistent high-price/volume co-movement marks crowded moves that fade. (Alpha #15, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_015 Fast IR .073.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nr = cs_zscore(-ts_sum(cs_rank(c), 3))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x",
+  "tag": "SW_D_DAE29",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in depreciation_amortization carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(depreciation_amortization)/ts_fill(total_assets)  # depreciation_amortization scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
   "state": "squeued",
-  "lb": 140
+  "lb": 220
  },
  {
-  "tag": "A101_026_acc",
-  "base": "A101",
-  "expr": "# Thesis: When volume and high-price both sit at local peaks together, the move is exhausted. (Alpha #26, adapted) Blended with low accruals, whose returns move against short-term price signals (the recipe that qualified A101_054_acc, IR .137).\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_026 Fast IR .073.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nr = cs_zscore(-ts_max(c, 3))  # the original signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # signal + accruals at 1.5x",
+  "tag": "SW_D_EOERCO6B3",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in effect_of_exchange_rate_changes_on_cash carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(effect_of_exchange_rate_changes_on_cash)/ts_fill(total_assets)  # effect_of_exchange_rate_changes_on_cash scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
   "state": "squeued",
-  "lb": 140
+  "lb": 220
  },
  {
-  "tag": "SWC_BS5_acc",
-  "base": "SWC",
-  "expr": "# Thesis: balance-sheet COMPOSITION composite. Each item scaled by total assets is a weak, slow characteristic (daily IR .03-.05 alone, turnover ~.03) whose sign held in-sample and out-of-sample (2017-21); combining several weakly related characteristics diversifies their noise, so the composite should carry a higher IR at the same tiny turnover (the IR/sqrt(turnover) route that qualified T_COMP7). Long firms funded by short-term operating liabilities with receivables/inventory-heavy, older (depreciated) asset bases; short goodwill-heavy (acquisitive) and long-term-debt-heavy firms.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (RFS 2017), https://doi.org/10.1093/rfs/hhx019; acquisitive firms underperform: Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01370.x\n# Note: signs were chosen from the first sweep run (field sweep batch 1), so this is partly data-selected; each sign was checked to hold out of sample (OOS1) before inclusion.\n# Repair: 5 strongest legs + low-accruals leg (adds an independent slow premium). Parent SWC_BS9 IR .063, TVR .029, corr .477 (< .5), OOS1 .108; needs IR > .07.\n# Source (accruals): Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\nta = ts_fill(total_assets)  # total assets, carried forward between reports\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities per dollar of assets, ranked and z-scored\nar = cs_zscore(cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta))  # receivables per dollar of assets, ranked and z-scored\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill from acquisitions (short) per dollar of assets, ranked and z-scored\nad = cs_zscore(cs_rank(ts_fill(accumulated_depreciation)/ta))  # accumulated depreciation (older asset base) per dollar of assets, ranked and z-scored\noc = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets, ranked and z-scored\nacc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ta))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(cl) + at_nan2zero(ar) + at_nan2zero(gw) + at_nan2zero(ad) + at_nan2zero(oc) + at_nan2zero(acc))  # equal-weight composite; missing legs count as 0",
+  "tag": "SW_D_STI1A3",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in short_term_investments carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(short_term_investments)/ts_fill(total_assets)  # short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TOE2EF",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in total_operating_expenses carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_operating_expenses)/ts_fill(total_assets)  # total_operating_expenses scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_ANR53B",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in accounts_notes_receivable carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_notes_receivable)/ts_fill(total_assets)  # accounts_notes_receivable scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_AP8F9",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in accounts_payable carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_payable)/ts_fill(total_assets)  # accounts_payable scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_APICA4C",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in additional_paid_in_capital carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(additional_paid_in_capital)/ts_fill(total_assets)  # additional_paid_in_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TSA107",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in treasury_stock_amount carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(treasury_stock_amount)/ts_fill(total_assets)  # treasury_stock_amount scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_BSCNCIBA8",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in balance_sheet_cash_near_cash_items carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(balance_sheet_cash_near_cash_items)/ts_fill(total_assets)  # balance_sheet_cash_near_cash_items scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CSFFF",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in common_stocks carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(common_stocks)/ts_fill(total_assets)  # common_stocks scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DTL4EB",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in deferred_tax_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_tax_liabilities)/ts_fill(total_assets)  # deferred_tax_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_LTB947",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in long_term_borrowings carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(long_term_borrowings)/ts_fill(total_assets)  # long_term_borrowings scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_MSAOSTB7A",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in marketable_securities_and_other_short_term_investments carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(marketable_securities_and_other_short_term_investments)/ts_fill(total_assets)  # marketable_securities_and_other_short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_OLTLDEF",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in other_long_term_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_long_term_liabilities)/ts_fill(total_assets)  # other_long_term_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_OSTL420",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in other_short_term_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_short_term_liabilities)/ts_fill(total_assets)  # other_short_term_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_PREE69",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in pure_retained_earnings carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(pure_retained_earnings)/ts_fill(total_assets)  # pure_retained_earnings scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_REAOE87D",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in retained_earnings_and_other_equity carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(retained_earnings_and_other_equity)/ts_fill(total_assets)  # retained_earnings_and_other_equity scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_STB404",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in short_term_borrowings carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(short_term_borrowings)/ts_fill(total_assets)  # short_term_borrowings scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TEPCBDB",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in total_equity_partnership_capital carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_equity_partnership_capital)/ts_fill(total_assets)  # total_equity_partnership_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TL4D4",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in total_liabilities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_liabilities)/ts_fill(total_assets)  # total_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_TOPAE02E",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in total_other_property_and_equipment carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_other_property_and_equipment)/ts_fill(total_assets)  # total_other_property_and_equipment scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_APAA71D",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in accounts_payable_and_accruals carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_payable_and_accruals)/ts_fill(total_assets)  # accounts_payable_and_accruals scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CEPA1E0",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in capital_expenditures_property_additions carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(capital_expenditures_property_additions)/ts_fill(total_assets)  # capital_expenditures_property_additions scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CFFA61D",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in cash_from_financing_activities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_financing_activities)/ts_fill(total_assets)  # cash_from_financing_activities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CFIA6F9",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in cash_from_investing_activities carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_investing_activities)/ts_fill(total_assets)  # cash_from_investing_activities scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CII80A",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in change_in_inventories carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(change_in_inventories)/ts_fill(total_assets)  # change_in_inventories scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DITE47",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in deferred_income_taxes carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(deferred_income_taxes)/ts_fill(total_assets)  # deferred_income_taxes scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DP08F",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in dividends_paid carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(dividends_paid)/ts_fill(total_assets)  # dividends_paid scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_NCICC44",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in net_change_in_cash carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(net_change_in_cash)/ts_fill(total_assets)  # net_change_in_cash scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_CFNI877",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in cash_flow_net_income carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_net_income)/ts_fill(total_assets)  # cash_flow_net_income scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_IAOACF3",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in intangible_and_other_assets carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(intangible_and_other_assets)/ts_fill(total_assets)  # intangible_and_other_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_ANIARD21",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in adjusted_net_income_as_reported carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(adjusted_net_income_as_reported)/ts_fill(total_assets)  # adjusted_net_income_as_reported scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_COGSTFD21",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the 6-month CHANGE in cost_of_goods_sold_to_fixed_expenses_and_production_and_general carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cost_of_goods_sold_to_fixed_expenses_and_production_and_general)  # cost_of_goods_sold_to_fixed_expenses_and_production_and_general: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DED58",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the 6-month CHANGE in diluted_eps carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(diluted_eps)/close  # diluted_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_DPSF20",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the 6-month CHANGE in dividend_per_share carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(dividend_per_share)/close  # dividend_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_BED3D",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the 6-month CHANGE in basic_eps carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(basic_eps)/close  # basic_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "SW_D_GAAEB41",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the 6-month CHANGE in general_and_admin_expense carries news that is under-reacted to (fundamental momentum). Field-sweep alpha (template D, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(general_and_admin_expense)/ts_fill(total_assets)  # general_and_admin_expense scaled by total assets (dimensionless)\nalpha = cs_rank(n - ts_delay(n, 120))  # 6-month change: improving minus deteriorating firms",
+  "state": "squeued",
+  "lb": 220
+ },
+ {
+  "tag": "G_A54_BS_w15",
+  "base": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A54, partners BS, partner weight 1.5, neutralisation none.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
   "state": "squeued",
   "lb": 120
  },
  {
-  "tag": "SWC_BS7",
-  "base": "SWC",
-  "expr": "# Thesis: balance-sheet COMPOSITION composite. Each item scaled by total assets is a weak, slow characteristic (daily IR .03-.05 alone, turnover ~.03) whose sign held in-sample and out-of-sample (2017-21); combining several weakly related characteristics diversifies their noise, so the composite should carry a higher IR at the same tiny turnover (the IR/sqrt(turnover) route that qualified T_COMP7). Long firms funded by short-term operating liabilities with receivables/inventory-heavy, older (depreciated) asset bases; short goodwill-heavy (acquisitive) and long-term-debt-heavy firms.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (RFS 2017), https://doi.org/10.1093/rfs/hhx019; acquisitive firms underperform: Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01370.x\n# Note: signs were chosen from the first sweep run (field sweep batch 1), so this is partly data-selected; each sign was checked to hold out of sample (OOS1) before inclusion.\n# Repair: 7 legs (drops inventories and long-term debt, the weakest out of sample). Parent SWC_BS9 IR .063, TVR .029, corr .477 (< .5), OOS1 .108; needs IR > .07.\nta = ts_fill(total_assets)  # total assets, carried forward between reports\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities per dollar of assets, ranked and z-scored\ncp = cs_zscore(cs_rank(ts_fill(current_portion_of_long_term_debt)/ta))  # debt coming due within a year per dollar of assets, ranked and z-scored\nar = cs_zscore(cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta))  # receivables per dollar of assets, ranked and z-scored\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill from acquisitions (short) per dollar of assets, ranked and z-scored\nca = cs_zscore(cs_rank(ts_fill(current_assets_report)/ta))  # current assets per dollar of assets, ranked and z-scored\nad = cs_zscore(cs_rank(ts_fill(accumulated_depreciation)/ta))  # accumulated depreciation (older asset base) per dollar of assets, ranked and z-scored\noc = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets, ranked and z-scored\nalpha = at_zero2nan(at_nan2zero(cl) + at_nan2zero(cp) + at_nan2zero(ar) + at_nan2zero(gw) + at_nan2zero(ca) + at_nan2zero(ad) + at_nan2zero(oc))  # equal-weight composite; missing legs count as 0",
+  "tag": "G_A54_BS_w15_sz",
+  "base": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A54, partners BS, partner weight 1.5, neutralisation size.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
   "state": "squeued",
   "lb": 120
  },
  {
-  "tag": "SWC_BS7_acc",
-  "base": "SWC",
-  "expr": "# Thesis: balance-sheet COMPOSITION composite. Each item scaled by total assets is a weak, slow characteristic (daily IR .03-.05 alone, turnover ~.03) whose sign held in-sample and out-of-sample (2017-21); combining several weakly related characteristics diversifies their noise, so the composite should carry a higher IR at the same tiny turnover (the IR/sqrt(turnover) route that qualified T_COMP7). Long firms funded by short-term operating liabilities with receivables/inventory-heavy, older (depreciated) asset bases; short goodwill-heavy (acquisitive) and long-term-debt-heavy firms.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (RFS 2017), https://doi.org/10.1093/rfs/hhx019; acquisitive firms underperform: Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01370.x\n# Note: signs were chosen from the first sweep run (field sweep batch 1), so this is partly data-selected; each sign was checked to hold out of sample (OOS1) before inclusion.\n# Repair: 7 legs + low-accruals leg. Parent SWC_BS9 IR .063, TVR .029, corr .477 (< .5), OOS1 .108; needs IR > .07.\n# Source (accruals): Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\nta = ts_fill(total_assets)  # total assets, carried forward between reports\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities per dollar of assets, ranked and z-scored\ncp = cs_zscore(cs_rank(ts_fill(current_portion_of_long_term_debt)/ta))  # debt coming due within a year per dollar of assets, ranked and z-scored\nar = cs_zscore(cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta))  # receivables per dollar of assets, ranked and z-scored\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill from acquisitions (short) per dollar of assets, ranked and z-scored\nca = cs_zscore(cs_rank(ts_fill(current_assets_report)/ta))  # current assets per dollar of assets, ranked and z-scored\nad = cs_zscore(cs_rank(ts_fill(accumulated_depreciation)/ta))  # accumulated depreciation (older asset base) per dollar of assets, ranked and z-scored\noc = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets, ranked and z-scored\nacc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ta))  # low accruals: earnings backed by cash (Sloan 1996)\nalpha = at_zero2nan(at_nan2zero(cl) + at_nan2zero(cp) + at_nan2zero(ar) + at_nan2zero(gw) + at_nan2zero(ca) + at_nan2zero(ad) + at_nan2zero(oc) + at_nan2zero(acc))  # equal-weight composite; missing legs count as 0",
+  "tag": "G_A54_CL_w15",
+  "base": "G_A101",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A54, partners CL, partner weight 1.5, neutralisation none.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
   "state": "squeued",
   "lb": 120
  },
  {
-  "tag": "A101_044_acc",
-  "base": "A101",
-  "expr": "# Thesis: High prices that coincide with high volume rank are exhausted. (Alpha #44, adapted) Blended with low accruals, whose returns move against short-term price signals, to raise IR and cut turnover.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_044_S Slow IR .067, TVR .786, irtvr .075, corr .602 to #592314 (bar .091).\nr = cs_zscore(-ts_corr_binary(high, cs_rank(volume), 5))  # Alpha #44 signal, z-scored\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # Alpha #44 + accruals at 1.5x",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "G_A54_BS_ISS_w15",
+  "tag": "G_A54_CL_w15_sz",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A54, partners BS+ISS, partner weight 1.5, neutralisation none.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.5x partners",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A54, partners CL, partner weight 1.5, neutralisation size.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl))), [sz])  # base + 1.5x partners, size neutral",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "G_A54_CL_ISS_w15",
+  "tag": "G_A15_BS_w15",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (CL, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); current liabilities / assets (our strongest sweep leg, OOS1 .086); net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A54, partners CL+ISS, partner weight 1.5, neutralisation none.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl) + at_nan2zero(p_iss)))  # base + 1.5x partners",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A15, partners BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "G_A54_CL_ISS_w15_sz",
+  "tag": "G_A15_BS_w15_sz",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (CL, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); current liabilities / assets (our strongest sweep leg, OOS1 .086); net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A54, partners CL+ISS, partner weight 1.5, neutralisation size.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A15, partners BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "G_A54_BS_ISS_w10",
+  "tag": "G_A15_CL_w15",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A54) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #54); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A54, partners BS+ISS, partner weight 1.0, neutralisation none.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nb = cs_zscore(-loc*(open/close)**5)  # long closes near the low after a drop\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.0*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.0x partners",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A15, partners CL, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "G_VW_BS_ISS_w15",
-  "base": "G_VWAPT",
-  "expr": "# Thesis: a short-horizon price/volume pattern (VW) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base VW, partners BS+ISS, partner weight 1.5, neutralisation none.\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nb = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_VW_BS_ISS_w15_sz",
-  "base": "G_VWAPT",
-  "expr": "# Thesis: a short-horizon price/volume pattern (VW) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base VW, partners BS+ISS, partner weight 1.5, neutralisation size.\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nb = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_VW_CL_ISS_w15",
-  "base": "G_VWAPT",
-  "expr": "# Thesis: a short-horizon price/volume pattern (VW) blended with slow characteristics (CL, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); current liabilities / assets (our strongest sweep leg, OOS1 .086); net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base VW, partners CL+ISS, partner weight 1.5, neutralisation none.\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nb = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl) + at_nan2zero(p_iss)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_VW_CL_ISS_w15_sz",
-  "base": "G_VWAPT",
-  "expr": "# Thesis: a short-horizon price/volume pattern (VW) blended with slow characteristics (CL, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); current liabilities / assets (our strongest sweep leg, OOS1 .086); net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base VW, partners CL+ISS, partner weight 1.5, neutralisation size.\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nb = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A15_ACC_BS_w15",
+  "tag": "G_A15_CL_w15_sz",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A15, partners ACC+BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs)))  # base + 1.5x partners",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A15, partners CL, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl))), [sz])  # base + 1.5x partners, size neutral",
   "state": "squeued",
-  "lb": 140
+  "lb": 120
  },
  {
-  "tag": "G_A15_ACC_BS_w15_sz",
+  "tag": "G_A26_BS_w15",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A15, partners ACC+BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A26, partners BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
   "state": "squeued",
-  "lb": 140
+  "lb": 120
  },
  {
-  "tag": "G_A15_BS_ISS_w15",
+  "tag": "G_A26_BS_w15_sz",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A15, partners BS+ISS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.5x partners",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A26, partners BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "G_A15_BS_ISS_w15_sz",
+  "tag": "G_A26_CL_w15",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A15) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #15); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A15, partners BS+ISS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(high), cs_rank(volume), 3)  # 3-day corr of high-price rank and volume rank\nb = cs_zscore(-ts_sum(cs_rank(c), 3))  # short names where that corr stays high\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A26, partners CL, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "G_A26_ACC_BS_w15",
+  "tag": "G_A26_CL_w15_sz",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A26, partners ACC+BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs)))  # base + 1.5x partners",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A26, partners CL, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl))), [sz])  # base + 1.5x partners, size neutral",
   "state": "squeued",
-  "lb": 140
+  "lb": 120
  },
  {
-  "tag": "G_A26_ACC_BS_w15_sz",
+  "tag": "G_A50_BS_w15",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A26, partners ACC+BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A50, partners BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs)))  # base + 1.5x partners",
   "state": "squeued",
-  "lb": 140
+  "lb": 120
  },
  {
-  "tag": "G_A26_BS_ISS_w15",
+  "tag": "G_A50_BS_w15_sz",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A26, partners BS+ISS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.5x partners",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A50, partners BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "G_A26_BS_ISS_w15_sz",
+  "tag": "G_A50_CL_w15",
   "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A26) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #26); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A26, partners BS+ISS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(ts_rank(volume, 5), ts_rank(high, 5), 5)  # corr of 5-day volume and high ranks\nb = cs_zscore(-ts_max(c, 3))  # short names with the highest recent co-peaking\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
+  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (CL) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); current liabilities / assets (our strongest sweep leg, OOS1 .086)\n# Grid: base A50, partners CL, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl)))  # base + 1.5x partners",
   "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A50_ACC_BS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A50, partners ACC+BS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "G_A50_ACC_BS_w15_sz",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A50, partners ACC+BS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "G_A50_BS_ISS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A50, partners BS+ISS, partner weight 1.5, neutralisation none.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A50_BS_ISS_w15_sz",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A50) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #50); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A50, partners BS+ISS, partner weight 1.5, neutralisation size.\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nb = cs_zscore(-ts_max(cs_rank(c), 5))  # short the most persistent co-movers\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A02_ACC_BS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A02) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #2); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A02, partners ACC+BS, partner weight 1.5, neutralisation none.\ndv = delta(at_signlog(volume), 2)  # 2-day change in log volume\noc = (close - open)/open  # open-to-close return\nb = cs_zscore(-ts_corr_binary(cs_rank(dv), cs_rank(oc), 5))  # short names whose volume and return ranks co-move\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "G_A02_BS_ISS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A02) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #2); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A02, partners BS+ISS, partner weight 1.5, neutralisation none.\ndv = delta(at_signlog(volume), 2)  # 2-day change in log volume\noc = (close - open)/open  # open-to-close return\nb = cs_zscore(-ts_corr_binary(cs_rank(dv), cs_rank(oc), 5))  # short names whose volume and return ranks co-move\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A02_BS_ISS_w15_sz",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A02) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #2); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A02, partners BS+ISS, partner weight 1.5, neutralisation size.\ndv = delta(at_signlog(volume), 2)  # 2-day change in log volume\noc = (close - open)/open  # open-to-close return\nb = cs_zscore(-ts_corr_binary(cs_rank(dv), cs_rank(oc), 5))  # short names whose volume and return ranks co-move\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A02_CL_ISS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A02) blended with slow characteristics (CL, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #2); current liabilities / assets (our strongest sweep leg, OOS1 .086); net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A02, partners CL+ISS, partner weight 1.5, neutralisation none.\ndv = delta(at_signlog(volume), 2)  # 2-day change in log volume\noc = (close - open)/open  # open-to-close return\nb = cs_zscore(-ts_corr_binary(cs_rank(dv), cs_rank(oc), 5))  # short names whose volume and return ranks co-move\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl) + at_nan2zero(p_iss)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A53_ACC_BS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A53) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #53); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A53, partners ACC+BS, partner weight 1.5, neutralisation none.\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nb = cs_zscore(-delta(pos, 10))  # fade the 10-day change in close location\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "G_A53_BS_ISS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A53) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #53); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A53, partners BS+ISS, partner weight 1.5, neutralisation none.\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nb = cs_zscore(-delta(pos, 10))  # fade the 10-day change in close location\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A53_BS_ISS_w15_sz",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A53) blended with slow characteristics (BS, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #53); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1; net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A53, partners BS+ISS, partner weight 1.5, neutralisation size.\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nb = cs_zscore(-delta(pos, 10))  # fade the 10-day change in close location\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_bs) + at_nan2zero(p_iss))), [sz])  # base + 1.5x partners, size neutral",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A53_CL_ISS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A53) blended with slow characteristics (CL, ISS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #53); current liabilities / assets (our strongest sweep leg, OOS1 .086); net share issuance (Pontiff & Woodgate, JF 2008)\n# Grid: base A53, partners CL+ISS, partner weight 1.5, neutralisation none.\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nb = cs_zscore(-delta(pos, 10))  # fade the 10-day change in close location\np_cl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ts_fill(total_assets)))  # short-term operating liabilities per dollar of assets\np_iss = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_cl) + at_nan2zero(p_iss)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 300
- },
- {
-  "tag": "G_A44_ACC_BS_w15",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A44) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #44); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A44, partners ACC+BS, partner weight 1.5, neutralisation none.\nb = cs_zscore(-ts_corr_binary(high, cs_rank(volume), 5))  # short names whose highs move with volume rank\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nalpha = at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs)))  # base + 1.5x partners",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "G_A44_ACC_BS_w15_sz",
-  "base": "G_A101",
-  "expr": "# Thesis: a short-horizon price/volume pattern (A44) blended with slow characteristics (ACC, BS) whose returns move against short-term reversal, so the blend keeps the pattern's IR with lower turnover and lower overlap with crowded pool alphas (the partner recipe behind our submissions).\n# Source: Kakushadze, 101 Formulaic Alphas (2016), https://arxiv.org/abs/1601.00991 (Alpha #44); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290); balance-sheet composition (Green, Hand & Zhang, RFS 2017, https://doi.org/10.1093/rfs/hhx019); our sweep batch 1\n# Grid: base A44, partners ACC+BS, partner weight 1.5, neutralisation size.\nb = cs_zscore(-ts_corr_binary(high, cs_rank(volume), 5))  # short names whose highs move with volume rank\np_acc = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nta = ts_fill(total_assets)  # total assets\np_bs = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta) + cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta) - cs_rank(ts_fill(goodwill)/ta) + cs_rank(ts_fill(accumulated_depreciation)/ta))  # balance-sheet composite (our SWC_BS legs)\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nalpha = cs_factorneut(at_zero2nan(at_nan2zero(b) + 1.5*(at_nan2zero(p_acc) + at_nan2zero(p_bs))), [sz])  # base + 1.5x partners, size neutral",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "A101_054_S",
-  "base": "A101",
-  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nalpha = -loc*(open/close)**5  # long closes near the low, scaled by the open-to-close drop",
-  "state": "squeued",
-  "lb": 60
- },
- {
-  "tag": "A101_044_S",
-  "base": "A101",
-  "expr": "# Thesis: High prices that coincide with high volume rank are exhausted. (Alpha #44, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nalpha = -ts_corr_binary(high, cs_rank(volume), 5)  # negative 5-day corr of high and volume rank",
-  "state": "squeued",
-  "lb": 60
- },
- {
-  "tag": "A101_050_S",
-  "base": "A101",
-  "expr": "# Thesis: Persistent co-movement of volume and VWAP ranks marks crowded trades. (Alpha #50, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\nc = ts_corr_binary(cs_rank(volume), cs_rank(vwap_last_hour), 5)  # 5-day corr of volume rank and VWAP rank\nalpha = -ts_max(cs_rank(c), 5)  # short the most persistent co-movers",
-  "state": "squeued",
-  "lb": 60
- },
- {
-  "tag": "A101_053_S",
-  "base": "A101",
-  "expr": "# Thesis: A change in where the close sits within the day's range reverts. (Alpha #53, adapted)\n# Note: Slow re-run requested by Abhinav after a strong Fast screen.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991\npos = ((close - low) - (high - close))/(close - low + 0.001*close)  # close location within the day's range\nalpha = -delta(pos, 10)  # fade the 10-day change in close location",
-  "state": "squeued",
-  "lb": 60
- },
- {
-  "tag": "A101_054_acc",
-  "base": "A101",
-  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted) Blended with low accruals, whose returns move against short-term reversal, to cut turnover and pool correlation.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: accrual partner 1.5x. Parent A101_054 Fast IR .111, TVR 1.38, Fast pool corr .993.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nr = cs_zscore(-loc*(open/close)**5)  # Alpha #54: long closes near the low after a drop\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996), the partner behind 3 of our submissions\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # reversal + accruals at 1.5x",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "A101_054_s5",
-  "base": "A101",
-  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted) Blended with low accruals, whose returns move against short-term reversal, to cut turnover and pool correlation.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: 5-day smoothing. Parent A101_054 Fast IR .111, TVR 1.38, Fast pool corr .993.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nr = cs_zscore(ts_mean(-loc*(open/close)**5, 5))  # 5-day average of the Alpha #54 signal (lower turnover)\nalpha = r  # smoothed contrarian signal",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "A101_054_s5acc",
-  "base": "A101",
-  "expr": "# Thesis: A close near the low on a gap-down open rebounds (delay-0 contrarian). (Alpha #54, adapted) Blended with low accruals, whose returns move against short-term reversal, to cut turnover and pool correlation.\n# Source: Kakushadze, \"101 Formulaic Alphas\" (2016), https://arxiv.org/abs/1601.00991; Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290\n# Repair: 5-day smoothing + accrual partner 1.5x. Parent A101_054 Fast IR .111, TVR 1.38, Fast pool corr .993.\nloc = (low - close)/(low - high - 0.001*close)  # how far the close sits above the low, 0..1\nr = cs_zscore(ts_mean(-loc*(open/close)**5, 5))  # 5-day average of the Alpha #54 signal\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash (Sloan 1996), the partner behind 3 of our submissions\nalpha = at_zero2nan(at_nan2zero(r) + 1.5*at_nan2zero(k))  # smoothed reversal + accruals at 1.5x",
-  "state": "squeued",
-  "lb": 140
- },
- {
-  "tag": "SW_L_NCICC44",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of net_change_in_cash is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(net_change_in_cash)/ts_fill(total_assets)  # net_change_in_cash scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CFNI877",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_net_income is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_net_income)/ts_fill(total_assets)  # cash_flow_net_income scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_IAOACF3",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of intangible_and_other_assets is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(intangible_and_other_assets)/ts_fill(total_assets)  # intangible_and_other_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_ANIARD21",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of adjusted_net_income_as_reported is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(adjusted_net_income_as_reported)/ts_fill(total_assets)  # adjusted_net_income_as_reported scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_COGSTFD21",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cost_of_goods_sold_to_fixed_expenses_and_production_and_general is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cost_of_goods_sold_to_fixed_expenses_and_production_and_general)  # cost_of_goods_sold_to_fixed_expenses_and_production_and_general: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_DED58",
-  "base": "SW_PERSHARE",
-  "expr": "# Thesis: the cross-sectional LEVEL of diluted_eps is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(diluted_eps)/close  # diluted_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_DPSF20",
-  "base": "SW_PERSHARE",
-  "expr": "# Thesis: the cross-sectional LEVEL of dividend_per_share is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(dividend_per_share)/close  # dividend_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_BED3D",
-  "base": "SW_PERSHARE",
-  "expr": "# Thesis: the cross-sectional LEVEL of basic_eps is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(basic_eps)/close  # basic_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_GAAEB41",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of general_and_admin_expense is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(general_and_admin_expense)/ts_fill(total_assets)  # general_and_admin_expense scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_ITEDAF",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of income_tax_expenses is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(income_tax_expenses)/ts_fill(total_assets)  # income_tax_expenses scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_IE6AD",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of interest_expense is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(interest_expense)/ts_fill(total_assets)  # interest_expense scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_OPDOB72",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of operating_profits_discontinued_operations is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(operating_profits_discontinued_operations)/ts_fill(total_assets)  # operating_profits_discontinued_operations scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_PE397",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of personnel_expenses is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(personnel_expenses)/ts_fill(total_assets)  # personnel_expenses scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_MNCIC6EE",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of minority_non_controlling_interests_credits is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(minority_non_controlling_interests_credits)/ts_fill(total_assets)  # minority_non_controlling_interests_credits scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_MNCIB9B",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of minority_non_controlling_interest is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(minority_non_controlling_interest)/ts_fill(total_assets)  # minority_non_controlling_interest scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_NIBMIAB2",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of net_income_before_minority_interest is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(net_income_before_minority_interest)/ts_fill(total_assets)  # net_income_before_minority_interest scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_NCL6AA",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of non_current_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(non_current_liabilities)/ts_fill(total_assets)  # non_current_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_OAA1A",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of other_assets is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_assets)/ts_fill(total_assets)  # other_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_PTI071",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of pre_tax_income is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(pre_tax_income)/ts_fill(total_assets)  # pre_tax_income scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_TE648",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of tangible_equity is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(tangible_equity)/ts_fill(total_assets)  # tangible_equity scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_TSEA9D",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of total_shareholders_equity is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_shareholders_equity)/ts_fill(total_assets)  # total_shareholders_equity scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_WCCFE1",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of working_capital_changes is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(working_capital_changes)/ts_fill(total_assets)  # working_capital_changes scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_ARGP328",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of accounts_receivable_growth_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_receivable_growth_pct)  # accounts_receivable_growth_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_AROE917",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of ann_return_on_equity is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(ann_return_on_equity)  # ann_return_on_equity: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_NCWCDD0",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of non_cash_working_capital is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(non_cash_working_capital)/ts_fill(total_assets)  # non_cash_working_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CAETTL930",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_equivalents_to_total_liabilities_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_equivalents_to_total_liabilities_pct)  # cash_and_equivalents_to_total_liabilities_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CASTI309",
-  "base": "SW_DOLLAR",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_short_term_investments is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_short_term_investments)/ts_fill(total_assets)  # cash_and_short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CFG963",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_growth is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_growth)  # cash_flow_growth: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CFPS468",
-  "base": "SW_PERSHARE",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_per_share is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_per_share)/close  # cash_flow_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CFTTLAC1",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_to_total_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_to_total_liabilities)  # cash_flow_to_total_liabilities: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CGTCRR4DB",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_generation_to_cash_requirements_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_generation_to_cash_requirements_ratio)  # cash_generation_to_cash_requirements_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CR4D2",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_ratio)  # cash_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CAMSPSFC3",
-  "base": "SW_PERSHARE",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_marketable_securities_per_share is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_marketable_securities_per_share)/close  # cash_and_marketable_securities_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CAITCA120",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_investments_to_current_assets_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_investments_to_current_assets_pct)  # cash_and_investments_to_current_assets_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CTTAR005",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_to_total_assets_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_to_total_assets_ratio)  # cash_to_total_assets_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CFOTSPA43",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_from_operations_to_sales_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_operations_to_sales_pct)  # cash_from_operations_to_sales_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CFOTTD478",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of cash_from_operations_to_total_debt is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_operations_to_total_debt)  # cash_from_operations_to_total_debt: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_CATTARFEA",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of current_assets_to_total_assets_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(current_assets_to_total_assets_ratio)  # current_assets_to_total_assets_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_DTMCF2E",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of debt_to_market_cap is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(debt_to_market_cap)  # debt_to_market_cap: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
- },
- {
-  "tag": "SW_L_EM16F",
-  "base": "SW_RATIO",
-  "expr": "# Thesis: the cross-sectional LEVEL of ebit_margin is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(ebit_margin)  # ebit_margin: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
-  "state": "squeued",
-  "lb": 100
+  "lb": 120
  }
 ]
