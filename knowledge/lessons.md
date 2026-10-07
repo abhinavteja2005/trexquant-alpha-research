@@ -78,3 +78,4 @@
 - Y_PLsz_ACC: accrual weight 1.2 -> 1.6 cut TVR .711 -> .624 at the same IR (.116 -> .118): SUBMITTED. 2.0 is .993 to it.
 - Sweep "level of item / assets": |IR| <= .052, TVR ~.03. Use as composite legs, not alone.
 - Oct 7: DIVERSITY RULE (Abhinav). 7/9 submissions contain accruals. Before queueing, run tools/diversity.py; never queue alphas whose risk sits in a leg used by >= 3 submissions; the runner holds eligible alphas > .7 PnL-correlated with our own.
+- Oct 7 11:15: sweep template L (item level / assets) 0 for ~80 alone (|IR| <= .052), useful only as composite legs; sweep now runs D (6-month change) and Z (vs own history) first. A101_050_acc IR .102 / irtvr .17 / corr .644 (not eligible; accruals now saturated anyway).

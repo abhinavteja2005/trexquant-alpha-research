@@ -158,7 +158,7 @@ def main():
     else:
         used = used_fields()
         cand = []
-        for t in ["L", "D", "IF", "Z", "IZ"]:  # breadth first: every field once before second templates
+        for t in ["D", "Z", "IF", "IZ", "L"]:  # Oct 7: L (level / assets) went 0 for 80, so changes and own-history deviations first
             for v in VARS:
                 cls = classify(v)
                 if cls == "SKIP" or v in used or cls not in TEMPLATES[t][0] or f"{v}|{t}" in done:
