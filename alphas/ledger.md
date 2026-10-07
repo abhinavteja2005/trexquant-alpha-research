@@ -305,3 +305,5 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 14:43 | SW_D_GAAEB41 | SW_DOLLAR |  |  |  |  |  | .023 | .147@673102 | no | sdone | no |
 | Oct 7 15:13 | WSE_SOLV5 | WSE |  |  |  |  |  | .054 | .467@679993 | no | sdone | no |
 | Oct 7 15:13 | G_A54_BS_w15 | G_A101 |  |  |  |  |  | .113 | .983@629528 (irtvr .096 vs bar .110) | no | sdone | no |
+| Oct 7 15:42 | WSE_SOLV7 | WSE |  |  |  |  |  | .057 | .430@679993 | no | sdone | no |
+| Oct 7 15:42 | G_A54_BS_w15_sz | G_A101 |  |  |  |  |  | .113 | .983@629528 (irtvr .097 vs bar .110) | no | sdone | no |
