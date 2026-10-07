@@ -34,3 +34,4 @@
 20261007-1112 | next.json 2647a5d | added 0 | counts {"submitted":9,"sdone":147,"ssim":1,"squeued":30,"skipped":22,"fdone":74,"ftimeout":3,"sfail":9} | reload_runner still pending (awaiting Abhinav's OK)
 20261007-1142 | next.json 2647a5d | added 0 | counts {"submitted":9,"sdone":150,"ssim":1,"squeued":27,"skipped":22,"fdone":74,"ftimeout":3,"sfail":9} | reload_runner still pending (awaiting Abhinav's OK)
 20261007-1218 | next.json d07d9e0 | added 55 | counts {"squeued":79,"submitted":9,"sdone":153,"ssim":1,"skipped":22,"fdone":74,"ftimeout":3,"sfail":9} | 40 SW_D + 15 G_ loaded; runner tab froze ~11:55-12:15, closed it and rebuilt from R3_src (approved Oct 7 rule, no diversity hold); reload_runner still pending Abhinav's OK
+20261007-1243 | next.json d961ec7 | added 7 | counts {"squeued":74,"sdone":165,"ssim":1,"submitted":9,"skipped":22,"fdone":74,"ftimeout":3,"sfail":9} | 7 N_ new-data jobs at the front; reload_runner still pending Abhinav's OK
