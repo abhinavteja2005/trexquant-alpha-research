@@ -379,3 +379,10 @@ G_A26_CL_w15_sz,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
 G_A50_BS_w15,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
 G_A50_BS_w15_sz,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
 G_A50_CL_w15,G_A101,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/grid-2.json
+N_OILRESP,MACRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
+N_GLDHEDGE,MACRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
+N_GDPBETA,MACRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
+N_CLOSESHR,MICRO,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
+N_TOMSEAS,CALENDAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
+N_OPEXSEAS,CALENDAR,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json
+N_COVCHG,FUND,queued,QUEUED,,,,,,,,,,,,,,,alphas/drafts/c4-newdata.json

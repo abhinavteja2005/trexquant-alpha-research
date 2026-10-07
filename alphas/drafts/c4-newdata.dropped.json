@@ -1,0 +1,11 @@
+[
+ {
+  "tag": "N_INVRECD",
+  "base": "INVRECD",
+  "family": "FUND",
+  "expr": "# Thesis: inventory and receivables growing faster than sales (rising inventory days / DSO) signal demand weakness and future earnings declines the market under-reacts to; long firms whose days are falling, short those rising.\n# Source: Abarbanell & Bushee, \"Fundamental Signals, Future Earnings, and Abnormal Returns\" (Journal of Accounting Research 1997; inventory and receivables signals of Lev & Thiagarajan), https://repository.upenn.edu/handle/20.500.14332/37894\ninv = ts_fill(inventories/net_sales)  # inventory relative to sales (inventory-days proxy), carried between reports\nrec = ts_fill(accounts_receivable_excluding_notes/net_sales)  # trade receivables relative to sales (DSO proxy)\ndinv = at_signlog(inv/ts_delay(inv, 120) - 1)  # 6-month proportional change in inventory days\ndrec = at_signlog(rec/ts_delay(rec, 120) - 1)  # 6-month proportional change in receivable days\nsig = at_zero2nan(at_nan2zero(cs_zscore(-dinv)) + at_nan2zero(cs_zscore(-drec)))  # blend, keeping firms with only one item (e.g. no inventory)\nalpha = cs_indneut(sig, industry)  # within-industry: working-capital efficiency trend, not sector inventory cycles",
+  "source_url": "https://repository.upenn.edu/handle/20.500.14332/37894",
+  "lb": 300,
+  "status": "DROPPED (Critic Oct 7): inventory/receivable changes are accrual components; accruals saturated (7/9 submissions)"
+ }
+]

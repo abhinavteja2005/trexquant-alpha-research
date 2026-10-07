@@ -43,6 +43,13 @@
   "SWC_BS7_acc"
  ],
  "front": [
+  "N_OILRESP",
+  "N_GLDHEDGE",
+  "N_GDPBETA",
+  "N_CLOSESHR",
+  "N_TOMSEAS",
+  "N_OPEXSEAS",
+  "N_COVCHG",
   "SW_D_AOCI603",
   "SW_D_AOIA8BA",
   "SW_D_DTALT3BF",
