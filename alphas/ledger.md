@@ -280,3 +280,18 @@ F = Fast, S = Slow. corr = max correlation to the competition pool. E = eligible
 | Oct 7 13:42 | SW_D_LTB947 | SW_DOLLAR |  |  |  |  |  | -.032 | .441@700241 | no | sdone | no |
 | Oct 7 13:42 | SW_D_MSAOSTB7A | SW_DOLLAR |  |  |  |  |  | -.012 | .122@596206 | no | sdone | no |
 | Oct 7 13:42 | SW_D_OLTLDEF | SW_DOLLAR |  |  |  |  |  | -.003 | .129@685741 own | no | sdone | no |
+| Oct 7 14:12 | SW_D_OSTL420 | SW_DOLLAR |  |  |  |  |  | .009 | .091@655788 | no | sdone | no |
+| Oct 7 14:12 | SW_D_PREE69 | SW_DOLLAR |  |  |  |  |  | -.011 | .287@595355 | no | sdone | no |
+| Oct 7 14:12 | SW_D_REAOE87D | SW_DOLLAR |  |  |  |  |  | -.011 | .278@595355 | no | sdone | no |
+| Oct 7 14:12 | SW_D_STB404 | SW_DOLLAR |  |  |  |  |  | -.023 | .136@601796 | no | sdone | no |
+| Oct 7 14:12 | SW_D_TEPCBDB | SW_DOLLAR |  |  |  |  |  | .012 | .199@692138 | no | sdone | no |
+| Oct 7 14:12 | SW_D_TL4D4 | SW_DOLLAR |  |  |  |  |  | .020 | .249@695151 own | no | sdone | no |
+| Oct 7 14:12 | SW_D_TOPAE02E | SW_DOLLAR |  |  |  |  |  | -.041 | .192@595355 | no | sdone | no |
+| Oct 7 14:12 | SW_D_APAA71D | SW_DOLLAR |  |  |  |  |  | -.003 | .189@595355 | no | sdone | no |
+| Oct 7 14:12 | SW_D_CEPA1E0 | SW_DOLLAR |  |  |  |  |  | -.005 | .234@567998 | no | sdone | no |
+| Oct 7 14:12 | SW_D_CFFA61D | SW_DOLLAR |  |  |  |  |  | -.013 | .425@676935 | no | sdone | no |
+| Oct 7 14:12 | SW_D_CFIA6F9 | SW_DOLLAR |  |  |  |  |  | .014 | .256@675326 | no | sdone | no |
+| Oct 7 14:12 | SW_D_CII80A | SW_DOLLAR |  |  |  |  |  | .007 | .224@721743 | no | sdone | no |
+| Oct 7 14:12 | SW_D_DITE47 | SW_DOLLAR |  |  |  |  |  | -.006 | .273@697346 | no | sdone | no |
+| Oct 7 14:12 | SW_D_DP08F | SW_DOLLAR |  |  |  |  |  | .027 | .194@567998 | no | sdone | no |
+| Oct 7 14:12 | SW_D_NCICC44 | SW_DOLLAR |  |  |  |  |  | .020 | .302@679993 | no | sdone | no |
