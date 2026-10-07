@@ -72,3 +72,8 @@
 - Accrual partner works: Y_PLsz_ACC_w07 IR .109 (submitted), w12 .116 (irtvr .138 vs own-bar .144), ewm .101, VW .091. Variants of our own submission collide with it (.85-.98).
 - MM1 toxicity reversal .059 (corr .63), MM3 closing pressure .053 (.82), MM2 trade-size reversal .042 but corr .12 (partner). Residual/volume/FROG momentum, turnover CV, illiquidity shock, 1y seasonality, HKS hour persistence, org capital, tax momentum, CORD: |IR| <= .035.
 - Strategy: breadth over hand-crafting. `tools/sweep.py` sweeps unused fields x templates (L/D/Z/IF/IZ); `--flip` re-queues negatives. Track hit rate by class/template before scaling.
+
+## Oct 7 morning
+- Repair levers that worked on R_RIG_weekly2: swap the leg shared with the blocker for accruals (+IR), then accruals 1.5x (-TVR, +IR): .075/.259/.147 -> .085/.226/.179 SUBMITTED. Lever that failed: more fundamental weight (IR down, corr up).
+- Y_PLsz_ACC: accrual weight 1.2 -> 1.6 cut TVR .711 -> .624 at the same IR (.116 -> .118): SUBMITTED. 2.0 is .993 to it.
+- Sweep "level of item / assets": |IR| <= .052, TVR ~.03. Use as composite legs, not alone.

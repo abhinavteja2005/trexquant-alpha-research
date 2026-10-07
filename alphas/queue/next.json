@@ -1,37 +1,303 @@
 [
  {
-  "tag": "R_RIAwk_a15",
-  "base": "R_RIA",
-  "expr": "# Thesis: a late-day liquidity-reversal signal blended with three slow signals (R&D intensity, net issuance, low accruals), size-neutral, traded once a week. Accrual returns move AGAINST short-term reversal returns (daily PnL corr -.2 in our tests), so the blend keeps reversal IR with less turnover and less overlap with crowded reversal alphas.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); R&D intensity (Chan, Lakonishok & Sougiannis, JF 2001); net share issuance (Pontiff & Woodgate, JF 2008); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290)\n# Repair: accruals weight 1.5x (accruals added IR when swapped in, so more of it should cut turnover without the IR loss gross profit caused). Parent R_RIAwk (portal #705948) IR .080, TVR .248, irtvr .161, corr .573 to #601796 (bar .169: needs TVR <= .224 at the same IR, or corr < .5).\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nr = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\nk1 = cs_zscore(cs_rank(ts_fill(research_and_development_expense)/mktcap))  # R&D intensity per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\ns = at_nan2zero(cs_factorneut(at_zero2nan(at_nan2zero(r) + at_nan2zero(k1) + at_nan2zero(k2) + 1.5*at_nan2zero(k3)), [sz]))  # blend with accruals at 1.5x, size neutral\nf0 = (day_of_the_week*0 + 1)*(day_of_the_week < ts_delay(day_of_the_week, 1))  # 1.0 on the first trading day of the week (float32)\nf1 = ts_delay(f0, 1)  # week started yesterday\nf2 = ts_delay(f0, 2)  # week started 2 days ago\nf3 = ts_delay(f0, 3)  # week started 3 days ago\nalpha = at_zero2nan(f0*s + (1-f0)*(f1*ts_delay(s, 1) + (1-f1)*(f2*ts_delay(s, 2) + (1-f2)*(f3*ts_delay(s, 3) + (1-f3)*ts_delay(s, 4)))))  # hold the week-start book all week",
+  "tag": "SWC_BS9",
+  "base": "SWC",
+  "expr": "# Thesis: balance-sheet COMPOSITION composite. Each item scaled by total assets is a weak, slow characteristic (daily IR .03-.05 alone, turnover ~.03) whose sign held in-sample and out-of-sample (2017-21); combining several weakly related characteristics diversifies their noise, so the composite should carry a higher IR at the same tiny turnover (the IR/sqrt(turnover) route that qualified T_COMP7). Long firms funded by short-term operating liabilities with receivables/inventory-heavy, older (depreciated) asset bases; short goodwill-heavy (acquisitive) and long-term-debt-heavy firms.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (RFS 2017), https://doi.org/10.1093/rfs/hhx019; acquisitive firms underperform: Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01370.x\n# Note: signs were chosen from the first sweep run (field sweep batch 1), so this is partly data-selected; each sign was checked to hold out of sample (OOS1) before inclusion.\n# Variant: all 9 sign-consistent legs\nta = ts_fill(total_assets)  # total assets, carried forward between reports\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities (supplier/customer financing) per dollar of assets, ranked and z-scored\ncp = cs_zscore(cs_rank(ts_fill(current_portion_of_long_term_debt)/ta))  # debt coming due within a year per dollar of assets, ranked and z-scored\nar = cs_zscore(cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta))  # receivables per dollar of assets, ranked and z-scored\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill from acquisitions (short) per dollar of assets, ranked and z-scored\nca = cs_zscore(cs_rank(ts_fill(current_assets_report)/ta))  # current assets per dollar of assets, ranked and z-scored\niv = cs_zscore(cs_rank(ts_fill(inventories)/ta))  # inventories per dollar of assets, ranked and z-scored\nad = cs_zscore(cs_rank(ts_fill(accumulated_depreciation)/ta))  # accumulated depreciation (older asset base) per dollar of assets, ranked and z-scored\nld = -cs_zscore(cs_rank(ts_fill(long_term_debt)/ta))  # long-term debt (short) per dollar of assets, ranked and z-scored\noc = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets, ranked and z-scored\nalpha = at_zero2nan(at_nan2zero(cl) + at_nan2zero(cp) + at_nan2zero(ar) + at_nan2zero(gw) + at_nan2zero(ca) + at_nan2zero(iv) + at_nan2zero(ad) + at_nan2zero(ld) + at_nan2zero(oc))  # equal-weight composite; missing legs count as 0",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "R_RIAwk_r07",
-  "base": "R_RIA",
-  "expr": "# Thesis: a late-day liquidity-reversal signal blended with three slow signals (R&D intensity, net issuance, low accruals), size-neutral, traded once a week. Accrual returns move AGAINST short-term reversal returns (daily PnL corr -.2 in our tests), so the blend keeps reversal IR with less turnover and less overlap with crowded reversal alphas.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); R&D intensity (Chan, Lakonishok & Sougiannis, JF 2001); net share issuance (Pontiff & Woodgate, JF 2008); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290)\n# Repair: reversal weight 0.7x (the reversal leg carries most of the turnover). Parent R_RIAwk (portal #705948) IR .080, TVR .248, irtvr .161, corr .573 to #601796 (bar .169: needs TVR <= .224 at the same IR, or corr < .5).\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nr = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\nk1 = cs_zscore(cs_rank(ts_fill(research_and_development_expense)/mktcap))  # R&D intensity per dollar of market value\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\ns = at_nan2zero(cs_factorneut(at_zero2nan(0.7*at_nan2zero(r) + at_nan2zero(k1) + at_nan2zero(k2) + at_nan2zero(k3)), [sz]))  # reversal at 0.7x, size neutral\nf0 = (day_of_the_week*0 + 1)*(day_of_the_week < ts_delay(day_of_the_week, 1))  # 1.0 on the first trading day of the week (float32)\nf1 = ts_delay(f0, 1)  # week started yesterday\nf2 = ts_delay(f0, 2)  # week started 2 days ago\nf3 = ts_delay(f0, 3)  # week started 3 days ago\nalpha = at_zero2nan(f0*s + (1-f0)*(f1*ts_delay(s, 1) + (1-f1)*(f2*ts_delay(s, 2) + (1-f2)*(f3*ts_delay(s, 3) + (1-f3)*ts_delay(s, 4)))))  # hold the week-start book all week",
+  "tag": "SWC_BS5",
+  "base": "SWC",
+  "expr": "# Thesis: balance-sheet COMPOSITION composite. Each item scaled by total assets is a weak, slow characteristic (daily IR .03-.05 alone, turnover ~.03) whose sign held in-sample and out-of-sample (2017-21); combining several weakly related characteristics diversifies their noise, so the composite should carry a higher IR at the same tiny turnover (the IR/sqrt(turnover) route that qualified T_COMP7). Long firms funded by short-term operating liabilities with receivables/inventory-heavy, older (depreciated) asset bases; short goodwill-heavy (acquisitive) and long-term-debt-heavy firms.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (RFS 2017), https://doi.org/10.1093/rfs/hhx019; acquisitive firms underperform: Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01370.x\n# Note: signs were chosen from the first sweep run (field sweep batch 1), so this is partly data-selected; each sign was checked to hold out of sample (OOS1) before inclusion.\n# Variant: 5 legs with the strongest out-of-sample IR\nta = ts_fill(total_assets)  # total assets, carried forward between reports\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities (supplier/customer financing) per dollar of assets, ranked and z-scored\nar = cs_zscore(cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta))  # receivables per dollar of assets, ranked and z-scored\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill from acquisitions (short) per dollar of assets, ranked and z-scored\nad = cs_zscore(cs_rank(ts_fill(accumulated_depreciation)/ta))  # accumulated depreciation (older asset base) per dollar of assets, ranked and z-scored\noc = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets, ranked and z-scored\nalpha = at_zero2nan(at_nan2zero(cl) + at_nan2zero(ar) + at_nan2zero(gw) + at_nan2zero(ad) + at_nan2zero(oc))  # equal-weight composite; missing legs count as 0",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "R_IAwk_szvo",
-  "base": "R_RIA",
-  "expr": "# Thesis: a late-day liquidity-reversal signal blended with three slow signals (R&D intensity, net issuance, low accruals), size-neutral, traded once a week. Accrual returns move AGAINST short-term reversal returns (daily PnL corr -.2 in our tests), so the blend keeps reversal IR with less turnover and less overlap with crowded reversal alphas.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); R&D intensity (Chan, Lakonishok & Sougiannis, JF 2001); net share issuance (Pontiff & Woodgate, JF 2008); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290)\n# Repair: R&D dropped (R&D/profitability is the leg most pool alphas share), volatility neutralisation restored. Parent R_RIAwk (portal #705948) IR .080, TVR .248, irtvr .161, corr .573 to #601796 (bar .169: needs TVR <= .224 at the same IR, or corr < .5).\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\nr = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\nk2 = cs_zscore(-cs_rank(shsout/ts_delay(shsout, 250) - 1))  # net issuance: short dilution, long buybacks\nk3 = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nsz = cs_rank(at_signlog(mktcap))  # size rank (log market cap)\nvo = cs_rank(ts_std(ret1, 20))  # 1-month volatility rank\ns = at_nan2zero(cs_factorneut(at_zero2nan(at_nan2zero(r) + at_nan2zero(k2) + at_nan2zero(k3)), [sz, vo]))  # reversal + issuance + accruals, size/vol neutral\nf0 = (day_of_the_week*0 + 1)*(day_of_the_week < ts_delay(day_of_the_week, 1))  # 1.0 on the first trading day of the week (float32)\nf1 = ts_delay(f0, 1)  # week started yesterday\nf2 = ts_delay(f0, 2)  # week started 2 days ago\nf3 = ts_delay(f0, 3)  # week started 3 days ago\nalpha = at_zero2nan(f0*s + (1-f0)*(f1*ts_delay(s, 1) + (1-f1)*(f2*ts_delay(s, 2) + (1-f2)*(f3*ts_delay(s, 3) + (1-f3)*ts_delay(s, 4)))))  # hold the week-start book all week",
+  "tag": "SWC_BS9_dl",
+  "base": "SWC",
+  "expr": "# Thesis: balance-sheet COMPOSITION composite. Each item scaled by total assets is a weak, slow characteristic (daily IR .03-.05 alone, turnover ~.03) whose sign held in-sample and out-of-sample (2017-21); combining several weakly related characteristics diversifies their noise, so the composite should carry a higher IR at the same tiny turnover (the IR/sqrt(turnover) route that qualified T_COMP7). Long firms funded by short-term operating liabilities with receivables/inventory-heavy, older (depreciated) asset bases; short goodwill-heavy (acquisitive) and long-term-debt-heavy firms.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (RFS 2017), https://doi.org/10.1093/rfs/hhx019; acquisitive firms underperform: Cooper, Gulen & Schill, \"Asset Growth and the Cross-Section of Stock Returns\" (JF 2008), https://doi.org/10.1111/j.1540-6261.2008.01370.x\n# Note: signs were chosen from the first sweep run (field sweep batch 1), so this is partly data-selected; each sign was checked to hold out of sample (OOS1) before inclusion.\n# Variant: 8 legs without long-term debt (leverage is a crowded factor)\nta = ts_fill(total_assets)  # total assets, carried forward between reports\ncl = cs_zscore(cs_rank(ts_fill(current_liabilities)/ta))  # short-term operating liabilities (supplier/customer financing) per dollar of assets, ranked and z-scored\ncp = cs_zscore(cs_rank(ts_fill(current_portion_of_long_term_debt)/ta))  # debt coming due within a year per dollar of assets, ranked and z-scored\nar = cs_zscore(cs_rank(ts_fill(accounts_receivable_excluding_notes)/ta))  # receivables per dollar of assets, ranked and z-scored\ngw = -cs_zscore(cs_rank(ts_fill(goodwill)/ta))  # goodwill from acquisitions (short) per dollar of assets, ranked and z-scored\nca = cs_zscore(cs_rank(ts_fill(current_assets_report)/ta))  # current assets per dollar of assets, ranked and z-scored\niv = cs_zscore(cs_rank(ts_fill(inventories)/ta))  # inventories per dollar of assets, ranked and z-scored\nad = cs_zscore(cs_rank(ts_fill(accumulated_depreciation)/ta))  # accumulated depreciation (older asset base) per dollar of assets, ranked and z-scored\noc = cs_zscore(cs_rank(ts_fill(other_current_assets)/ta))  # other current assets per dollar of assets, ranked and z-scored\nalpha = at_zero2nan(at_nan2zero(cl) + at_nan2zero(cp) + at_nan2zero(ar) + at_nan2zero(gw) + at_nan2zero(ca) + at_nan2zero(iv) + at_nan2zero(ad) + at_nan2zero(oc))  # equal-weight composite; missing legs count as 0",
   "state": "squeued",
-  "lb": 300
+  "lb": 120
  },
  {
-  "tag": "Y_PLsz_ACC_w16",
-  "base": "Y_ACC",
-  "expr": "# Thesis: fade late-day price pressure (VWAP gap on busy closes plus heavy-volume last-hour moves), size/vol neutral, blended with LOW ACCRUALS. Accrual returns move against short-term reversal returns, so the blend keeps reversal IR with less turnover and less overlap with crowded reversal alphas.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290)\n# Repair: accrual weight 1.2 -> 1.6 to cut turnover. Parent Y_PLsz_ACC_w12 IR .116, TVR .711, irtvr .138, corr .979 to our #698181 (bar .144; needs TVR <= .649).\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\np1 = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\na1 = cs_rank(ts_mean(return_last_hour, 5))  # 5-day avg last-hour return rank\nhot = cs_rank(volume/ts_mean(volume, 20)) > 1.3  # unusually heavy volume\np2 = cs_zscore(at_zero2nan(-(a1 + cs_rank(g)) * hot))  # fade late-day moves on heavy volume\nsz = cs_rank(at_signlog(mktcap))  # size rank\nvo = cs_rank(ts_std(ret1, 20))  # 1-month volatility rank\nrev = cs_zscore(cs_factorneut(at_zero2nan(at_nan2zero(p1) + at_nan2zero(p2)), [sz, vo]))  # size/vol-neutral reversal\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nalpha = at_zero2nan(at_nan2zero(rev) + 1.6*at_nan2zero(k))  # reversal + 1.6x accruals",
+  "tag": "SW_L_NCICC44",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of net_change_in_cash is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(net_change_in_cash)/ts_fill(total_assets)  # net_change_in_cash scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
   "state": "squeued",
-  "lb": 140
+  "lb": 100
  },
  {
-  "tag": "Y_PLsz_ACC_w20",
-  "base": "Y_ACC",
-  "expr": "# Thesis: fade late-day price pressure (VWAP gap on busy closes plus heavy-volume last-hour moves), size/vol neutral, blended with LOW ACCRUALS. Accrual returns move against short-term reversal returns, so the blend keeps reversal IR with less turnover and less overlap with crowded reversal alphas.\n# Source: liquidity reversal (Campbell, Grossman & Wang, QJE 1993); accruals (Sloan, The Accounting Review 1996, https://www.jstor.org/stable/248290)\n# Repair: accrual weight 1.2 -> 2.0 to cut turnover. Parent Y_PLsz_ACC_w12 IR .116, TVR .711, irtvr .138, corr .979 to our #698181 (bar .144; needs TVR <= .649).\ng = ts_mean((close - vwap_last_hour)/vwap_last_hour, 5)  # 5-day avg close-vs-VWAP gap\nbusy = cs_rank(number_of_trades_last_hour/ts_mean(number_of_trades_last_hour, 20)) > 1.3  # unusually many last-hour trades\np1 = cs_zscore(at_zero2nan(-cs_rank(g) * busy))  # fade the gap on busy closes\na1 = cs_rank(ts_mean(return_last_hour, 5))  # 5-day avg last-hour return rank\nhot = cs_rank(volume/ts_mean(volume, 20)) > 1.3  # unusually heavy volume\np2 = cs_zscore(at_zero2nan(-(a1 + cs_rank(g)) * hot))  # fade late-day moves on heavy volume\nsz = cs_rank(at_signlog(mktcap))  # size rank\nvo = cs_rank(ts_std(ret1, 20))  # 1-month volatility rank\nrev = cs_zscore(cs_factorneut(at_zero2nan(at_nan2zero(p1) + at_nan2zero(p2)), [sz, vo]))  # size/vol-neutral reversal\nk = cs_zscore(-cs_rank((ts_fill(net_income) - ts_fill(cash_from_operations))/ts_fill(total_assets)))  # low accruals: earnings backed by cash\nalpha = at_zero2nan(at_nan2zero(rev) + 2.0*at_nan2zero(k))  # reversal + 2.0x accruals",
+  "tag": "SW_L_CFNI877",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_net_income is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_net_income)/ts_fill(total_assets)  # cash_flow_net_income scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
   "state": "squeued",
-  "lb": 140
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_IAOACF3",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of intangible_and_other_assets is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(intangible_and_other_assets)/ts_fill(total_assets)  # intangible_and_other_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_ANIARD21",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of adjusted_net_income_as_reported is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(adjusted_net_income_as_reported)/ts_fill(total_assets)  # adjusted_net_income_as_reported scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_COGSTFD21",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cost_of_goods_sold_to_fixed_expenses_and_production_and_general is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cost_of_goods_sold_to_fixed_expenses_and_production_and_general)  # cost_of_goods_sold_to_fixed_expenses_and_production_and_general: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DED58",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the cross-sectional LEVEL of diluted_eps is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(diluted_eps)/close  # diluted_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DPSF20",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the cross-sectional LEVEL of dividend_per_share is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(dividend_per_share)/close  # dividend_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_BED3D",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the cross-sectional LEVEL of basic_eps is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(basic_eps)/close  # basic_eps per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_GAAEB41",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of general_and_admin_expense is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(general_and_admin_expense)/ts_fill(total_assets)  # general_and_admin_expense scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_ITEDAF",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of income_tax_expenses is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(income_tax_expenses)/ts_fill(total_assets)  # income_tax_expenses scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_IE6AD",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of interest_expense is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(interest_expense)/ts_fill(total_assets)  # interest_expense scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_OPDOB72",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of operating_profits_discontinued_operations is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(operating_profits_discontinued_operations)/ts_fill(total_assets)  # operating_profits_discontinued_operations scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_PE397",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of personnel_expenses is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(personnel_expenses)/ts_fill(total_assets)  # personnel_expenses scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_MNCIC6EE",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of minority_non_controlling_interests_credits is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(minority_non_controlling_interests_credits)/ts_fill(total_assets)  # minority_non_controlling_interests_credits scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_MNCIB9B",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of minority_non_controlling_interest is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(minority_non_controlling_interest)/ts_fill(total_assets)  # minority_non_controlling_interest scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_NIBMIAB2",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of net_income_before_minority_interest is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(net_income_before_minority_interest)/ts_fill(total_assets)  # net_income_before_minority_interest scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_NCL6AA",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of non_current_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(non_current_liabilities)/ts_fill(total_assets)  # non_current_liabilities scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_OAA1A",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of other_assets is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(other_assets)/ts_fill(total_assets)  # other_assets scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_PTI071",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of pre_tax_income is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(pre_tax_income)/ts_fill(total_assets)  # pre_tax_income scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_TE648",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of tangible_equity is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(tangible_equity)/ts_fill(total_assets)  # tangible_equity scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_TSEA9D",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of total_shareholders_equity is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(total_shareholders_equity)/ts_fill(total_assets)  # total_shareholders_equity scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_WCCFE1",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of working_capital_changes is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(working_capital_changes)/ts_fill(total_assets)  # working_capital_changes scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_ARGP328",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of accounts_receivable_growth_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(accounts_receivable_growth_pct)  # accounts_receivable_growth_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_AROE917",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of ann_return_on_equity is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(ann_return_on_equity)  # ann_return_on_equity: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_NCWCDD0",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of non_cash_working_capital is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(non_cash_working_capital)/ts_fill(total_assets)  # non_cash_working_capital scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CAETTL930",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_equivalents_to_total_liabilities_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_equivalents_to_total_liabilities_pct)  # cash_and_equivalents_to_total_liabilities_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CASTI309",
+  "base": "SW_DOLLAR",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_short_term_investments is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class DOLLAR); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_short_term_investments)/ts_fill(total_assets)  # cash_and_short_term_investments scaled by total assets (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CFG963",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_growth is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_growth)  # cash_flow_growth: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CFPS468",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_per_share is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_per_share)/close  # cash_flow_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CFTTLAC1",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_flow_to_total_liabilities is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_flow_to_total_liabilities)  # cash_flow_to_total_liabilities: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CGTCRR4DB",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_generation_to_cash_requirements_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_generation_to_cash_requirements_ratio)  # cash_generation_to_cash_requirements_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CR4D2",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_ratio)  # cash_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CAMSPSFC3",
+  "base": "SW_PERSHARE",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_marketable_securities_per_share is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class PERSHARE); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_marketable_securities_per_share)/close  # cash_and_marketable_securities_per_share per share divided by price: a yield (dimensionless)\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CAITCA120",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_and_investments_to_current_assets_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_and_investments_to_current_assets_pct)  # cash_and_investments_to_current_assets_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CTTAR005",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_to_total_assets_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_to_total_assets_ratio)  # cash_to_total_assets_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CFOTSPA43",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_from_operations_to_sales_pct is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_operations_to_sales_pct)  # cash_from_operations_to_sales_pct: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CFOTTD478",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of cash_from_operations_to_total_debt is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(cash_from_operations_to_total_debt)  # cash_from_operations_to_total_debt: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_CATTARFEA",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of current_assets_to_total_assets_ratio is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(current_assets_to_total_assets_ratio)  # current_assets_to_total_assets_ratio: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_DTMCF2E",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of debt_to_market_cap is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(debt_to_market_cap)  # debt_to_market_cap: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
+ },
+ {
+  "tag": "SW_L_EM16F",
+  "base": "SW_RATIO",
+  "expr": "# Thesis: the cross-sectional LEVEL of ebit_margin is a firm characteristic that investors price slowly. Field-sweep alpha (template L, class RATIO); sign +.\n# Source: Green, Hand & Zhang, \"The Characteristics that Provide Independent Information about Average U.S. Monthly Stock Returns\" (Review of Financial Studies 2017), https://doi.org/10.1093/rfs/hhx019; Hou, Xue & Zhang, \"Replicating Anomalies\" (Review of Financial Studies 2020), https://doi.org/10.1093/rfs/hhy131\nn = ts_fill(ebit_margin)  # ebit_margin: already a dimensionless ratio, carried forward between reports\nalpha = cs_rank(n)  # long high, short low (portal industry-neutralises)",
+  "state": "squeued",
+  "lb": 100
  }
 ]

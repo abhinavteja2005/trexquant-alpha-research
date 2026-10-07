@@ -22,7 +22,7 @@ Work like a senior stat-arb researcher: skeptical, numbers first.
 ## Hard rules
 - NO DELETIONS BY ANY CLAUDE (user rule, Oct 6): never delete, withdraw or replace a submission or any alpha on the Trexsim portal, and never call a delete endpoint or click a delete control, even if it looks beneficial. If a deletion seems useful, REPORT it to Abhinav (which alpha, why, what it would unblock); he decides and does it manually.
 - The portal runs ONE simulation per user at a time. Only the runner starts simulations.
-- Auto-submit criteria (approved by the user on Oct 5) must not be changed: Slow IR >= 0.072, portal eligible, recency-weighted IR >= 0.04, best-year profit share <= 0.5. Never delete submissions. Never change portal settings. Never type credentials. If Trexsim is logged out, stop and tell the user.
+- Auto-submit rule (set by the user on Oct 7, replacing the Oct 5 criteria): submit EVERY Slow alpha the portal marks eligible, with no extra margin (no IR, recency or best-year bars of our own), up to the portal cap of 100. Implemented in runner/runner.js `R.submitOk`. Only the user changes this rule. Never delete submissions. Never change portal settings. Never type credentials. If Trexsim is logged out, stop and tell the user.
 - Do not use `trading_days_until_next_earnings_announcement` (possible look-ahead; broke in Slow mode).
 - Every alpha needs a real economic thesis, ideally a real source. Dimensionless only. Windows from {3, 5, 10, 20, 40, 60, 120, 250}.
 - Chrome work happens only in the user's own Chrome (Windows ASUS laptop) through Claude in Chrome. Never use any other linked computer (a Mac linked to the account belongs to a friend).
