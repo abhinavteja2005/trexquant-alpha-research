@@ -11,6 +11,8 @@
 | 679831 | Q_ACCR_AG | D start | 2006-07-25..2021-12-30 | .067 | .051 | 11.2 | .045 | .298 | 395 | 140 |
 | 685741 | T_COMP7 | D first composite (submitted) | 2006-07-25..2021-12-30 | .083 | .051 | 11.1 | .062 | .366 | 564 | 140 |
 | 716550 | SWC_BS5_acc | D final (submitted) | 2006-06-26..2021-12-30 | .077 | .036 | 12.4 | .047 | .407 | 526 | 120 |
+| 715966 | A101_054_acc | B first submission | 2006-07-25..2021-12-30 | .137 | .994 | 10.6 | .092 | .137 | 779 | 140 |
+| 707365 | R_RIAwk_a15 | A weekly (submitted) | 2007-03-15..2021-12-30 | .085 | .226 | 11.6 | .059 | .179 | 748 | 300 |
 | 724045 | G_A54_CL_w15 | B final (submitted) | 2006-06-26..2021-12-30 | .129 | .953 | 11.5 | .086 | .132 | 780 | 120 |
 
 P_VWAPT code (from the portal screenshot; not in the repo before):
@@ -26,3 +28,5 @@ Observations from the PnL curves:
 - C final (#685104): adding accruals cut DD 17.7 -> 12.0 and TVR .49 -> .33, and IR .073 -> .092; the curve still flattens 2014-2020 and only lifts again in 2021.
 - D: Q_ACCR_AG shows a real 2013-2017 drawdown. T_COMP7 is smoother through 2009-2018. SWC_BS5_acc is flat 2011-2016 and then trends strongly from 2017 on, which fits its best-in-class OOS1 of .139. The family has the best IR/sqrt(TVR) of the four (.30 -> .37 -> .41).
 - B final (#724045): IR .129, the highest of our finals, but almost all of its PnL came in 2006-09. It is flat to down 2009-2015, then shows modest gains 2016-21, so it is regime-dependent.
+- B first submission (#715966): same shape as #724045. Most of its PnL came in 2006-09, it is flat 2010-15, and gains resume modestly 2016-21. Our two Alpha #54 alphas are .84 correlated with each other.
+- A weekly (#707365): a steady staircase 2010-19 with a 2020 dip and a strong 2021. Its IR/sqrt(TVR) of .179 is the best in family A, and it is the low-turnover alternative to #708808.
