@@ -1,5 +1,0 @@
-Y_PLsz_ACC_w12 -> {"T_LATE_w3":0.32,"T_LATE_accr_w2":0.469,"T_COMP7":0.328,"U_VWAPT_FMOM_w1":0.348,"Y_PLsz_ACC_w07":0.969}
-Y_PLewm_ACC_w1 -> ERR (still simulating, no PnL yet)
-Y_VW_ACC_w1 -> {} (not simulated yet)
-PX.triage(.065).slice(0,12) -> unchanged from 20261006-1801-px.txt except new first row:
-  Y_PLsz_ACC_w12 ir0.116 tvr0.711 irtvr0.138 corr0.979@698181 bar0.144 CUT TVR 0.711->0.649 or CORR 0.979->.5

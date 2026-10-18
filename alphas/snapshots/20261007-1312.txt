@@ -1,4 +1,0 @@
-SW_D_BSCNCIBA8|sdone|220|||||||||0.049|0.058|0.203|0.558|679993|0.233|0|0|0.0136|0.0363|0.25|ir_below_threshold|
-N_GLDHEDGE|sdone|270|||||||||0.005|0.138|0.012|0.265|618945||0|0|-0.0027|0.0043|1.25|ir_below_threshold|
-N_OILRESP|sfail|270|||||||||||||||||||||  status : failed   alpha_id : 720872   simulation_stage : l
-N_GDPBETA|sfail|270|||||||||||||||||||||  status : failed   alpha_id : 721236   simulation_stage : l

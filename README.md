@@ -1,16 +1,30 @@
-# TrexQuant Alpha Factory: run book
+# Trexquant Alpha Research
 
-Folders: `knowledge/` (portal facts, lessons) · `ideas/` (backlog with sources) · `alphas/` (ledger of every alpha tested) · `reports/` (status, analyses) · `runner/` (the in-browser runner) · `handoff/` (memory and role briefs from the previous master chat).
+My research for the Trexquant Alpha Generation Competition (2026). Alphas were built and tested on the Trexsim portal: US equities, delay 0, industry-neutral, Slow simulations 2006-2021.
 
-## One cycle
-1. Read `handoff/MEMORY.md`, `knowledge/lessons.md`, `reports/status.md`, and the tails of `alphas/ledger.md` and `ideas/backlog.md`.
-2. Operator: in the user's Chrome Trexsim tab, make sure `window.R` (runner v3) is alive. If it isn't, run `eval(localStorage.getItem('R3_code'))`, or paste `runner/runner.js` and call `RUNNER()`. Tick it, read `R.report()`, and append new rows to the ledger.
-3. Learn: add 1-3 bullets with numbers to `knowledge/lessons.md`.
-4. If fewer than 25 alphas are queued: the Scout researches sourced ideas, and the Writer turns them into documented alphas. The Operator queues them with `window.R.add([{tag, base, expr}])`.
-5. Overwrite `reports/status.md` (25 lines max) and commit.
+**The presentation:** [`reports/deck/deck.pdf`](reports/deck/deck.pdf) has 12 slides covering four thesis-driven alpha families, how each one was built up, and the best alpha in each family.
 
-## Runner facts
-- States: queued -> fsim -> fdone | squeued -> ssim -> sdone | subq -> submitted | subfail. skipped = deliberately excluded.
-- Promotion to Slow: Fast IR >= 0.078, recency IR >= 0.04, best-year share <= 0.5, and (eligible or pool corr <= 0.55).
-- Slow lookback: the job's own `lb` if set; else 260 if the code contains 252, 140 if it contains ts_fill, otherwise 2 x max window + 15.
-- Fast run takes 1-2 min. Slow run takes 4-45 min. Only one simulation runs at a time.
+## Results
+
+| Family | Thesis | Best alpha | IR | Turnover | IR/sqrt(TVR) |
+|---|---|---|---|---|---|
+| A. Closing-pressure reversal | Late-day, price-insensitive flow pushes the close away from VWAP, and the gap reverts | #708808 | .118 | .62 | .149 |
+| B. Gap-down rebound | A close pinned at the low after a gap-down is forced selling, so liquidity providers get paid | #724045 | .129 | .95 | .132 |
+| C. Volatile-close reversal | A close noisier than the open signals flow rather than news, so the last-hour move fades | #685104 | .092 | .33 | .161 |
+| D. Slow accounting composite | Many weak, slow, low-correlated accounting premia combine into a steady signal | #716550 | .077 | .036 | .407 |
+
+- **IR** is the daily IR (x15.9 gives the annual figure).
+- **Correlations:** the four best alphas have pairwise daily-PnL correlations of .06 to .48.
+- **Totals:** 403 alphas simulated, 10 submitted.
+
+## Layout
+
+- `alphas/drafts/`: every alpha's code, with its thesis, source and a comment on each line.
+- `alphas/registry.csv`: every alpha simulated, with Slow/Fast stats, its status and what blocked it.
+- `reports/deck/`: the presentation, its LaTeX source, the chart script, and the portal screenshots and stats behind it.
+- `reports/RESEARCH_REPORT.md`: a dated research log.
+- `knowledge/`: portal facts, operators, the variable list and lessons learned.
+- `tools/check_alpha.py`: a pre-flight checker for look-ahead, variable count, window sizes and dtype rules. Test it with `python tools/test_checker.py`.
+- `tools/alpha101.py`, `tools/grid.py`, `tools/sweep.py`: generators for Kakushadze-101 translations, the partner grid search and the field sweep.
+- `runner/`: the in-browser job runner used to queue simulations on the portal.
+- `tools/export_pnl.js`: a read-only console script that exports alpha PnL and stats from the portal.
