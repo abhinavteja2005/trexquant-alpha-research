@@ -1,0 +1,37 @@
+\frametitle{\famtag {famD}{D. Slow accounting composite: thesis}}
+\framesubtitle{Weak, slow, low-correlated balance-sheet premia combined into one steady signal}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\footnotesize
+\textbf{Thesis}
+\begin{itemize}
+\item Each accounting ratio (item/assets) is a \textbf{weak} predictor (IR .03--.05) but changes only quarterly, so turnover is tiny.
+\item The ratios are \textbf{weakly related}, so averaging diversifies their noise: higher IR at the same turnover, so a very high IR/$\sqrt{\text{TVR}}$.
+\item Long cash-backed earnings, operating-liability funding, older asset bases; short goodwill-heavy (acquisitive) firms.
+\end{itemize}
+\textbf{Guarding against data-mining}
+\begin{itemize}
+\item Every leg's sign was checked to hold \textbf{out of sample (2017--21)} before it was included.
+\end{itemize}
+{\scriptsize\color{muted}Sources: Sloan (1996); Green, Hand \& Zhang (RFS 2017); Cooper, Gulen \& Schill (JF 2008); Pontiff \& Woodgate (JF 2008); Novy-Marx (JFE 2013).}
+\column{0.53\textwidth}
+\scriptsize\textbf{Best alpha \#716550}
+\begin{lstlisting}
+ta = ts_fill(total_assets)
+cl = cs_rank(current_liabilities / ta)      # operating funding
+ar = cs_rank(accounts_receivable / ta)      # receivables
+gw = -cs_rank(goodwill / ta)                # short acquirers
+ad = cs_rank(accumulated_depreciation / ta) # older assets
+oc = cs_rank(other_current_assets / ta)
+acc = -cs_rank((net_income - cash_from_ops) / ta)
+alpha = cl + ar + gw + ad + oc + acc        # equal weight
+\end{lstlisting}
+\vspace{2pt}
+\textbf{Upgrade path}
+\begin{lstlisting}
+#679831  low accruals + low asset growth          (2 premia)
+#685741  7 classic premia: accruals, issuance,
+         FCF, asset growth, R&D, gross profit, SBC
+#716550  balance-sheet composition + accruals  -> BEST
+\end{lstlisting}
+\end{columns}
